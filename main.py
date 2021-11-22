@@ -91,7 +91,7 @@ def signup():
     signup_password_entry.place(relx=0.20, rely=0.35, relwidth=0.2, relheight=0.05)
     role_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
     role_entry.place(relx=0.20, rely=0.45, relwidth=0.2, relheight=0.05)
-    restaurant_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13), show="*")
+    restaurant_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
     restaurant_entry.place(relx=0.20, rely=0.55, relwidth=0.2, relheight=0.05)
 
     submit_details = tk.Button(root, text="signup", font=("arial", 10, "bold"),
