@@ -4,6 +4,7 @@ from tkinter import font
 bg_col: str = "dark grey"
 fg_col: str = "white"
 button_col: str = "grey"
+
 root = tk.Tk()
 root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
 root.title("Monty Pythons")
@@ -16,16 +17,26 @@ def underline(label):
     label.configure(font=f)  # Apply font to the given label
 
 
+def create_back_button() -> tk.Button:
+    back_button = tk.Button(root, text="back", font=("arial", 10, "bold"), bg=button_col)
+    back_button.place(relx=0.75, rely=0.05, relwidth=0.2, relheight=0.1)
+    return back_button
+
+
 def login():
     login_title = tk.Label(root, text="login", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
     login_title.place(relx=0.45, rely=0.05)
     underline(login_title)
+    back_button = create_back_button()
+    back_button.config(command=lambda: clear_root() or main_screen())
 
 
 def signup():
     signup_title = tk.Label(root, text="signup", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
     signup_title.place(relx=0.45, rely=0.05)
     underline(signup_title)
+    back_button = create_back_button()
+    back_button.config(command=lambda: clear_root() or main_screen())
 
 
 def clear_root():
