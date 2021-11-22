@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import font
 
-bg_col: str = "dark grey"
+bg_col: str = "grey"
 fg_col: str = "white"
-button_col: str = "grey"
+button_col: str = "dark grey"
 
 root = tk.Tk()
 root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
@@ -36,7 +36,7 @@ def login_account():
     pass
 
 
-def help():
+def help_func():
     pass
 
 
@@ -63,7 +63,7 @@ def login():
     login_submission.place(relx=0.20, rely=0.55, relwidth=0.28, relheight=0.1)
 
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
-                            bg=button_col, command=lambda: clear_root() or help())
+                            bg=button_col, command=lambda: clear_root() or help_func())
     help_button.place(relx=0.52, rely=0.55, relwidth=0.28, relheight=0.1)
 
 
