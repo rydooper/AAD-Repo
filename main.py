@@ -41,8 +41,8 @@ def help_func():
 
 
 def login():
-    login_title = tk.Label(root, text="login", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
-    login_title.place(relx=0.45, rely=0.05)
+    login_title = tk.Label(root, text="MontyFridges: login", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
+    login_title.place(relx=0.50, rely=0.05, anchor=tk.CENTER)
     underline(login_title)
 
     back_button = create_back_button()
@@ -68,8 +68,8 @@ def login():
 
 
 def signup():
-    signup_title = tk.Label(root, text="signup", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
-    signup_title.place(relx=0.45, rely=0.05)
+    signup_title = tk.Label(root, text="MontyFridges: signup", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
+    signup_title.place(relx=0.5, rely=0.05, anchor=tk.CENTER)
     underline(signup_title)
 
     back_button = create_back_button()
@@ -100,8 +100,8 @@ def signup():
 
 
 def main_screen():
-    welcoming = tk.Label(root, text="Welcome", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
-    welcoming.place(relx=0.45, rely=0.05)
+    welcoming = tk.Label(root, text="MontyFridges", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
+    welcoming.place(relx=0.5, rely=0.05, anchor=tk.CENTER)
     underline(welcoming)
 
     login_button = tk.Button(root, text="login", font=("arial", 10, "bold"),
