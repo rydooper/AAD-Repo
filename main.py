@@ -32,6 +32,14 @@ def create_account():
     pass
 
 
+def login_account():
+    pass
+
+
+def help():
+    pass
+
+
 def login():
     login_title = tk.Label(root, text="login", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
     login_title.place(relx=0.45, rely=0.05)
@@ -39,6 +47,24 @@ def login():
 
     back_button = create_back_button()
     back_button.config(command=lambda: clear_root() or main_screen())
+
+    username_label = tk.Label(root, text="Username:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
+    username_label.place(relx=0.20, rely=0.25)
+    password_label = tk.Label(root, text="Password:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
+    password_label.place(relx=0.20, rely=0.35)
+
+    username_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
+    username_entry.place(relx=0.30, rely=0.25, relwidth=0.5, relheight=0.05)
+    password_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13), show="*")
+    password_entry.place(relx=0.30, rely=0.35, relwidth=0.5, relheight=0.05)
+
+    login_submission = tk.Button(root, text="login", font=("arial", 10, "bold"),
+                                 bg=button_col, command=lambda: clear_root() or login_account())
+    login_submission.place(relx=0.20, rely=0.55, relwidth=0.28, relheight=0.1)
+
+    help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
+                            bg=button_col, command=lambda: clear_root() or help())
+    help_button.place(relx=0.52, rely=0.55, relwidth=0.28, relheight=0.1)
 
 
 def signup():
@@ -53,10 +79,11 @@ def signup():
     username_label.place(relx=0.05, rely=0.25)
     password_label = tk.Label(root, text="Password:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
     password_label.place(relx=0.05, rely=0.35)
-    role_label = tk.Label(root, text="Username:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
+
+    role_label = tk.Label(root, text="Role:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
     role_label.place(relx=0.05, rely=0.45)
-    password_label = tk.Label(root, text="Password:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
-    password_label.place(relx=0.05, rely=0.55)
+    restaurant_label = tk.Label(root, text="Restaurant:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
+    restaurant_label.place(relx=0.05, rely=0.55)
 
     signup_username_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
     signup_username_entry.place(relx=0.20, rely=0.25, relwidth=0.2, relheight=0.05)
