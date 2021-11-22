@@ -17,11 +17,20 @@ def underline(label):
 
 
 def login():
-    pass
+    login_title = tk.Label(root, text="login", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
+    login_title.place(relx=0.45, rely=0.05)
+    underline(login_title)
 
 
 def signup():
-    pass
+    signup_title = tk.Label(root, text="signup", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
+    signup_title.place(relx=0.45, rely=0.05)
+    underline(signup_title)
+
+
+def clear_root():
+    for ele in root.winfo_children():
+        ele.destroy()
 
 
 def main_screen():
@@ -30,11 +39,11 @@ def main_screen():
     underline(welcoming)
 
     login_button = tk.Button(root, text="login", font=("arial", 10, "bold"),
-                             bg=button_col, command=lambda: login())
+                             bg=button_col, command=lambda: clear_root() or login())
     login_button.place(relx=0.25, rely=0.35, relwidth=0.2, relheight=0.1)
 
     signup_button = tk.Button(root, text="signup", font=("arial", 10, "bold"),
-                              bg=button_col, command=lambda: signup())
+                              bg=button_col, command=lambda: clear_root() or signup())
     signup_button.place(relx=0.55, rely=0.35, relwidth=0.2, relheight=0.1)
 
 
