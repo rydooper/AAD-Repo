@@ -31,12 +31,14 @@ def create_back_button() -> tk.Button:
 
 
 def create_account(username: str, password: str, role: str, restaurant: str):
+    clear_root()
     account = account_handling.Account(username, password, role, restaurant)
     account_handling.signup(account)
     fridge_contents()
 
 
 def login_account(username: str, password: str):
+    clear_root()
     account = account_handling.Account(username, password)
     account_handling.login(account)
     fridge_contents()
@@ -96,8 +98,8 @@ def login():
     password_entry.place(relx=0.30, rely=0.45, relwidth=0.5, relheight=0.05)
 
     login_submission = tk.Button(root, text="login", font=("arial", 10, "bold"),
-                                 bg=button_col, command=lambda: clear_root()
-                                 or login_account(username_entry.get(), password_entry.get()))
+                                 bg=button_col, command=lambda:
+                                 login_account(username_entry.get(), password_entry.get()))
     login_submission.place(relx=0.20, rely=0.65, relwidth=0.28, relheight=0.1)
 
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
@@ -133,9 +135,9 @@ def signup():
     restaurant_entry.place(relx=0.20, rely=0.55, relwidth=0.2, relheight=0.05)
 
     submit_details = tk.Button(root, text="signup", font=("arial", 10, "bold"),
-                               bg=button_col, command=lambda: clear_root()
-                               or create_account(signup_username_entry.get(), signup_password_entry.get(),
-                                                 role_entry.get(), restaurant_entry.get()))
+                               bg=button_col, command=lambda:
+                               create_account(signup_username_entry.get(), signup_password_entry.get(),
+                                              role_entry.get(), restaurant_entry.get()))
     submit_details.place(relx=0.20, rely=0.65, relwidth=0.2, relheight=0.05)
 
 

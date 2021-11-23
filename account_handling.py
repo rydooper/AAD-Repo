@@ -3,11 +3,11 @@ from hashlib import sha512
 
 class Account:
 
-    def __init__(self):
-        self.username: str
-        self.password: str
-        self.role: str
-        self.restaurant: str
+    def __init__(self, username: str, password: str, role: str = "", restaurant: str = ""):
+        self.username: str = username
+        self.password: str = password
+        self.role: str = role
+        self.restaurant: str = restaurant
 
 
 def hash_string(string_to_hash: str) -> str:
@@ -20,9 +20,13 @@ def login(account):
     hashed_username: str = hash_string(account.username)
     hashed_password: str = hash_string(account.password)
 
+    # Search Database for account with these details
+
 
 def signup(account: Account):
     hashed_username: str = hash_string(account.username)
     hashed_password: str = hash_string(account.password)
     hashed_role: str = hash_string(account.role)
     hashed_restaurant: str = hash_string(account.restaurant)
+
+    # Write these details to database
