@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import font
 from tkinter import ttk
+import account_handling
 
 bg_col: str = "grey"
 fg_col: str = "white"
@@ -58,17 +59,17 @@ def fridge_contents():
     style = ttk.Style(table)
     style.configure('TreeView', rowheight=30)
     table['columns'] = ("Col1", "Col2", "Col3", "Col4", "Col5", "Col6", "Col7")
-    data = [["ItemID", "Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling"], ["D", "E", "F"]]
+    data: list[list[str]] = [["ItemID", "Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling"],
+                             ["D", "E", "F"]]
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
-
     table.insert(parent='', index='end', iid=0, text="Headers", values=data[0])
     for x in range(1, 10000):
         table.insert(parent='', index='end', iid=x, text=x, values=data[0])
 
-    scroll_bar_y = tk.Scrollbar(root, command=table.xview)
+    scroll_bar_y = tk.Scrollbar(root, command=table.yview)
     scroll_bar_y.place(relx=0.9, rely=0.15, relheight=0.8)
 
-    scroll_bar_x = tk.Scrollbar(root, command=table.yview, orient='horizontal')
+    scroll_bar_x = tk.Scrollbar(root, command=table.xview, orient='horizontal')
     scroll_bar_x.place(relx=0.1, rely=0.95, relwidth=0.8)
 
 
