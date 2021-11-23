@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import font
+from tkinter import ttk
 
 bg_col: str = "grey"
 fg_col: str = "white"
@@ -29,15 +30,53 @@ def create_back_button() -> tk.Button:
 
 
 def create_account():
-    pass
+    fridge_contents()
 
 
 def login_account():
-    pass
+    fridge_contents()
 
 
 def help_func():
     pass
+
+
+def fridge_contents():
+    page_title = tk.Label(root, text="MontyFridges: Fridge Contents", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
+    page_title.place(relx=0.4, rely=0.05, anchor=tk.CENTER)
+    underline(page_title)
+
+    home_button = tk.Button(root, text="Home", font=("arial", 10, "bold"),
+                            bg=button_col, command=lambda: clear_root() or main_screen())
+    home_button.place(relx=0.70, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+
+    help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
+                            bg=button_col, command=lambda: clear_root() or help_func())
+    help_button.place(relx=0.87, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+
+    table = ttk.Treeview(root, columns=(1, 2, 3, 4), height="5")
+    scroll_bar = tk.Scrollbar(root, command=table.yview)
+    scroll_bar.place(relx=0.9, rely=0.15, relheight=0.8)
+
+    style = ttk.Style(table)
+    style.configure('TreeView', rowheight=30)
+    table['columns'] = ("Col1", "Col2", "Col3")
+    data = [["A", "B", "C"], ["D", "E", "F"], ["G", "H", "J"]]
+    table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
+
+    for x in range(100):
+        table.insert(parent='', index='end', iid=x, text=x, values=[1,2,3])
+
+    #for index, ele in enumerate(data):
+     #   table.insert(parent='', index='end', iid=index, text="Label", values=ele)
+
+
+    # height = 25
+    # width = 7
+    # for i in range(height):  # Rows
+    #     for j in range(width):  # Columns
+    #         b = tk.Entry(root, text="", state=tk.DISABLED)
+    #         b.grid(row=i, column=j)
 
 
 def login():
@@ -49,22 +88,22 @@ def login():
     back_button.config(command=lambda: clear_root() or main_screen())
 
     username_label = tk.Label(root, text="Username:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
-    username_label.place(relx=0.20, rely=0.25)
+    username_label.place(relx=0.20, rely=0.35)
     password_label = tk.Label(root, text="Password:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
-    password_label.place(relx=0.20, rely=0.35)
+    password_label.place(relx=0.20, rely=0.45)
 
     username_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
-    username_entry.place(relx=0.30, rely=0.25, relwidth=0.5, relheight=0.05)
+    username_entry.place(relx=0.30, rely=0.35, relwidth=0.5, relheight=0.05)
     password_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13), show="*")
-    password_entry.place(relx=0.30, rely=0.35, relwidth=0.5, relheight=0.05)
+    password_entry.place(relx=0.30, rely=0.45, relwidth=0.5, relheight=0.05)
 
     login_submission = tk.Button(root, text="login", font=("arial", 10, "bold"),
                                  bg=button_col, command=lambda: clear_root() or login_account())
-    login_submission.place(relx=0.20, rely=0.55, relwidth=0.28, relheight=0.1)
+    login_submission.place(relx=0.20, rely=0.65, relwidth=0.28, relheight=0.1)
 
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
                             bg=button_col, command=lambda: clear_root() or help_func())
-    help_button.place(relx=0.52, rely=0.55, relwidth=0.28, relheight=0.1)
+    help_button.place(relx=0.52, rely=0.65, relwidth=0.28, relheight=0.1)
 
 
 def signup():
