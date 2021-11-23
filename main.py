@@ -54,29 +54,22 @@ def fridge_contents():
                             bg=button_col, command=lambda: clear_root() or help_func())
     help_button.place(relx=0.87, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
 
-    table = ttk.Treeview(root, columns=(1, 2, 3, 4), height="5")
-    scroll_bar = tk.Scrollbar(root, command=table.yview)
-    scroll_bar.place(relx=0.9, rely=0.15, relheight=0.8)
-
+    table = ttk.Treeview(root, columns=(1, 2, 3, 4, 5, 6, 7), height="5")
     style = ttk.Style(table)
     style.configure('TreeView', rowheight=30)
-    table['columns'] = ("Col1", "Col2", "Col3")
-    data = [["A", "B", "C"], ["D", "E", "F"], ["G", "H", "J"]]
+    table['columns'] = ("Col1", "Col2", "Col3", "Col4", "Col5", "Col6", "Col7")
+    data = [["ItemID", "Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling"], ["D", "E", "F"]]
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
 
-    for x in range(100):
-        table.insert(parent='', index='end', iid=x, text=x, values=[1,2,3])
+    table.insert(parent='', index='end', iid=0, text="Headers", values=data[0])
+    for x in range(1, 10000):
+        table.insert(parent='', index='end', iid=x, text=x, values=data[0])
 
-    #for index, ele in enumerate(data):
-     #   table.insert(parent='', index='end', iid=index, text="Label", values=ele)
+    scroll_bar_y = tk.Scrollbar(root, command=table.xview)
+    scroll_bar_y.place(relx=0.9, rely=0.15, relheight=0.8)
 
-
-    # height = 25
-    # width = 7
-    # for i in range(height):  # Rows
-    #     for j in range(width):  # Columns
-    #         b = tk.Entry(root, text="", state=tk.DISABLED)
-    #         b.grid(row=i, column=j)
+    scroll_bar_x = tk.Scrollbar(root, command=table.yview, orient='horizontal')
+    scroll_bar_x.place(relx=0.1, rely=0.95, relwidth=0.8)
 
 
 def login():
