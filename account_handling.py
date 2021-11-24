@@ -4,7 +4,9 @@ from random import randint
 
 
 class RoleError(Exception):
-    print("Role could not be assigned")
+
+    def __init__(self):
+        super(RoleError, self).__init__("Role could not be assigned")
 
 
 class Deliveries:
@@ -41,7 +43,7 @@ class HeadChef(Chef):
     def manage_permissions(staff_account: Account):
         new_role = input("Enter role")  # Make GUI for this
         staff_account.role = new_role
-        new_account = type_account(staff_account)
+        # new_account = type_account(staff_account)
         # Update role on the database
 
 
