@@ -32,14 +32,14 @@ def create_back_button() -> tk.Button:
 
 def create_account(username: str, password: str, role: str, restaurant: str):
     clear_root()
-    account = account_handling.Account(username, password, role, restaurant)
+    account = account_handling.AccountHandling(username, password, role, restaurant)
     account_handling.signup(account)
     fridge_contents()
 
 
 def login_account(username: str, password: str):
     clear_root()
-    account = account_handling.Account(username, password)
+    account = account_handling.AccountHandling(username, password)
     account_handling.login(account)
     fridge_contents()
 
@@ -69,7 +69,7 @@ def fridge_contents():
                              ["D", "E", "F"]]
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
     table.insert(parent='', index='end', iid=0, text="Headers", values=data[0])
-    for x in range(1, 10000):
+    for x in range(1, 1000):
         table.insert(parent='', index='end', iid=x, text=x, values=data[0])
 
     scroll_bar_y = tk.Scrollbar(root, command=table.yview)
