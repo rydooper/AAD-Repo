@@ -20,10 +20,16 @@ class Deliveries:
 class Account:
 
     def __init__(self, username: str, password: str, role: str = "", restaurant: str = ""):
-        self.username: str = hash_string(username)
-        self.password: str = hash_string(password)
-        self.role: str = hash_string(role)
-        self.restaurant: str = hash_string(restaurant)
+        self.username: str = self.hash_string(username)
+        self.password: str = self.hash_string(password)
+        self.role: str = role
+        self.restaurant: str = restaurant
+
+    @staticmethod
+    def hash_string(string_to_hash: str) -> str:
+        salt: str = "A?5J/b8-fe+w8b42,9B_J743dl"
+        hashing_string = sha512((string_to_hash + salt).encode())
+        return hashing_string.hexdigest()
 
 
 class Chef(Account):
@@ -43,7 +49,7 @@ class HeadChef(Chef):
     def manage_permissions(staff_account: Account):
         new_role = input("Enter role")  # Make GUI for this
         staff_account.role = new_role
-        # new_account = type_account(staff_account)
+        new_account = type_account(staff_account)
         # Update role on the database
 
 
@@ -61,16 +67,10 @@ def type_account(account: Account) -> Account:
     elif account.role == "Chef":
         user: Account = Chef(account.username, account.password, account.role, account.restaurant)
     elif account.role == "Delivery Driver":
-        user: Account = Chef(account.username, account.password, account.role, account.restaurant)
+        user: Account = DeliveryDriver(account.username, account.password, account.role, account.restaurant)
     else:
         raise RoleError
     return user
-
-
-def hash_string(string_to_hash: str) -> str:
-    salt: str = "A?5J/b8-fe+w8b42,9B_J743dl"
-    hashing_string = sha512((string_to_hash + salt).encode())
-    return hashing_string.hexdigest()
 
 
 def login(account: Account):

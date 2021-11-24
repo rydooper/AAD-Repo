@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import font
 from tkinter import ttk
+from tkinter import messagebox
 import account_handling
 
 bg_col: str = "grey"
@@ -34,7 +35,7 @@ def create_account(username: str, password: str, role: str, restaurant: str):
     clear_root()
     account = account_handling.Account(username, password, role, restaurant)
     account_handling.signup(account)
-    fridge_contents()
+    fridge_contents(account)
 
 
 def login_account(username: str, password: str):
@@ -48,15 +49,25 @@ def help_func():
     pass
 
 
+def change_name_func(user_account: account_handling.Account):
+    messagebox.showinfo(message="Feature not yet implemented")
+    profile_screen(user_account)
+
+
 def profile_screen(user_account: account_handling.Account):
     page_title = tk.Label(root, text="MontyFridges: Profile", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
     page_title.place(relx=0.4, rely=0.05, anchor=tk.CENTER)
     underline(page_title)
 
+    change_name = tk.Button(root, text="Change username", font=("arial", 10, "bold"),
+                            bg=button_col, command=lambda: clear_root() or change_name_func(user_account))
+    change_name.place(relx=0.10, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+
     back_button = create_back_button()
+    back_button.place(relx=0.70, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
     back_button.config(command=lambda: clear_root() or fridge_contents(user_account))
 
-    username = tk.Label(root, text="Username: " + user_account.username,
+    username = tk.Label(root, text="Username: " + "TEST USERNAME",
                         font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
     username.place(relx=0.01, rely=0.2)
 
