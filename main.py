@@ -32,14 +32,14 @@ def create_back_button() -> tk.Button:
 
 def create_account(username: str, password: str, role: str, restaurant: str):
     clear_root()
-    account = account_handling.AccountHandling(username, password, role, restaurant)
+    account = account_handling.Account(username, password, role, restaurant)
     account_handling.signup(account)
     fridge_contents()
 
 
 def login_account(username: str, password: str):
     clear_root()
-    account = account_handling.AccountHandling(username, password)
+    account = account_handling.Account(username, password)
     account_handling.login(account)
     fridge_contents()
 

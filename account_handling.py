@@ -3,6 +3,10 @@ from datetime import datetime
 from random import randint
 
 
+class RoleError(Exception):
+    print("Role could not be assigned")
+
+
 class Deliveries:
     def __init__(self, address: str, date_time: datetime, name: str):
         self.address: str = address
@@ -11,7 +15,7 @@ class Deliveries:
         self.door_code: int = randint(111_111, 999_999)
 
 
-class AccountHandling:
+class Account:
 
     def __init__(self, username: str, password: str, role: str = "", restaurant: str = ""):
         self.username: str = hash_string(username)
@@ -20,10 +24,10 @@ class AccountHandling:
         self.restaurant: str = hash_string(restaurant)
 
 
-class Chef(AccountHandling):
+class Chef(Account):
 
     def __init__(self, username: str, password: str, role: str = "", restaurant: str = ""):
-        AccountHandling.__init__(self, username, password, role, restaurant)
+        Account.__init__(self, username, password, role, restaurant)
         self.front_door_access: bool = True
 
 
@@ -34,12 +38,24 @@ class HeadChef(Chef):
         self.staff_control: bool = True
 
 
-class DeliveryDriver(AccountHandling):
+class DeliveryDriver(Account):
 
     def __init__(self, username: str, password: str, role: str = "", restaurant: str = ""):
-        AccountHandling.__init__(self, username, password, role, restaurant)
+        Account.__init__(self, username, password, role, restaurant)
         self.back_door_access: bool = True
         self.deliveries: list[Deliveries] = []
+
+
+def type_account(account: Account) -> Account:
+    if account.role == "Head Chef":
+        user: Account = HeadChef(account.username, account.password, account.role, account.restaurant)
+    elif account.role == "Chef":
+        user: Account = Chef(account.username, account.password, account.role, account.restaurant)
+    elif account.role == "Delivery Driver":
+        user: Account = Chef(account.username, account.password, account.role, account.restaurant)
+    else:
+        raise RoleError
+    return user
 
 
 def hash_string(string_to_hash: str) -> str:
@@ -48,11 +64,11 @@ def hash_string(string_to_hash: str) -> str:
     return hashing_string.hexdigest()
 
 
-def login(account: AccountHandling):
+def login(account: Account):
     # Search Database for account with these details
     pass
 
 
-def signup(account: AccountHandling):
+def signup(account: Account):
     # Write these details to database
     pass
