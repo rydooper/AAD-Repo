@@ -1,4 +1,14 @@
 from hashlib import sha512
+from datetime import datetime
+from random import randint
+
+
+class Deliveries:
+    def __init__(self, address: str, date_time: datetime, name: str):
+        self.address: str = address
+        self.date_time: datetime = date_time
+        self.driver: str = name
+        self.door_code: int = randint(111_111, 999_999)
 
 
 class AccountHandling:
@@ -28,8 +38,8 @@ class DeliveryDriver(AccountHandling):
 
     def __init__(self, username: str, password: str, role: str = "", restaurant: str = ""):
         AccountHandling.__init__(self, username, password, role, restaurant)
-        self.door_code: str = ""
         self.back_door_access: bool = True
+        self.deliveries: list[Deliveries] = []
 
 
 def hash_string(string_to_hash: str) -> str:
