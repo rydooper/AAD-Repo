@@ -37,6 +37,13 @@ class HeadChef(Chef):
         Chef.__init__(self, username, password, role, restaurant)
         self.staff_control: bool = True
 
+    @staticmethod
+    def manage_permissions(staff_account: Account):
+        new_role = input("Enter role")  # Make GUI for this
+        staff_account.role = new_role
+        new_account = type_account(staff_account)
+        # Update role on the database
+
 
 class DeliveryDriver(Account):
 
