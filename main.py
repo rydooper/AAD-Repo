@@ -41,17 +41,42 @@ def login_account(username: str, password: str):
     clear_root()
     account = account_handling.Account(username, password)
     account_handling.login(account)
-    fridge_contents()
+    fridge_contents(account)
 
 
 def help_func():
     pass
 
 
-def fridge_contents():
+def profile_screen(user_account: account_handling.Account):
+    page_title = tk.Label(root, text="MontyFridges: Profile", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
+    page_title.place(relx=0.4, rely=0.05, anchor=tk.CENTER)
+    underline(page_title)
+
+    back_button = create_back_button()
+    back_button.config(command=lambda: clear_root() or fridge_contents(user_account))
+
+    username = tk.Label(root, text="Username: " + user_account.username,
+                        font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
+    username.place(relx=0.01, rely=0.2)
+
+    role = tk.Label(root, text="Role: " + user_account.role,
+                    font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
+    role.place(relx=0.01, rely=0.3)
+
+    restaurant = tk.Label(root, text="Restaurant: " + user_account.restaurant,
+                          font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
+    restaurant.place(relx=0.01, rely=0.4)
+
+
+def fridge_contents(user: account_handling.Account):
     page_title = tk.Label(root, text="MontyFridges: Fridge Contents", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
     page_title.place(relx=0.4, rely=0.05, anchor=tk.CENTER)
     underline(page_title)
+
+    profile_button = tk.Button(root, text="Profile", font=("arial", 10, "bold"),
+                               bg=button_col, command=lambda: clear_root() or profile_screen(user))
+    profile_button.place(relx=0.10, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
 
     home_button = tk.Button(root, text="Home", font=("arial", 10, "bold"),
                             bg=button_col, command=lambda: clear_root() or main_screen())

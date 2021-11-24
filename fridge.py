@@ -1,4 +1,3 @@
-# src file example
 
 class OpenDoorError(Exception):
     def __init__(self):
