@@ -35,20 +35,14 @@ def create_account(username: str, password: str, role: str, restaurant: str):
     clear_root()
     account = account_handling.Account(username, password, role, restaurant)
     account_handling.signup(account)
-    if account.role == "Head Chef":
-        fridge_contents(account)
-    else:
-        profile_screen(account)
+    fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
 
 
 def login_account(username: str, password: str):
     clear_root()
     account = account_handling.Account(username, password)
     account_handling.login(account)
-    if account.role == "Head Chef":
-        fridge_contents(account)
-    else:
-        profile_screen(account)
+    fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
 
 
 def help_func():

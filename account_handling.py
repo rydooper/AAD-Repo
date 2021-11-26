@@ -62,15 +62,27 @@ class DeliveryDriver(Account):
 
 
 def type_account(account: Account) -> Account:
-    if account.role == "Head Chef":
-        user: Account = HeadChef(account.username, account.password, account.role, account.restaurant)
-    elif account.role == "Chef":
-        user: Account = Chef(account.username, account.password, account.role, account.restaurant)
-    elif account.role == "Delivery Driver":
-        user: Account = DeliveryDriver(account.username, account.password, account.role, account.restaurant)
-    else:
-        raise RoleError
+    match account.role:
+        case "Head Chef":
+            user: Account = HeadChef(account.username, account.password, account.role, account.restaurant)
+        case "Chef":
+            user: Account = Chef(account.username, account.password, account.role, account.restaurant)
+        case "Delivery Driver":
+            user: Account = DeliveryDriver(account.username, account.password, account.role, account.restaurant)
+        case _:
+            raise RoleError
+
     return user
+
+    # if account.role == "Head Chef":
+    #     user: Account = HeadChef(account.username, account.password, account.role, account.restaurant)
+    # elif account.role == "Chef":
+    #     user: Account = Chef(account.username, account.password, account.role, account.restaurant)
+    # elif account.role == "Delivery Driver":
+    #     user: Account = DeliveryDriver(account.username, account.password, account.role, account.restaurant)
+    # else:
+    #     raise RoleError
+    #  return user
 
 
 def login(account: Account):
