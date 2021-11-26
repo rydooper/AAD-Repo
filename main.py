@@ -35,14 +35,20 @@ def create_account(username: str, password: str, role: str, restaurant: str):
     clear_root()
     account = account_handling.Account(username, password, role, restaurant)
     account_handling.signup(account)
-    fridge_contents(account)
+    if account.role == "Head Chef":
+        fridge_contents(account)
+    else:
+        profile_screen(account)
 
 
 def login_account(username: str, password: str):
     clear_root()
     account = account_handling.Account(username, password)
     account_handling.login(account)
-    fridge_contents(account)
+    if account.role == "Head Chef":
+        fridge_contents(account)
+    else:
+        profile_screen(account)
 
 
 def help_func():
@@ -67,7 +73,7 @@ def profile_screen(user_account: account_handling.Account):
     back_button.place(relx=0.70, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
     back_button.config(command=lambda: clear_root() or fridge_contents(user_account))
 
-    username = tk.Label(root, text="Username: " + "TEST USERNAME",
+    username = tk.Label(root, text="Username: " + user_account.username,
                         font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
     username.place(relx=0.01, rely=0.2)
 
@@ -97,14 +103,20 @@ def fridge_contents(user: account_handling.Account):
                             bg=button_col, command=lambda: clear_root() or help_func())
     help_button.place(relx=0.87, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
 
-    table = ttk.Treeview(root, columns=(1, 2, 3, 4, 5, 6, 7), height="5")
+    table = ttk.Treeview(root, height="5")
     style = ttk.Style(table)
     style.configure('TreeView', rowheight=30)
+    style.theme_use('clam')
     table['columns'] = ("Col1", "Col2", "Col3", "Col4", "Col5", "Col6", "Col7")
-    data: list[list[str]] = [["ItemID", "Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling"],
-                             ["D", "E", "F"]]
+    headings = ("ItemID", "Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling")
+
+    data: list[list[str]] = [[test_data for test_data in headings], ["D", "E", "F"]]
+
+    for column, heading in zip(table['columns'], headings):
+        table.heading(column, text=heading)
+        table.column(column, minwidth=0, width=100)
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
-    table.insert(parent='', index='end', iid=0, text="Headers", values=data[0])
+
     for x in range(1, 1000):
         table.insert(parent='', index='end', iid=x, text=x, values=data[0])
 
