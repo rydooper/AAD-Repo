@@ -45,8 +45,18 @@ def login_account(username: str, password: str):
     fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
 
 
-def help_func():
-    pass
+def help_func(user_account: account_handling.Account):
+    page_title = tk.Label(root, text="MontyFridges: Information Help Page", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
+    page_title.place(relx=0.4, rely=0.05, anchor=tk.CENTER)
+    underline(page_title)
+    
+    back_button = create_back_button()
+    back_button.place(relx=0.90, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+    back_button.config(command=lambda: clear_root() or fridge_contents(user_account))
+    
+    page_information = tk.Label(root, text="MontyFridges: Dont blow up", font=("arial", 12, "bold"), fg= "black", bg= "white")
+    page_information.place(relx=0.5, rely= 0.5 , relwidth=0.90, relheight=0.80, anchor=tk.CENTER)
+
 
 
 def change_name_func(user_account: account_handling.Account):
@@ -94,8 +104,9 @@ def fridge_contents(user: account_handling.Account):
     home_button.place(relx=0.70, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
 
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
-                            bg=button_col, command=lambda: clear_root() or help_func())
+                            bg=button_col, command=lambda: clear_root() or help_func(user))
     help_button.place(relx=0.87, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+  
 
     table = ttk.Treeview(root, height="5")
     style = ttk.Style(table)
