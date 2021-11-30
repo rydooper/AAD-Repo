@@ -1,6 +1,4 @@
-class OpenDoorError(Exception):
-    def __init__(self):
-        super(OpenDoorError, self).__init__("Door could not be opened, please close the other fridge door")
+from custom_exceptions import OpenDoorError
 
 
 class Fridge:
@@ -24,7 +22,3 @@ class Fridge:
         if not self.front_door_open:
             self.back_door_open = True
         self.check_both_doors_open()
-
-
-def addition(i) -> int:
-    return i+5

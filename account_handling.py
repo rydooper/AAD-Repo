@@ -1,12 +1,7 @@
 from datetime import datetime
 from hashlib import sha512
 from random import randint
-
-
-class RoleError(Exception):
-
-    def __init__(self):
-        super(RoleError, self).__init__("Role could not be assigned")
+from custom_exceptions import RoleError
 
 
 class Deliveries:
@@ -62,18 +57,6 @@ class DeliveryDriver(Account):
 
 
 def type_account(account: Account) -> Account:
-    # match account.role:
-    #     case "Head Chef":
-    #         user: Account = HeadChef(account.username, account.password, account.role, account.restaurant)
-    #     case "Chef":
-    #         user: Account = Chef(account.username, account.password, account.role, account.restaurant)
-    #     case "Delivery Driver":
-    #         user: Account = DeliveryDriver(account.username, account.password, account.role, account.restaurant)
-    #     case _:
-    #         raise RoleError
-    #
-    # return user
-
     if account.role == "Head Chef":
         user: Account = HeadChef(account.username, account.password, account.role, account.restaurant)
     elif account.role == "Chef":
