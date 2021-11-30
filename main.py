@@ -105,6 +105,7 @@ def fridge_contents(user: account_handling.Account):
     headings = ("ItemID", "Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling")
 
     data: list[list[str]] = [[test_data for test_data in headings], ["D", "E", "F"]]
+    table['show'] = 'headings'
 
     for column, heading in zip(table['columns'], headings):
         table.heading(column, text=heading)
