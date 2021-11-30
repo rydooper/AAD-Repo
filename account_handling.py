@@ -68,6 +68,7 @@ class DeliveryDriver(Account):
 
 
 def type_account(account: Account) -> Account:
+
     if account.role == "Head Chef":
         user: Account = HeadChef(account.username, account.password, account.role, account.restaurant)
     elif account.role == "Chef":
@@ -76,6 +77,7 @@ def type_account(account: Account) -> Account:
         user: Account = DeliveryDriver(account.username, account.password, account.role, account.restaurant)
     else:
         raise RoleError
+
     return user
 
 
