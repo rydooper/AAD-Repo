@@ -5,6 +5,9 @@ from custom_exceptions import RoleError
 
 
 class Deliveries:
+
+    __slots__ = ["address", "date_time", "driver", "door_code"]
+
     def __init__(self, address: str, date_time: datetime, name: str):
         self.address: str = address
         self.date_time: datetime = date_time
@@ -13,6 +16,8 @@ class Deliveries:
 
 
 class Account:
+
+    __slots__ = ["username", "password", "role", "restaurant"]
 
     def __init__(self, username: str, password: str, role: str = "", restaurant: str = ""):
         self.username: str = self.hash_string(username)
@@ -29,12 +34,16 @@ class Account:
 
 class Chef(Account):
 
+    __slots__ = "front_door_access"
+
     def __init__(self, username: str, password: str, role: str = "", restaurant: str = ""):
         Account.__init__(self, username, password, role, restaurant)
         self.front_door_access: bool = True
 
 
 class HeadChef(Chef):
+
+    __slots__ = "staff_control"
 
     def __init__(self, username: str, password: str, role: str = "", restaurant: str = ""):
         Chef.__init__(self, username, password, role, restaurant)
@@ -49,6 +58,8 @@ class HeadChef(Chef):
 
 
 class DeliveryDriver(Account):
+
+    __slots__ = ["back_door_access", "deliveries"]
 
     def __init__(self, username: str, password: str, role: str = "", restaurant: str = ""):
         Account.__init__(self, username, password, role, restaurant)
