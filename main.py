@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import font
+import create_fridge_db
 
 bg_col: str = "grey"
 fg_col: str = "white"
@@ -114,5 +115,6 @@ def main_screen():
 
 
 if __name__ == "__main__":
-    main_screen()
-    root.mainloop()
+    conn_str = create_fridge_db.connect()
+    #main_screen()
+    #root.mainloop()
