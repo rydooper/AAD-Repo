@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body>
+    {% include "includes/nav.html" %}
+    <p> Landing page </p>
+
+    {% if login %}
+    <a href="{{url_for('manage')}}"> Manage deliveries </a>
+    {% else %}
+    <a href="{{url_for('login')}}"> Login </a>
+    {% endif %}
+
+</body>
+</html>
