@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html>
-<body>
-    {% include "includes/nav.html" %}
+{% extends "layout.html" %}
+
+{% block content %}
     <p> Landing page </p>
 
     {% if login %}
@@ -9,6 +8,4 @@
     {% else %}
     <a href="{{url_for('login')}}"> Login </a>
     {% endif %}
-
-</body>
-</html>
+{% endblock %}
