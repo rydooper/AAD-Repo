@@ -6,6 +6,7 @@ import account_handling
 
 from random import sample  # TESTING
 from fridge import Fridge
+
 bg_col: str = "grey"
 fg_col: str = "white"
 button_col: str = "dark grey"
@@ -124,7 +125,7 @@ def fridge_contents(user: account_handling.Account):
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
 
     alphabet = "abcdefghikklmnopqrstuvwxyz"
-    current_fridge = Fridge(5)
+    current_fridge = Fridge(100)
     for x in range(1, current_fridge.max_capacity + 1):
         table.insert(parent='', index='end', iid=x, text=x,
                      values=[''.join(sample(alphabet + alphabet.upper() + "123456789",
