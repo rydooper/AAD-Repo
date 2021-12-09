@@ -4,7 +4,6 @@ from tkinter import ttk
 from tkinter import messagebox
 import account_handling
 from fridge import Fridge
-from custom_exceptions import RoleInvalid
 from random import sample  # Used for test data
 
 bg_col: str = "grey"
@@ -41,7 +40,8 @@ def get_role(roles: list[bool]) -> str:
             count += 1
     valid: bool = True if count == 1 else False
     if not valid:
-        raise RoleInvalid
+        messagebox.showinfo(message="ERROR: One and only one role may be selected at once")
+        return "Role Invalid"
 
     if roles[0]:
         return "Head Chef"
@@ -52,8 +52,10 @@ def get_role(roles: list[bool]) -> str:
 
 
 def create_account(username: str, password: str, restaurant: str, roles: list):
-    clear_root()
     role = get_role(roles)
+    if role == "Role Invalid":
+        return
+    clear_root()
     account = account_handling.Account(username, password, role, restaurant)
     account_handling.signup(account)
     fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
@@ -223,8 +225,8 @@ def signup():
 
     submit_details = tk.Button(root, text="signup", font=("arial", 10, "bold"),
                                bg=button_col, command=lambda:
-        create_account(signup_username_entry.get(), signup_password_entry.get(),
-                       restaurant_entry.get(), [head_chef.get(), chef.get(), delivery_driver.get()]))
+                               create_account(signup_username_entry.get(), signup_password_entry.get(),
+                               restaurant_entry.get(), [head_chef.get(), chef.get(), delivery_driver.get()]))
     submit_details.place(relx=0.20, rely=0.65, relwidth=0.2, relheight=0.05)
 
 
@@ -243,5 +245,7 @@ def main_screen():
 
 
 if __name__ == "__main__":
+    dic = {593: [(13,20), 593, 'Environment']}
+    print(dic[593][2])
     main_screen()
     root.mainloop()
