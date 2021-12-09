@@ -16,6 +16,13 @@ root.title("Monty Pythons")
 root.config(bg=bg_col)
 
 
+def check_entry(event=None):
+    root.destroy()
+
+
+root.bind('<Escape>', check_entry)
+
+
 def clear_root():
     for ele in root.winfo_children():
         ele.destroy()
@@ -245,7 +252,5 @@ def main_screen():
 
 
 if __name__ == "__main__":
-    dic = {593: [(13,20), 593, 'Environment']}
-    print(dic[593][2])
     main_screen()
     root.mainloop()
