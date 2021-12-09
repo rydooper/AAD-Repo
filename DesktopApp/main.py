@@ -3,9 +3,9 @@ from tkinter import font
 from tkinter import ttk
 from tkinter import messagebox
 import account_handling
-
-from random import sample  # TESTING
 from fridge import Fridge
+from custom_exceptions import RoleInvalid
+from random import sample  # Used for test data
 
 bg_col: str = "grey"
 fg_col: str = "white"
@@ -34,8 +34,26 @@ def create_back_button() -> tk.Button:
     return back_button
 
 
-def create_account(username: str, password: str, role: str, restaurant: str):
+def get_role(roles: list[bool]) -> str:
+    count: int = 0
+    for role in roles:
+        if role:
+            count += 1
+    valid: bool = True if count == 1 else False
+    if not valid:
+        raise RoleInvalid
+
+    if roles[0]:
+        return "Head Chef"
+    elif roles[1]:
+        return "Chef"
+    else:
+        return "Delivery Driver"
+
+
+def create_account(username: str, password: str, restaurant: str, roles: list):
     clear_root()
+    role = get_role(roles)
     account = account_handling.Account(username, password, role, restaurant)
     account_handling.signup(account)
     fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
@@ -53,11 +71,11 @@ def help_func(user_account: account_handling.Account):
                           font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
     page_title.place(relx=0.4, rely=0.05, anchor=tk.CENTER)
     underline(page_title)
-    
+
     back_button = create_back_button()
     back_button.place(relx=0.90, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
     back_button.config(command=lambda: clear_root() or fridge_contents(user_account))
-    
+
     page_information = tk.Label(root, text="MontyFridges: Don't blow up",
                                 font=("arial", 12, "bold"), fg="black", bg="white")
     page_information.place(relx=0.5, rely=0.5, relwidth=0.90, relheight=0.80, anchor=tk.CENTER)
@@ -110,7 +128,10 @@ def fridge_contents(user: account_handling.Account):
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
                             bg=button_col, command=lambda: clear_root() or help_func(user))
     help_button.place(relx=0.87, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
-  
+
+    fridge_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
+    fridge_entry.place(relx=0.10, rely=0.09, relwidth=0.8, relheight=0.05)
+
     table = ttk.Treeview(root, height="5")
     style = ttk.Style(table)
     style.configure('TreeView', rowheight=30)
@@ -176,27 +197,34 @@ def signup():
 
     username_label = tk.Label(root, text="Username:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
     username_label.place(relx=0.05, rely=0.25)
+    signup_username_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
+    signup_username_entry.place(relx=0.20, rely=0.25, relwidth=0.2, relheight=0.05)
+
     password_label = tk.Label(root, text="Password:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
     password_label.place(relx=0.05, rely=0.35)
+    signup_password_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13), show="*")
+    signup_password_entry.place(relx=0.20, rely=0.35, relwidth=0.2, relheight=0.05)
 
     role_label = tk.Label(root, text="Role:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
     role_label.place(relx=0.05, rely=0.45)
+
+    head_chef: bool = tk.BooleanVar()
+    chef: bool = tk.BooleanVar()
+    delivery_driver: bool = tk.BooleanVar()
+
+    tk.Checkbutton(root, text="Head Chef", variable=head_chef).place(relx=0.20, rely=0.45)
+    tk.Checkbutton(root, text="Chef", variable=chef).place(relx=0.28, rely=0.45)
+    tk.Checkbutton(root, text="Delivery Driver", variable=delivery_driver).place(relx=0.33, rely=0.45, relwidth=0.07)
+
     restaurant_label = tk.Label(root, text="Restaurant:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
     restaurant_label.place(relx=0.05, rely=0.55)
-
-    signup_username_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
-    signup_username_entry.place(relx=0.20, rely=0.25, relwidth=0.2, relheight=0.05)
-    signup_password_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13), show="*")
-    signup_password_entry.place(relx=0.20, rely=0.35, relwidth=0.2, relheight=0.05)
-    role_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
-    role_entry.place(relx=0.20, rely=0.45, relwidth=0.2, relheight=0.05)
     restaurant_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
     restaurant_entry.place(relx=0.20, rely=0.55, relwidth=0.2, relheight=0.05)
 
     submit_details = tk.Button(root, text="signup", font=("arial", 10, "bold"),
                                bg=button_col, command=lambda:
-                               create_account(signup_username_entry.get(), signup_password_entry.get(),
-                                              role_entry.get(), restaurant_entry.get()))
+        create_account(signup_username_entry.get(), signup_password_entry.get(),
+                       restaurant_entry.get(), [head_chef.get(), chef.get(), delivery_driver.get()]))
     submit_details.place(relx=0.20, rely=0.65, relwidth=0.2, relheight=0.05)
 
 
