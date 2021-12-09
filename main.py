@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter import messagebox
 import account_handling
 
+from random import sample  # TESTING
 bg_col: str = "grey"
 fg_col: str = "white"
 button_col: str = "dark grey"
@@ -46,7 +47,8 @@ def login_account(username: str, password: str):
 
 
 def help_func(user_account: account_handling.Account):
-    page_title = tk.Label(root, text="MontyFridges: Information Help Page", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
+    page_title = tk.Label(root, text="MontyFridges: Information Help Page",
+                          font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
     page_title.place(relx=0.4, rely=0.05, anchor=tk.CENTER)
     underline(page_title)
     
@@ -54,9 +56,9 @@ def help_func(user_account: account_handling.Account):
     back_button.place(relx=0.90, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
     back_button.config(command=lambda: clear_root() or fridge_contents(user_account))
     
-    page_information = tk.Label(root, text="MontyFridges: Dont blow up", font=("arial", 12, "bold"), fg= "black", bg= "white")
-    page_information.place(relx=0.5, rely= 0.5 , relwidth=0.90, relheight=0.80, anchor=tk.CENTER)
-
+    page_information = tk.Label(root, text="MontyFridges: Dont blow up",
+                                font=("arial", 12, "bold"), fg="black", bg="white")
+    page_information.place(relx=0.5, rely=0.5, relwidth=0.90, relheight=0.80, anchor=tk.CENTER)
 
 
 def change_name_func(user_account: account_handling.Account):
@@ -107,15 +109,12 @@ def fridge_contents(user: account_handling.Account):
                             bg=button_col, command=lambda: clear_root() or help_func(user))
     help_button.place(relx=0.87, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
   
-
     table = ttk.Treeview(root, height="5")
     style = ttk.Style(table)
     style.configure('TreeView', rowheight=30)
     style.theme_use('clam')
     table['columns'] = ("Col1", "Col2", "Col3", "Col4", "Col5", "Col6", "Col7")
     headings = ("ItemID", "Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling")
-
-    data: list[list[str]] = [[test_data for test_data in headings], ["D", "E", "F"]]
     table['show'] = 'headings'
 
     for column, heading in zip(table['columns'], headings):
@@ -124,7 +123,8 @@ def fridge_contents(user: account_handling.Account):
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
 
     for x in range(1, 1000):
-        table.insert(parent='', index='end', iid=x, text=x, values=data[0])
+        table.insert(parent='', index='end', iid=x, text=x,
+                     values=[''.join(sample("abcdefghikklmnopqrstuvwxyz123456789", 10)) for x in range(len(headings))])
 
     scroll_bar_y = tk.Scrollbar(root, command=table.yview)
     scroll_bar_y.place(relx=0.9, rely=0.15, relheight=0.8)
