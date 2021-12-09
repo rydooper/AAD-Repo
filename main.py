@@ -5,6 +5,7 @@ from tkinter import messagebox
 import account_handling
 
 from random import sample  # TESTING
+from fridge import Fridge
 bg_col: str = "grey"
 fg_col: str = "white"
 button_col: str = "dark grey"
@@ -56,7 +57,7 @@ def help_func(user_account: account_handling.Account):
     back_button.place(relx=0.90, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
     back_button.config(command=lambda: clear_root() or fridge_contents(user_account))
     
-    page_information = tk.Label(root, text="MontyFridges: Dont blow up",
+    page_information = tk.Label(root, text="MontyFridges: Don't blow up",
                                 font=("arial", 12, "bold"), fg="black", bg="white")
     page_information.place(relx=0.5, rely=0.5, relwidth=0.90, relheight=0.80, anchor=tk.CENTER)
 
@@ -122,9 +123,12 @@ def fridge_contents(user: account_handling.Account):
         table.column(column, minwidth=0, width=100)
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
 
-    for x in range(1, 1000):
+    alphabet = "abcdefghikklmnopqrstuvwxyz"
+    current_fridge = Fridge(5)
+    for x in range(1, current_fridge.max_capacity + 1):
         table.insert(parent='', index='end', iid=x, text=x,
-                     values=[''.join(sample("abcdefghikklmnopqrstuvwxyz123456789", 10)) for x in range(len(headings))])
+                     values=[''.join(sample(alphabet + alphabet.upper() + "123456789",
+                                            10)) for x in range(len(headings))])
 
     scroll_bar_y = tk.Scrollbar(root, command=table.yview)
     scroll_bar_y.place(relx=0.9, rely=0.15, relheight=0.8)

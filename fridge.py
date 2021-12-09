@@ -3,9 +3,10 @@ from custom_exceptions import OpenDoorError
 
 class Fridge:
 
-    __slots__ = ["front_door_open", "back_door_open"]
+    __slots__ = ["front_door_open", "back_door_open", "max_capacity"]
 
-    def __init__(self):
+    def __init__(self, capacity):
+        self.max_capacity: int = capacity
         self.front_door_open: bool = False
         self.back_door_open: bool = False
 
