@@ -6,8 +6,8 @@ from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
 from random import sample  # Used for test data
-import win32clipboard
-import pyttsx3
+from text_to_speech import speak, get_clip_board
+from threading import Thread
 
 bg_col: str = "grey"
 fg_col: str = "white"
@@ -17,27 +17,6 @@ root = tk.Tk()
 root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
 root.title("Monty Pythons")
 root.config(bg=bg_col)
-
-voice = pyttsx3.init()
-rate = voice.getProperty('rate')
-voice.setProperty('rate', rate+50)
-
-
-def speak():
-    print("test")
-    print(get_clip_board())
-    voice.say(get_clip_board())
-    try:
-        voice.runAndWait()
-    except RuntimeError:
-        voice.stop()
-
-
-def get_clip_board():
-    win32clipboard.OpenClipboard()
-    data = win32clipboard.GetClipboardData()
-    win32clipboard.CloseClipboard()
-    return data
 
 
 def ask_color():
@@ -49,11 +28,11 @@ def ask_color():
     fg_col = colorchooser.askcolor()[1]
 
 
-def check_entry(event=None):
+def close_app(event=None):
     root.destroy()
 
 
-root.bind('<Escape>', check_entry)
+root.bind('<Escape>', close_app)
 
 
 def clear_root():
@@ -283,8 +262,8 @@ def main_screen():
                               bg=button_col, command=lambda: clear_root() or signup())
     signup_button.place(relx=0.55, rely=0.35, relwidth=0.2, relheight=0.1)
 
-    text_to_speech = tk.Button(root, text="text to speech", font=("arial", 10, "bold"),
-                               bg=button_col, command=speak)
+    text_to_speech = tk.Button(root, text="text to speech", font=("arial", 10, "bold"), bg=button_col,
+                               command=lambda: Thread(target=speak, daemon=True).start())
     text_to_speech.place(relx=0.70, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
 
     colors = tk.Button(root, text="Color", font=("arial", 10, "bold"),
