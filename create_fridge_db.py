@@ -1,6 +1,12 @@
 import mysql.connector
 
 
+def test(username, password, name, role, restaurant):
+    parameters = {'username' : username, 'password' : password, 'name' : name, 'role' : role, 'restaurant' : restaurant}
+
+
+########################################################################################################################
+
 ########################################################################################################################
 
 def connect():
@@ -64,3 +70,41 @@ def create_table(query):
 
 
 ########################################################################################################################
+
+########################################################################################################################
+
+def select_username(username, password):
+    fridge_db = connect_db()
+    db_cursor = fridge_db.cursor()
+    query = """
+        SELECT name, role, restaurant FROM users
+        WHERE username = %(username)s
+        AND password = %(password)s
+    """
+
+    try:
+        db_cursor.execute(query, {'username' : username, 'password' : password})
+        fridge_db.commit()
+    except mysql.connector.Error as error_msg:
+        print(error_msg)
+
+    db_cursor.close()
+    fridge_db.close()
+
+
+def insert_new_user(username, password, name, role, restaurant):
+    fridge_db = connect_db()
+    db_cursor = fridge_db.cursor()
+    query = """
+        INSERT INTO users (username, password, name, role, restaurant)
+        VALUES (%(username)s, %(password)s, %(name)s, %(role)s, %(restaurant)s)
+    """
+
+    try:
+        db_cursor.execute(query, {'username' : username, 'password' : password, 'name' : name, 'role' : role, 'restaurant' : restaurant})
+        fridge_db.commit()
+    except mysql.connector.Error as error_msg:
+        print(error_msg)
+
+    db_cursor.close()
+    fridge_db.close()

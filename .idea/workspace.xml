@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2ddf83-6db9-4e27-a7a0-fd6d96b2419b" name="Default Changelist" comment="Added a file to test connection to MySQL database." />
+    <list default="true" id="4a2ddf83-6db9-4e27-a7a0-fd6d96b2419b" name="Default Changelist" comment="Committing random files changes.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/create_fridge_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/create_fridge_db.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,6 +36,9 @@
       </UrlAndAccount>
     </option>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="1zNE5O7i9DScJOo9MDpMocUS2si" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -42,9 +48,9 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Artificial Intelligence/Week 10 - 29-11-21/example_decision_support_system_sepsis.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="Python.example_decision_support_system_sepsis">
+  <component name="RunManager" selected="Python.f1bot">
     <configuration name="example_decision_support_system_sepsis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Coursework Code" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -108,8 +114,25 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests in Coursework Code" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="Coursework Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.f1bot" />
+        <item itemvalue="Python tests.Python tests in Coursework Code" />
+        <item itemvalue="Python.example_decision_support_system_sepsis" />
         <item itemvalue="Python.example_decision_support_system_sepsis" />
         <item itemvalue="Python.f1bot" />
       </list>
