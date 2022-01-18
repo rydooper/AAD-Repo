@@ -6,7 +6,6 @@ from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
 from random import sample  # Used for test data
-from text_to_speech import speak, get_clip_board
 from threading import Thread
 
 bg_col: str = "grey"
@@ -14,7 +13,7 @@ fg_col: str = "white"
 button_col: str = "dark grey"
 
 root = tk.Tk()
-root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
+root.geometry(f"{root.winfo_screenwidth()}x{root.winfo_screenheight()}+-5+0")
 root.title("Monty Pythons")
 root.config(bg=bg_col)
 
@@ -53,11 +52,7 @@ def create_back_button() -> tk.Button:
 
 
 def get_role(roles: list[bool]) -> str:
-    count: int = 0
-    for role in roles:
-        if role:
-            count += 1
-    valid: bool = True if count == 1 else False
+    valid: bool = True if sum(roles) == 1 else False
     if not valid:
         messagebox.showinfo(message="ERROR: One and only one role may be selected at once")
         return "Role Invalid"
@@ -133,25 +128,34 @@ def profile_screen(user_account: account_handling.Account):
     restaurant.place(relx=0.01, rely=0.4)
 
 
+def get_safety_info(user: account_handling.Account):
+    messagebox.showinfo(message="Feature not yet implemented")
+    fridge_contents(user)
+
+
 def fridge_contents(user: account_handling.Account):
     page_title = tk.Label(root, text="MontyFridges: Fridge Contents", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
-    page_title.place(relx=0.4, rely=0.05, anchor=tk.CENTER)
+    page_title.place(relx=0.385, rely=0.05, anchor=tk.CENTER)
     underline(page_title)
 
     profile_button = tk.Button(root, text="Profile", font=("arial", 10, "bold"),
                                bg=button_col, command=lambda: clear_root() or profile_screen(user))
-    profile_button.place(relx=0.10, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+    profile_button.place(relx=0.175, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
 
     home_button = tk.Button(root, text="Home", font=("arial", 10, "bold"),
                             bg=button_col, command=lambda: clear_root() or main_screen())
-    home_button.place(relx=0.70, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+    home_button.place(relx=0.60, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
 
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
                             bg=button_col, command=lambda: clear_root() or help_func(user))
-    help_button.place(relx=0.87, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+    help_button.place(relx=0.75, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
+
+    safety_report = tk.Button(root, text="safety", font=("arial", 10, "bold"),
+                              bg=button_col, command=lambda: clear_root() or help_func(user))
+    safety_report.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
     fridge_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
-    fridge_entry.place(relx=0.10, rely=0.09, relwidth=0.8, relheight=0.05)
+    fridge_entry.place(relx=0.10, rely=0.09, relwidth=0.805, relheight=0.05)
 
     table = ttk.Treeview(root, height="5")
     style = ttk.Style(table)
@@ -167,7 +171,7 @@ def fridge_contents(user: account_handling.Account):
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
 
     alphabet = "abcdefghikklmnopqrstuvwxyz"
-    current_fridge = Fridge(100)
+    current_fridge = Fridge(10_000)
     for x in range(1, current_fridge.max_capacity + 1):
         table.insert(parent='', index='end', iid=x, text=x,
                      values=[''.join(sample(alphabet + alphabet.upper() + "123456789",
@@ -261,10 +265,6 @@ def main_screen():
     signup_button = tk.Button(root, text="signup", font=("arial", 10, "bold"),
                               bg=button_col, command=lambda: clear_root() or signup())
     signup_button.place(relx=0.55, rely=0.35, relwidth=0.2, relheight=0.1)
-
-    text_to_speech = tk.Button(root, text="text to speech", font=("arial", 10, "bold"), bg=button_col,
-                               command=lambda: Thread(target=speak, daemon=True).start())
-    text_to_speech.place(relx=0.70, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
 
     colors = tk.Button(root, text="Color", font=("arial", 10, "bold"),
                        bg=button_col, command=ask_color)
