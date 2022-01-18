@@ -12,7 +12,7 @@ class Deliveries:
         self.address: str = address
         self.date_time: datetime = date_time
         self.driver: str = name
-        self.door_code: int = randint(111_111, 999_999)
+        self.door_code: int = randint(100_000, 999_999)
 
 
 class Account:

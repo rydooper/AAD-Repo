@@ -18,11 +18,13 @@ root.title("Monty Pythons")
 root.config(bg=bg_col)
 
 
-def ask_color():
+def change_background():
     global bg_col
     bg_col = colorchooser.askcolor()[1]
     root.config(bg=bg_col)
 
+
+def change_foreground():
     global fg_col
     fg_col = colorchooser.askcolor()[1]
 
@@ -151,7 +153,7 @@ def fridge_contents(user: account_handling.Account):
     help_button.place(relx=0.75, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
     safety_report = tk.Button(root, text="safety", font=("arial", 10, "bold"),
-                              bg=button_col, command=lambda: clear_root() or help_func(user))
+                              bg=button_col, command=lambda: clear_root() or get_safety_info(user))
     safety_report.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
     fridge_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
@@ -161,8 +163,8 @@ def fridge_contents(user: account_handling.Account):
     style = ttk.Style(table)
     style.configure('TreeView', rowheight=30)
     style.theme_use('clam')
-    table['columns'] = ("Col1", "Col2", "Col3", "Col4", "Col5", "Col6", "Col7")
-    headings = ("ItemID", "Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling")
+    table['columns'] = ("Col1", "Col2", "Col3", "Col4", "Col5", "Col6")
+    headings = ("Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling")
     table['show'] = 'headings'
 
     for column, heading in zip(table['columns'], headings):
@@ -171,7 +173,7 @@ def fridge_contents(user: account_handling.Account):
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
 
     alphabet = "abcdefghikklmnopqrstuvwxyz"
-    current_fridge = Fridge(10_000)
+    current_fridge = Fridge(1000)
     for x in range(1, current_fridge.max_capacity + 1):
         table.insert(parent='', index='end', iid=x, text=x,
                      values=[''.join(sample(alphabet + alphabet.upper() + "123456789",
@@ -266,9 +268,13 @@ def main_screen():
                               bg=button_col, command=lambda: clear_root() or signup())
     signup_button.place(relx=0.55, rely=0.35, relwidth=0.2, relheight=0.1)
 
-    colors = tk.Button(root, text="Color", font=("arial", 10, "bold"),
-                       bg=button_col, command=ask_color)
-    colors.place(relx=0.85, rely=0.05, relwidth=0.1, relheight=0.05, anchor=tk.CENTER)
+    colors = tk.Button(root, text="Background Color", font=("arial", 10, "bold"),
+                       bg=button_col, command=change_background)
+    colors.place(relx=0.75, rely=0.05, relwidth=0.1, relheight=0.05, anchor=tk.CENTER)
+
+    colors = tk.Button(root, text="Foreground Color", font=("arial", 10, "bold"),
+                       bg=button_col, command=change_foreground)
+    colors.place(relx=0.90, rely=0.05, relwidth=0.1, relheight=0.05, anchor=tk.CENTER)
 
 
 if __name__ == "__main__":
