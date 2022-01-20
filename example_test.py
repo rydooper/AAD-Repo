@@ -1,4 +1,5 @@
 import pytest
+
 from fridge import addition
 
 

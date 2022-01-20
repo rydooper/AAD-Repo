@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import font
+
 import create_fridge_db
 
 bg_col: str = "grey"

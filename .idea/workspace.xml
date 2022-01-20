@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2ddf83-6db9-4e27-a7a0-fd6d96b2419b" name="Default Changelist" comment="Committing random files changes.">
+    <list default="true" id="4a2ddf83-6db9-4e27-a7a0-fd6d96b2419b" name="Default Changelist" comment="Added query parameters. Requires testing.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/create_fridge_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/create_fridge_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +41,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="1zNE5O7i9DScJOo9MDpMocUS2si" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -49,8 +54,9 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="run.code.analysis.last.selected.profile" value="aDefault" />
   </component>
-  <component name="RunManager" selected="Python.f1bot">
+  <component name="RunManager" selected="Python.main">
     <configuration name="example_decision_support_system_sepsis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Coursework Code" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -114,6 +120,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="wdbc_regression" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Coursework Code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../Artificial Intelligence/WDBC" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../Artificial Intelligence/WDBC/wdbc_regression.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Python tests in Coursework Code" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="Coursework Code" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -130,11 +157,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.wdbc_regression" />
         <item itemvalue="Python.f1bot" />
         <item itemvalue="Python tests.Python tests in Coursework Code" />
         <item itemvalue="Python.example_decision_support_system_sepsis" />
         <item itemvalue="Python.example_decision_support_system_sepsis" />
-        <item itemvalue="Python.f1bot" />
       </list>
     </recent_temporary>
   </component>
@@ -154,7 +181,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637754689685</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added query parameters. Requires testing.">
+      <created>1642531207686</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1642531207686</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -182,6 +216,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added a file to test connection to MySQL database." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added a file to test connection to MySQL database." />
+    <MESSAGE value="Added query parameters. Requires testing." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added query parameters. Requires testing." />
   </component>
 </project>
