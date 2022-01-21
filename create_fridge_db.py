@@ -1,7 +1,36 @@
 import mysql.connector
 
 
-def db_signup(username, password, name, role, restaurant):
+def create_users():
+    create_users_query = """
+        CREATE TABLE IF NOT EXISTS users (
+        username VARCHAR(30),
+        password VARCHAR(128),
+        name VARCHAR(30),
+        role VARCHAR(15), 
+        restaurant VARCHAR(30),
+        PRIMARY KEY (username)
+        )
+    """
+    return create_table(create_users_query)
+
+
+def create_items():
+    create_items_query = """
+        CREATE TABLE IF NOT EXISTS items (
+        itemName VARCHAR(30), 
+        expiry DATE, 
+        stock INT, 
+        weightPerItem INT,
+        allergyInfo VARCHAR(100),
+        recyclingInfo VARCHAR(100),
+        PRIMARY KEY (itemName, expiry)
+        )
+    """
+    return create_table(create_items_query)
+
+
+def signup(username, password, name, role, restaurant):
     insert_user_query = """
         INSERT INTO users (username, password, name, role, restaurant)
         VALUES (%(username)s, %(password)s, %(name)s, %(role)s, %(restaurant)s)
@@ -11,24 +40,27 @@ def db_signup(username, password, name, role, restaurant):
     return execute_sql(insert_user_query, insert_user_values)
 
 
-def db_login(username, password):
+def login(username, password):
     select_user_details_query = """
         SELECT name, role, restaurant FROM users
         WHERE username = %(username)s
         AND password = %(password)s
     """
     select_user_details_values = {'username': username, 'password': password}
-    return execute_sql(select_user_details_query, select_user_details_values)
+    user_details = execute_sql(select_user_details_query, select_user_details_values, True)
+    if not user_details:
+        return "Incorrect login details provided."
+    return user_details
 
 
-def db_display_fridge_contents():
+def display_fridge_contents():
     select_items_query = """
         SELECT * FROM items
         ORDER BY expiry ASC, itemName ASC
     """
 
 
-def db_add_new_item(item_name, expiry, quantity, weight_per_item, allergy_info, recycling_info):
+def add_new_item(item_name, expiry, quantity, weight_per_item, allergy_info, recycling_info):
     insert_items_query = """
         INSERT INTO items (itemName, expiry, stock, weightPerItem, allergyInfo, recyclingInfo)
         VALUES (%(item_name)s, %(expiry)s, %(quantity)s, %(weight_per_item)s, %(allergy_info)s, %(recycling_info)s)
@@ -36,9 +68,10 @@ def db_add_new_item(item_name, expiry, quantity, weight_per_item, allergy_info, 
     insert_items_values = {'item_name': item_name, 'expiry': expiry, 'quantity': quantity,
                            'weight_per_item': weight_per_item, 'allergy_info' : allergy_info,
                            'recycling_info' : recycling_info }
+    return execute_sql(insert_items_query, insert_items_values)
 
 
-def db_update_existing_item(item_name, expiry, new_quantity):
+def update_existing_item(item_name, expiry, new_quantity):
     update_items_query = """
         UPDATE items SET stock = %(new_quantity)s
         WHERE itemName = %(item_name)s
@@ -69,7 +102,7 @@ def create_db():
     db_cursor = fridge_db.cursor()
 
     try:
-        query = "CREATE DATABASE fridge_db"
+        query = "CREATE DATABASE IF NOT EXISTS fridge_db"
         db_cursor.execute(query)
         fridge_db.commit()
     except mysql.connector.Error as error_msg:

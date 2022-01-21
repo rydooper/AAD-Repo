@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2ddf83-6db9-4e27-a7a0-fd6d96b2419b" name="Default Changelist" comment="Added query parameters. Requires testing.">
+    <list default="true" id="4a2ddf83-6db9-4e27-a7a0-fd6d96b2419b" name="Default Changelist" comment="Added some additional SQL statements. Requires testing.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/create_fridge_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/create_fridge_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/example_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +41,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="1zNE5O7i9DScJOo9MDpMocUS2si" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -188,7 +187,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642531207686</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added some additional SQL statements. Requires testing.">
+      <created>1642696704088</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1642696704088</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -217,6 +223,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added a file to test connection to MySQL database." />
     <MESSAGE value="Added query parameters. Requires testing." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added query parameters. Requires testing." />
+    <MESSAGE value="Added some additional SQL statements. Requires testing." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added some additional SQL statements. Requires testing." />
   </component>
 </project>
