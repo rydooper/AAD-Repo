@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import font
 
-import create_fridge_db as db
+import fridge_db as db
 
 bg_col: str = "grey"
 fg_col: str = "white"
@@ -123,6 +123,9 @@ if __name__ == "__main__":
     db.create_users()
     db.create_items()
 
-    #db.signup("userDom", "1234", "Dominic Romana", "Chef", "Nottingham")
+    # db.signup("userDom", "1234", "Dominic Romana", "Chef", "Nottingham")
     print(db.login("userDom", "1234"))
-    db.add_new_item("Carrot", "2022-01-30", "100", "30", "No allergy info", "Non-recyclable")
+    # db.add_items("Sweetcorn", "2024-02-5", "50", "200", "No allergy info", "Can and label widely recycled.")
+    print(db.display_fridge_contents())
+    # print(db.delete_record("Sweetcorn", "2024-02-5"))
+    print(db.remove_items("Sweetcorn", "2024-02-5", "25"))
