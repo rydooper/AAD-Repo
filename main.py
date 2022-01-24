@@ -119,10 +119,6 @@ if __name__ == "__main__":
     # main_screen()
     # root.mainloop()
 
-    db.create_db()
-    db.create_users()
-    db.create_items()
-
     # db.signup("userDom", "1234", "Dominic Romana", "Chef", "Nottingham")
     print(db.login("userDom", "1234"))
     # db.add_items("Sweetcorn", "2024-02-5", "50", "200", "No allergy info", "Can and label widely recycled.")

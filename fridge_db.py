@@ -5,35 +5,6 @@ import mysql.connector
 # Database function to be called from main program.
 ########################################################################################################################
 
-def create_users():
-    create_users_query = """
-        CREATE TABLE IF NOT EXISTS users (
-        username VARCHAR(30),
-        password VARCHAR(128),
-        name VARCHAR(30),
-        role VARCHAR(15), 
-        restaurant VARCHAR(30),
-        PRIMARY KEY (username)
-        )
-    """
-    return create_table(create_users_query)
-
-
-def create_items():
-    create_items_query = """
-        CREATE TABLE IF NOT EXISTS items (
-        itemName VARCHAR(30), 
-        expiry DATE, 
-        stock INT, 
-        weightPerItem INT,
-        allergyInfo VARCHAR(100),
-        recyclingInfo VARCHAR(100),
-        PRIMARY KEY (itemName, expiry)
-        )
-    """
-    return create_table(create_items_query)
-
-
 def signup(username, password, name, role, restaurant):
     insert_user_query = """
         INSERT INTO users (username, password, name, role, restaurant)
@@ -155,13 +126,46 @@ def create_db():
 
 
 ########################################################################################################################
+# Initial table creation.
+########################################################################################################################
+
+def create_users():
+    create_users_query = """
+        CREATE TABLE IF NOT EXISTS users (
+        username VARCHAR(30),
+        password VARCHAR(128),
+        name VARCHAR(30),
+        role VARCHAR(15), 
+        restaurant VARCHAR(30),
+        PRIMARY KEY (username)
+        )
+    """
+    return create_table(create_users_query)
+
+
+def create_items():
+    create_items_query = """
+        CREATE TABLE IF NOT EXISTS items (
+        itemName VARCHAR(30), 
+        expiry DATE, 
+        stock INT, 
+        weightPerItem INT,
+        allergyInfo VARCHAR(100),
+        recyclingInfo VARCHAR(100),
+        PRIMARY KEY (itemName, expiry)
+        )
+    """
+    return create_table(create_items_query)
+
+
+########################################################################################################################
 # Connection to fridge_db, create_table SQL table builder and execute_sql query builder.
 ########################################################################################################################
 
 def connect_db():
     try:
-        fridge_db = mysql.connector.connect(user="fridgeAdmin",
-                                            password="MontyFr1dge",
+        fridge_db = mysql.connector.connect(user="fridgeUser",
+                                            password="fridgeUser",
                                             host="mysql-azure-fridge-dr.mysql.database.azure.com",
                                             port=3306,
                                             database="fridge_db",
