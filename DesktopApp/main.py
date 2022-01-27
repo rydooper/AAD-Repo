@@ -5,7 +5,7 @@ from tkinter import messagebox
 from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
-from random import sample  # Used for test data
+# from random import sample  # Used for test data
 import admin_db as admin_db
 
 bg_col: str = "grey"
@@ -163,7 +163,7 @@ def fridge_contents(user: account_handling.Account):
     style = ttk.Style(table)
     style.configure('TreeView', rowheight=30)
     style.theme_use('clam')
-    table['columns'] = ("Col1", "Col2", "Col3", "Col4", "Col5", "Col6")
+    table['columns'] = [f'Col{x}' for x in range(1, 7)]
     headings = ("Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling")
     table['show'] = 'headings'
 
@@ -172,12 +172,9 @@ def fridge_contents(user: account_handling.Account):
         table.column(column, minwidth=0, width=100)
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
 
-    alphabet = "abcdefghikklmnopqrstuvwxyz"
-    current_fridge = Fridge(1000)
-    for x in range(1, current_fridge.max_capacity + 1):
-        table.insert(parent='', index='end', iid=x, text=x,
-                     values=[''.join(sample(alphabet + alphabet.upper() + "123456789",
-                                            10)) for x in range(len(headings))])
+    all_items: list[tuple()] = display_fridge_contents()
+    for list_item in all_items:
+        table.insert(parent='', index='end', iid=x, text=x, values=[''.join(tuple_item) for tuple_item in list_item])
 
     scroll_bar_y = tk.Scrollbar(root, command=table.yview)
     scroll_bar_y.place(relx=0.9, rely=0.15, relheight=0.8)
