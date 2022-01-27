@@ -6,9 +6,7 @@ from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
 from random import sample  # Used for test data
-import fridge_db as db
 import admin_db as admin_db
-from threading import Thread
 
 bg_col: str = "grey"
 fg_col: str = "white"
