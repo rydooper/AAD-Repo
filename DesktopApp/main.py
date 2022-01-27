@@ -5,7 +5,6 @@ from tkinter import messagebox
 from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
-# from random import sample  # Used for test data
 import admin_db as admin_db
 
 bg_col: str = "grey"
@@ -49,7 +48,7 @@ def underline(label):
 
 def create_back_button() -> tk.Button:
     back_button = tk.Button(root, text="back", font=("arial", 10, "bold"), bg=button_col)
-    back_button.place(relx=0.75, rely=0.05, relwidth=0.2, relheight=0.1)
+    back_button.place(relx=0.90, rely=0.05, relwidth=0.1, relheight=0.05, anchor=tk.CENTER)
     return back_button
 
 
@@ -67,12 +66,12 @@ def get_role(roles: list[bool]) -> str:
         return "Delivery Driver"
 
 
-def create_account(username: str, password: str, restaurant: str, roles: list):
+def create_account(username: str, password: str, name: str, restaurant: str, roles: list):
     role = get_role(roles)
     if role == "Role Invalid":
         return
     clear_root()
-    account = account_handling.Account(username, password, role, restaurant)
+    account = account_handling.Account(username, password, name, role, restaurant)
     account_handling.signup(account)
     fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
 
@@ -229,27 +228,33 @@ def signup():
     signup_password_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13), show="*")
     signup_password_entry.place(relx=0.20, rely=0.35, relwidth=0.2, relheight=0.05)
 
+    name_label = tk.Label(root, text="Name:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
+    name_label.place(relx=0.05, rely=0.45)
+    name_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
+    name_entry.place(relx=0.20, rely=0.45, relwidth=0.2, relheight=0.05)
+
     role_label = tk.Label(root, text="Role:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
-    role_label.place(relx=0.05, rely=0.45)
+    role_label.place(relx=0.05, rely=0.55)
 
     head_chef: bool = tk.BooleanVar()
     chef: bool = tk.BooleanVar()
     delivery_driver: bool = tk.BooleanVar()
 
-    tk.Checkbutton(root, text="Head Chef", variable=head_chef).place(relx=0.20, rely=0.45)
-    tk.Checkbutton(root, text="Chef", variable=chef).place(relx=0.28, rely=0.45)
-    tk.Checkbutton(root, text="Delivery Driver", variable=delivery_driver).place(relx=0.33, rely=0.45, relwidth=0.07)
+    tk.Checkbutton(root, text="Head Chef", variable=head_chef).place(relx=0.20, rely=0.55)
+    tk.Checkbutton(root, text="Chef", variable=chef).place(relx=0.28, rely=0.55)
+    tk.Checkbutton(root, text="Delivery Driver", variable=delivery_driver).place(relx=0.33, rely=0.55, relwidth=0.07)
 
     restaurant_label = tk.Label(root, text="Restaurant:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
-    restaurant_label.place(relx=0.05, rely=0.55)
+    restaurant_label.place(relx=0.05, rely=0.65)
     restaurant_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
-    restaurant_entry.place(relx=0.20, rely=0.55, relwidth=0.2, relheight=0.05)
+    restaurant_entry.place(relx=0.20, rely=0.65, relwidth=0.2, relheight=0.05)
 
     submit_details = tk.Button(root, text="signup", font=("arial", 10, "bold"),
                                bg=button_col, command=lambda:
                                create_account(signup_username_entry.get(), signup_password_entry.get(),
-                               restaurant_entry.get(), [head_chef.get(), chef.get(), delivery_driver.get()]))
-    submit_details.place(relx=0.20, rely=0.65, relwidth=0.2, relheight=0.05)
+                                              name_entry.get(), restaurant_entry.get(),
+                                              [head_chef.get(), chef.get(), delivery_driver.get()]))
+    submit_details.place(relx=0.20, rely=0.75, relwidth=0.2, relheight=0.05)
 
 
 def main_screen():

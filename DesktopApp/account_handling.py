@@ -2,6 +2,7 @@ from datetime import datetime
 from hashlib import sha512
 from random import randint
 from custom_exceptions import RoleError
+import fridge_db
 
 
 class Deliveries:
@@ -17,11 +18,12 @@ class Deliveries:
 
 class Account:
 
-    __slots__ = ["username", "password", "role", "restaurant"]
+    __slots__ = ["username", "password", "name", "role", "restaurant"]
 
-    def __init__(self, username: str, password: str, role: str = "", restaurant: str = ""):
+    def __init__(self, username: str, password: str, name: str, role: str = "", restaurant: str = ""):
         self.username: str = self.hash_string(username)
         self.password: str = self.hash_string(password)
+        self.name: str = name
         self.role: str = role
         self.restaurant: str = restaurant
 
@@ -87,4 +89,4 @@ def login(account: Account):
 
 def signup(account: Account):
     # Write these details to database
-    pass
+    fridge_db.signup(Account.username, Account.password, Account.name, Account.role, Account.restaurant)
