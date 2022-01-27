@@ -20,7 +20,7 @@ class Account:
 
     __slots__ = ["username", "password", "name", "role", "restaurant"]
 
-    def __init__(self, username: str, password: str, name: str, role: str = "", restaurant: str = ""):
+    def __init__(self, username: str, password: str, name: str = "", role: str = "", restaurant: str = ""):
         self.username: str = self.hash_string(username)
         self.password: str = self.hash_string(password)
         self.name: str = name
@@ -84,7 +84,7 @@ def type_account(account: Account) -> Account:
 
 def login(account: Account):
     # Search Database for account with these details
-    pass
+    return fridge_db.login(username, password)
 
 
 def signup(account: Account):

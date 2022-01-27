@@ -11,11 +11,11 @@ def signup(username, password, name, role, restaurant):
         VALUES (%(username)s, %(password)s, %(name)s, %(role)s, %(restaurant)s)
     """
     insert_user_values = {'username': username, 'password': password, 'name': name, 'role': role,
-                          'restaurant' : restaurant}
+                          'restaurant': restaurant}
     return execute_sql(insert_user_query, insert_user_values)
 
 
-def login(username, password):
+def login(username, password) -> tuple:
     select_user_details_query = """
         SELECT name, role, restaurant FROM users
         WHERE username = %(username)s
@@ -23,12 +23,10 @@ def login(username, password):
     """
     select_user_details_values = {'username': username, 'password': password}
     user_details = execute_sql(select_user_details_query, select_user_details_values, True)
-    if not user_details:
-        return "Incorrect login details provided."
-    return user_details
+    return user_details if user_details else "Incorrect login details provided."
 
 
-def display_fridge_contents():
+def display_fridge_contents() -> list[tuple]:
     select_items_query = """
         SELECT 
         itemName, DATE_FORMAT(expiry, "%d %M %Y"), stock, 
@@ -79,7 +77,7 @@ def check_stock(item_name, expiry):
     stock = execute_sql(check_stock_query, check_stock_values, True)
     if not stock:
         print("Item does not exist in DB.")
-        return 1
+        return 1  # <-- Why 1 and not 0?
     return int(stock[0][0])
 
 

@@ -79,7 +79,10 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
 def login_account(username: str, password: str):
     clear_root()
     account = account_handling.Account(username, password)
-    account_handling.login(account)
+    user_details: tuple[str, str, str] = account_handling.login(account)
+    account.name = user_details[0]
+    account.role = user_details[1]
+    account.restaurant = user_details[2]
     fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
 
 
@@ -171,7 +174,7 @@ def fridge_contents(user: account_handling.Account):
         table.column(column, minwidth=0, width=100)
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
 
-    all_items: list[tuple()] = display_fridge_contents()
+    all_items: list[tuple] = display_fridge_contents()
     for list_item in all_items:
         table.insert(parent='', index='end', iid=x, text=x, values=[''.join(tuple_item) for tuple_item in list_item])
 
