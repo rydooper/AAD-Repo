@@ -99,21 +99,21 @@ def delete_record(item_name, expiry):
 
 def connect_db():
     try:
-        fridge_db = mysql.connector.connect(user="fridgeUser",
-                                            password="fridgeUser",
-                                            host="mysql-azure-fridge-dr.mysql.database.azure.com",
-                                            port=3306,
-                                            database="fridge_db",
-                                            ssl_ca="DigiCertGlobalRootCA.crt.pem",
-                                            )
-
         # fridge_db = mysql.connector.connect(user="fridgeUser",
         #                                     password="fridgeUser",
-        #                                     host="localhost",
+        #                                     host="mysql-azure-fridge-dr.mysql.database.azure.com",
         #                                     port=3306,
-        #                                     database = "fridge_db",
-        #                                     auth_plugin='mysql_native_password'
+        #                                     database="fridge_db",
+        #                                     ssl_ca="DigiCertGlobalRootCA.crt.pem",
         #                                     )
+
+        fridge_db = mysql.connector.connect(user="fridgeUser",
+                                            password="fridgeUser",
+                                            host="localhost",
+                                            port=3306,
+                                            database="fridge_db",
+                                            auth_plugin='mysql_native_password'
+                                            )
         return fridge_db
     except mysql.connector.Error as err:
         print(err)

@@ -280,4 +280,4 @@ def main_screen():
 if __name__ == "__main__":
     main_screen()
     root.mainloop()
-    admin_db.create_db()
+    admin_db.create_items()
