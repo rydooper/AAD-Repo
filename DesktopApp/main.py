@@ -6,6 +6,7 @@ from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
 from random import sample  # Used for test data
+import fridge_db as db
 from threading import Thread
 
 bg_col: str = "grey"
@@ -280,3 +281,4 @@ def main_screen():
 if __name__ == "__main__":
     main_screen()
     root.mainloop()
+    db.connect_db()
