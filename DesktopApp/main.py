@@ -5,7 +5,7 @@ from tkinter import messagebox
 from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
-import admin_db as admin_db
+import fridge_db as db
 
 bg_col: str = "grey"
 fg_col: str = "white"
@@ -174,7 +174,7 @@ def fridge_contents(user: account_handling.Account):
         table.column(column, minwidth=0, width=100)
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
 
-    all_items: list[tuple] = display_fridge_contents()
+    all_items: list[tuple] = db.display_fridge_contents()
     for list_item in all_items:
         table.insert(parent='', index='end', iid=x, text=x, values=[''.join(tuple_item) for tuple_item in list_item])
 
@@ -285,4 +285,3 @@ def main_screen():
 if __name__ == "__main__":
     main_screen()
     root.mainloop()
-    admin_db.create_items()

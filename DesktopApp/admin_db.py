@@ -10,9 +10,8 @@ def connect():
         # fridge_db = mysql.connector.connect(user="fridgeAdmin",
         #                                     password="MontyFr1dge",
         #                                     host="mysql-azure-fridge-dr.mysql.database.azure.com",
-        #                                     port=3306,
-        #                                     ssl_ca="DigiCertGlobalRootCA.crt.pem",
-        #                                     ssl_disabled=False)
+        #                                     port=3306
+        #                                     )
 
         fridge_db = mysql.connector.connect(user="fridgeUser",
                                             password="fridgeUser",
@@ -83,9 +82,8 @@ def connect_db():
         #                                     password="MontyFr1dge",
         #                                     host="mysql-azure-fridge-dr.mysql.database.azure.com",
         #                                     port=3306,
-        #                                     database="fridge_db",
-        #                                     ssl_ca="DigiCertGlobalRootCA.crt.pem",
-        #                                     ssl_disabled=False)
+        #                                     database="fridge_db"
+        #                                     )
 
         fridge_db = mysql.connector.connect(user="fridgeUser",
                                             password="fridgeUser",
