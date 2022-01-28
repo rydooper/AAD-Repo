@@ -1,6 +1,13 @@
 import mysql.connector
 
 
+# For querying the database, use the first 5 functions below. The parameters should be strings, for 'expiry' the format
+# of the string must be "YYYY-MM-DD". By default, the functions will return a string to indicate a successful query or
+# an unsuccessful query. If the query is a SELECT where you're expecting the database to return a row or many rows, then
+# the function will return a list of tuples with each tuple containing data from one record.
+
+# For example login will return a list containing one tuple, made up of name, role and restaurant.
+# display_fridge_contents will return a list of tuples with each tuple containing data for one type of item in the db.
 ########################################################################################################################
 # Database function to be called from main program.
 ########################################################################################################################

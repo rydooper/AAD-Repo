@@ -22,11 +22,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a2ddf83-6db9-4e27-a7a0-fd6d96b2419b" name="Default Changelist" comment="Added code for local db_connection in *db.py files. Code will only run on a computer with MYSQL server running.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DesktopApp/admin_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/DesktopApp/admin_db.py" afterDir="false" />
+    <list default="true" id="4a2ddf83-6db9-4e27-a7a0-fd6d96b2419b" name="Default Changelist" comment="Has to remove SSL authentication for db connection because I'm having issues with it.">
       <change beforePath="$PROJECT_DIR$/DesktopApp/fridge_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/DesktopApp/fridge_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DesktopApp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/DesktopApp/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +116,14 @@
       <option name="presentableId" value="Default" />
       <updated>1633979960729</updated>
     </task>
+    <task id="LOCAL-00001" summary="Has to remove SSL authentication for db connection because I'm having issues with it.">
+      <created>1643377072925</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1643377072925</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -131,5 +136,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Has to remove SSL authentication for db connection because I'm having issues with it." />
+    <option name="LAST_COMMIT_MESSAGE" value="Has to remove SSL authentication for db connection because I'm having issues with it." />
   </component>
 </project>
