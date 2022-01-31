@@ -22,7 +22,7 @@ def signup(username, password, name, role, restaurant):
     return execute_sql(insert_user_query, insert_user_values)
 
 
-def login(username, password) -> tuple:
+def login(username, password) -> list[tuple[str, str, str]]:
     select_user_details_query = """
         SELECT name, role, restaurant FROM users
         WHERE username = %(username)s
@@ -74,7 +74,7 @@ def remove_items(item_name, expiry, quantity):
 # Auxiliary functions for remove_items
 ########################################################################################################################
 
-def check_stock(item_name, expiry):
+def check_stock(item_name, expiry) -> int:
     check_stock_query = """
     SELECT stock FROM items
     WHERE itemName = %(item_name)s

@@ -82,11 +82,11 @@ def type_account(account: Account) -> Account:
     return user
 
 
-def login(account: Account):
+def login() -> tuple[str, str, str]:
     # Search Database for account with these details
     return fridge_db.login(username, password)
 
 
 def signup(account: Account):
     # Write these details to database
-    fridge_db.signup(Account.username, Account.password, Account.name, Account.role, Account.restaurant)
+    fridge_db.signup(account.username, account.password, account.name, account.role, account.restaurant)

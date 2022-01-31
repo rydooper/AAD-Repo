@@ -79,7 +79,7 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
 def login_account(username: str, password: str):
     clear_root()
     account = account_handling.Account(username, password)
-    user_details: tuple[str, str, str] = account_handling.login(account)
+    user_details: tuple[str, str, str] = account_handling.login()
     account.name = user_details[0]
     account.role = user_details[1]
     account.restaurant = user_details[2]
