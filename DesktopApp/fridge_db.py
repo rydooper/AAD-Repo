@@ -51,19 +51,19 @@ def add_items(item_name, expiry, quantity, weight_per_item, allergy_info, recycl
         ON DUPLICATE KEY UPDATE stock = stock + %(quantity)s
     """
     insert_items_values = {'item_name': item_name, 'expiry': expiry, 'quantity': quantity,
-                           'weight_per_item': weight_per_item, 'allergy_info' : allergy_info,
-                           'recycling_info' : recycling_info }
+                           'weight_per_item': weight_per_item, 'allergy_info': allergy_info,
+                           'recycling_info': recycling_info}
     return execute_sql(insert_items_query, insert_items_values)
 
 
 def remove_items(item_name, expiry, quantity):
     remove_items_query = """
     UPDATE items 
-    SET stock = stock - %(quantity)s
+    SET stock = stock - %(quantity)
     WHERE itemName = %(item_name)s
     AND expiry = %(expiry)s
     """
-    remove_items_values = {'item_name' : item_name, 'expiry' : expiry, 'quantity' : quantity}
+    remove_items_values = {'item_name': item_name, 'expiry': expiry, 'quantity': quantity}
     message = execute_sql(remove_items_query, remove_items_values)
     if check_stock(item_name, expiry) <= 0:
         delete_record(item_name, expiry)
@@ -80,7 +80,7 @@ def check_stock(item_name, expiry) -> int:
     WHERE itemName = %(item_name)s
     AND expiry = %(expiry)s
     """
-    check_stock_values = {'item_name' : item_name, 'expiry' : expiry}
+    check_stock_values = {'item_name': item_name, 'expiry': expiry}
     stock = execute_sql(check_stock_query, check_stock_values, True)
     if not stock:
         print("Item does not exist in DB.")
@@ -94,7 +94,7 @@ def delete_record(item_name, expiry):
     WHERE itemName = %(item_name)s
     AND expiry = %(expiry)s
     """
-    delete_record_values = {'item_name' : item_name, 'expiry' : expiry}
+    delete_record_values = {'item_name': item_name, 'expiry': expiry}
     return execute_sql(delete_record_query, delete_record_values)
 
 

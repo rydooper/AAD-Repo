@@ -80,13 +80,3 @@ def type_account(account: Account) -> Account:
         raise RoleError
 
     return user
-
-
-def login() -> tuple[str, str, str]:
-    # Search Database for account with these details
-    return fridge_db.login(username, password)
-
-
-def signup(account: Account):
-    # Write these details to database
-    fridge_db.signup(account.username, account.password, account.name, account.role, account.restaurant)

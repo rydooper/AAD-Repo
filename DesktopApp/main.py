@@ -5,7 +5,7 @@ from tkinter import messagebox
 from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
-import fridge_db as db
+from fridge_db import display_fridge_contents
 
 bg_col: str = "grey"
 fg_col: str = "white"
@@ -72,14 +72,15 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
         return
     clear_root()
     account = account_handling.Account(username, password, name, role, restaurant)
-    account_handling.signup(account)
+    fridge_db.signup(account.username, account.password, account.name, account.role, account.restaurant)
     fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
 
 
 def login_account(username: str, password: str):
     clear_root()
     account = account_handling.Account(username, password)
-    user_details: tuple[str, str, str] = account_handling.login()
+    user_details: tuple[str, str, str] = fridge_db.login(username, password)
+
     account.name = user_details[0]
     account.role = user_details[1]
     account.restaurant = user_details[2]
@@ -174,8 +175,8 @@ def fridge_contents(user: account_handling.Account):
         table.column(column, minwidth=0, width=100)
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
 
-    all_items: list[tuple] = db.display_fridge_contents()
-    for list_item in all_items:
+    all_items: list[tuple] = display_fridge_contents()
+    for x, list_item in enumerate(all_items):
         table.insert(parent='', index='end', iid=x, text=x, values=[''.join(tuple_item) for tuple_item in list_item])
 
     scroll_bar_y = tk.Scrollbar(root, command=table.yview)
@@ -208,9 +209,10 @@ def login():
                                  login_account(username_entry.get(), password_entry.get()))
     login_submission.place(relx=0.20, rely=0.65, relwidth=0.28, relheight=0.1)
 
-    help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
-                            bg=button_col, command=lambda: clear_root() or help_func())
-    help_button.place(relx=0.52, rely=0.65, relwidth=0.28, relheight=0.1)
+    # Removed this while we decide how we're implementing help screens. 1 for the whole system, or one per page
+    # help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
+    #                         bg=button_col, command=lambda: clear_root() or help_func())
+    # help_button.place(relx=0.52, rely=0.65, relwidth=0.28, relheight=0.1)
 
 
 def signup():

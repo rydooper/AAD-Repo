@@ -133,3 +133,7 @@ dmypy.json
 .vscode
 /vscode
 .idea/workspace.xml
+*.xml
+*.xml
+DesktopApp/.idea/workspace.xml
+DesktopApp/.idea/workspace.xml
