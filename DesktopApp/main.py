@@ -5,7 +5,7 @@ from tkinter import messagebox
 from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
-from fridge_db import display_fridge_contents
+from fridge_db import display_fridge_contents, login, signup
 
 bg_col: str = "grey"
 fg_col: str = "white"
@@ -58,28 +58,24 @@ def get_role(roles: list[bool]) -> str:
         messagebox.showinfo(message="ERROR: One and only one role may be selected at once")
         return "Role Invalid"
 
-    if roles[0]:
-        return "Head Chef"
-    elif roles[1]:
-        return "Chef"
-    else:
-        return "Delivery Driver"
+    role_vals = ("Head Chef", "Chef", "Delivery Driver")
+    return role_vals[roles.index(True)]
 
 
 def create_account(username: str, password: str, name: str, restaurant: str, roles: list):
-    role = get_role(roles)
+    role: str = get_role(roles)
     if role == "Role Invalid":
         return
     clear_root()
     account = account_handling.Account(username, password, name, role, restaurant)
-    fridge_db.signup(account.username, account.password, account.name, account.role, account.restaurant)
+    signup(account.username, account.password, account.name, account.role, account.restaurant)
     fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
 
 
 def login_account(username: str, password: str):
     clear_root()
     account = account_handling.Account(username, password)
-    user_details: tuple[str, str, str] = fridge_db.login(username, password)
+    user_details: tuple[str, str, str] = login(username, password)
 
     account.name = user_details[0]
     account.role = user_details[1]
@@ -186,7 +182,7 @@ def fridge_contents(user: account_handling.Account):
     scroll_bar_x.place(relx=0.1, rely=0.95, relwidth=0.8)
 
 
-def login():
+def login_screen():
     login_title = tk.Label(root, text="MontyFridges: login", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
     login_title.place(relx=0.50, rely=0.05, anchor=tk.CENTER)
     underline(login_title)
@@ -215,7 +211,7 @@ def login():
     # help_button.place(relx=0.52, rely=0.65, relwidth=0.28, relheight=0.1)
 
 
-def signup():
+def signup_screen():
     signup_title = tk.Label(root, text="MontyFridges: signup", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
     signup_title.place(relx=0.5, rely=0.05, anchor=tk.CENTER)
     underline(signup_title)
@@ -268,11 +264,11 @@ def main_screen():
     underline(welcoming)
 
     login_button = tk.Button(root, text="login", font=("arial", 10, "bold"),
-                             bg=button_col, command=lambda: clear_root() or login())
+                             bg=button_col, command=lambda: clear_root() or login_screen())
     login_button.place(relx=0.25, rely=0.35, relwidth=0.2, relheight=0.1)
 
     signup_button = tk.Button(root, text="signup", font=("arial", 10, "bold"),
-                              bg=button_col, command=lambda: clear_root() or signup())
+                              bg=button_col, command=lambda: clear_root() or signup_screen())
     signup_button.place(relx=0.55, rely=0.35, relwidth=0.2, relheight=0.1)
 
     colors = tk.Button(root, text="Background Color", font=("arial", 10, "bold"),
