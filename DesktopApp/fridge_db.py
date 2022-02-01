@@ -36,7 +36,7 @@ def login(username, password) -> list[tuple[str, str, str]]:
 def display_fridge_contents() -> list[tuple]:
     select_items_query = """
         SELECT 
-        itemName, DATE_FORMAT(expiry, "%d %M %Y"), stock, 
+        itemName, stock, DATE_FORMAT(expiry, "%d %M %Y"),
         weightPerItem, allergyInfo, recyclingInfo 
         FROM items
         ORDER BY expiry ASC, itemName ASC

@@ -172,8 +172,8 @@ def fridge_contents(user: account_handling.Account):
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
 
     all_items: list[tuple] = display_fridge_contents()
-    for x, list_item in enumerate(all_items):
-        table.insert(parent='', index='end', iid=x, text=x, values=[''.join(tuple_item) for tuple_item in list_item])
+    for x, tuple in enumerate(all_items):
+        table.insert(parent='', index='end', iid=x, text=x, values=[''.join(str(tuple_item)) for tuple_item in tuple])
 
     scroll_bar_y = tk.Scrollbar(root, command=table.yview)
     scroll_bar_y.place(relx=0.9, rely=0.15, relheight=0.8)
