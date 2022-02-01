@@ -76,11 +76,14 @@ def login_account(username: str, password: str):
     clear_root()
     account = account_handling.Account(username, password)
     user_details: tuple[str, str, str] = login(username, password)
-
-    account.name = user_details[0]
-    account.role = user_details[1]
-    account.restaurant = user_details[2]
-    fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
+    if user_details == "Incorrect login details provided.":
+        clear_root()
+        main_screen()
+    else:
+        account.name = user_details[0]
+        account.role = user_details[1]
+        account.restaurant = user_details[2]
+        fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
 
 
 def help_func(user_account: account_handling.Account):
