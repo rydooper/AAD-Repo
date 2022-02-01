@@ -68,6 +68,7 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
         return
     clear_root()
     account = account_handling.Account(username, password, name, role, restaurant)
+    print(f"{account.username} {account.password}, {account.name}, {account.role}, {account.restaurant}")
     signup(account.username, account.password, account.name, account.role, account.restaurant)
     fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
 
@@ -75,7 +76,8 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
 def login_account(username: str, password: str):
     clear_root()
     account = account_handling.Account(username, password)
-    user_details: tuple[str, str, str] = login(username, password)
+    print(account.username, account.password)
+    user_details: tuple[str, str, str] = login(account.username, account.password)[0]
     if user_details == "Incorrect login details provided.":
         clear_root()
         main_screen()
