@@ -7,18 +7,18 @@ import mysql.connector
 
 def connect():
     try:
-        # fridge_db = mysql.connector.connect(user="fridgeAdmin",
-        #                                     password="MontyFr1dge",
-        #                                     host="mysql-azure-fridge-dr.mysql.database.azure.com",
-        #                                     port=3306
-        #                                     )
-
-        fridge_db = mysql.connector.connect(user="fridgeUser",
-                                            password="fridgeUser",
-                                            host="localhost",
-                                            port=3306,
-                                            auth_plugin='mysql_native_password'
+        fridge_db = mysql.connector.connect(user="fridgeAdmin",
+                                            password="MontyFr1dge",
+                                            host="mysql-azure-fridge-dr.mysql.database.azure.com",
+                                            port=3306
                                             )
+
+        # fridge_db = mysql.connector.connect(user="fridgeUser",
+        #                                     password="fridgeUser",
+        #                                     host="localhost",
+        #                                     port=3306,
+        #                                     auth_plugin='mysql_native_password'
+        #                                     )
         return fridge_db
     except mysql.connector.Error as err:
         print(err)
@@ -46,7 +46,7 @@ def create_db():
 def create_users():
     create_users_query = """
         CREATE TABLE IF NOT EXISTS users (
-        username VARCHAR(30),
+        username VARCHAR(128),
         password VARCHAR(128),
         name VARCHAR(30),
         role VARCHAR(15), 
@@ -78,20 +78,20 @@ def create_items():
 
 def connect_db():
     try:
-        # fridge_db = mysql.connector.connect(user="fridgeAdmin",
-        #                                     password="MontyFr1dge",
-        #                                     host="mysql-azure-fridge-dr.mysql.database.azure.com",
-        #                                     port=3306,
-        #                                     database="fridge_db"
-        #                                     )
-
-        fridge_db = mysql.connector.connect(user="fridgeUser",
-                                            password="fridgeUser",
-                                            host="localhost",
+        fridge_db = mysql.connector.connect(user="fridgeAdmin",
+                                            password="MontyFr1dge",
+                                            host="mysql-azure-fridge-dr.mysql.database.azure.com",
                                             port=3306,
-                                            database="fridge_db",
-                                            auth_plugin='mysql_native_password'
+                                            database="fridge_db"
                                             )
+
+        # fridge_db = mysql.connector.connect(user="fridgeUser",
+        #                                     password="fridgeUser",
+        #                                     host="localhost",
+        #                                     port=3306,
+        #                                     database="fridge_db",
+        #                                     auth_plugin='mysql_native_password'
+        #                                     )
         return fridge_db
     except mysql.connector.Error as err:
         print(err)

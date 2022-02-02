@@ -22,6 +22,25 @@ def signup(username, password, name, role, restaurant):
     return execute_sql(insert_user_query, insert_user_values)
 
 
+def update_user(username):
+    update_user_query = """
+    UPDATE users
+    SET role = %(role)
+    WHERE username = %(username)s
+    """
+    update_user_values = {'username' : username}
+    return execute_sql(update_user_query, update_user_values)
+
+
+def remove_user(username):
+    remove_user_query = """
+    DELETE FROM users
+    WHERE username = %(username)s
+    """
+    remove_user_values = {'username': username}
+    return execute_sql(remove_user_query, remove_user_values)
+
+
 def login(username, password) -> list[tuple[str, str, str]]:
     select_user_details_query = """
         SELECT name, role, restaurant FROM users
@@ -39,9 +58,43 @@ def display_fridge_contents() -> list[tuple]:
         itemName, stock, DATE_FORMAT(expiry, "%d %M %Y"),
         weightPerItem, allergyInfo, recyclingInfo 
         FROM items
-        ORDER BY expiry ASC, itemName ASC
+        ORDER BY itemName ASC, expiry ASC
     """
     return execute_sql(select_items_query, (), True)
+
+
+def display_item_alerts() -> list[tuple]:
+    select_item_alerts_query = """
+        SELECT 
+        itemName, stock, DATE_FORMAT(expiry, "%d %M %Y"),
+        weightPerItem, allergyInfo, recyclingInfo 
+        FROM items
+        WHERE (SELECT DATEDIFF(expiry, current_date()) AS DateDiff) < 4
+        ORDER BY itemName ASC, expiry ASC
+    """
+    return execute_sql(select_item_alerts_query, (), True)
+
+
+def generate_health_report() -> list[tuple]:
+    generate_health_report_query = """
+            SELECT 
+            itemName, stock, DATE_FORMAT(expiry, "%d %M %Y"),
+            weightPerItem, allergyInfo, recyclingInfo 
+            FROM items
+            WHERE (SELECT DATEDIFF(expiry, current_date()) AS DateDiff) <= 0
+            ORDER BY itemName ASC, expiry ASC
+        """
+    return execute_sql(generate_health_report_query, (), True)
+
+
+def display_users() -> list[tuple]:
+    display_users_query = """
+    SELECT
+    name, role, restaurant
+    FROM users
+    ORDER BY name ASC
+    """
+    return execute_sql(display_users_query, (), True)
 
 
 def add_items(item_name, expiry, quantity, weight_per_item, allergy_info, recycling_info):
@@ -84,7 +137,7 @@ def check_stock(item_name, expiry) -> int:
     stock = execute_sql(check_stock_query, check_stock_values, True)
     if not stock:
         print("Item does not exist in DB.")
-        return 1  # <-- Why 1 and not 0?
+        return 1
     return int(stock[0][0])
 
 
