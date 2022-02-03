@@ -178,8 +178,31 @@ def change_staff_role(user: account_handling.Account):
 
     all_items: list[tuple] = display_users()
     for x, user_details in enumerate(all_items):
-        table.insert(parent='', index='end', iid=x, text=x, values=[''.join(str(tuple_item))
-                                                                    for tuple_item in user_details[1:]])
+        table.insert(parent='', index='end', iid=x,
+                     text=x, values=[''.join(str(tuple_item)) for tuple_item in user_details[1:]])
+
+
+def item_alert():
+    back_button = create_back_button()
+    back_button.config(command=lambda: clear_root() or main_screen())
+
+    table = ttk.Treeview(root, height="5")
+    style = ttk.Style(table)
+    style.configure('TreeView', rowheight=30)
+    style.theme_use('clam')
+    table['columns'] = [f'Col{x}' for x in range(1, 7)]
+    headings = ("Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling")
+    table['show'] = 'headings'
+
+    for column, heading in zip(table['columns'], headings):
+        table.heading(column, text=heading)
+        table.column(column, minwidth=0, width=100)
+    table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
+
+    nearly_out_of_date: list[tuple] = display_item_alerts()
+    for x, user_details in enumerate(nearly_out_of_date):
+        table.insert(parent='', index='end', iid=x,
+                     text=x, values=[''.join(str(tuple_item)) for tuple_item in user_details[1:]])
 
 
 def fridge_contents(user: account_handling.Account):
@@ -193,7 +216,7 @@ def fridge_contents(user: account_handling.Account):
 
     if user.role == "HeadChef":
         item_alert_button = tk.Button(root, text="Item alert", font=("arial", 10, "bold"),
-                                      bg=button_col, command=lambda: clear_root() or profile_screen(user))
+                                      bg=button_col, command=lambda: clear_root() or item_alert(user))
         item_alert_button.place(relx=0.175, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
 
     home_button = tk.Button(root, text="Home", font=("arial", 10, "bold"),
