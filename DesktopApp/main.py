@@ -140,14 +140,61 @@ def get_safety_info(user: account_handling.Account):
     fridge_contents(user)
 
 
+def change_staff_role(user: account_handling.Account):
+    page_title = tk.Label(root, text="MontyFridges: Staff Management", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
+    page_title.place(relx=0.385, rely=0.05, anchor=tk.CENTER)
+    underline(page_title)
+
+    profile_button = tk.Button(root, text="Profile", font=("arial", 10, "bold"),
+                               bg=button_col, command=lambda: clear_root() or change_staff_role(user))
+    profile_button.place(relx=0.175, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+
+    back_button = create_back_button()
+    back_button.place(relx=0.90, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+    back_button.config(command=lambda: clear_root() or fridge_contents(user_account))
+
+    help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
+                            bg=button_col, command=lambda: clear_root() or help_func(user))
+    help_button.place(relx=0.75, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
+
+    username_label = tk.Label(root, text="Enter the username of the person you want to change:",
+                              font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
+    username_label.place(relx=0.05, rely=0.35)
+    username_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13), show="*")
+    username_entry.place(relx=0.20, rely=0.35, relwidth=0.2, relheight=0.05)
+
+    table = ttk.Treeview(root, height="5")
+    style = ttk.Style(table)
+    style.configure('TreeView', rowheight=30)
+    style.theme_use('clam')
+    table['columns'] = [f'Col{x}' for x in range(1, 7)]
+    headings = ("Name", "Role", "Restaurant")
+    table['show'] = 'headings'
+
+    for column, heading in zip(table['columns'], headings):
+        table.heading(column, text=heading)
+        table.column(column, minwidth=0, width=100)
+    table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
+
+    all_items: list[tuple] = display_users()
+    for x, user_details in enumerate(all_items):
+        table.insert(parent='', index='end', iid=x, text=x, values=[''.join(str(tuple_item))
+                                                                    for tuple_item in user_details[1:]])
+
+
 def fridge_contents(user: account_handling.Account):
     page_title = tk.Label(root, text="MontyFridges: Fridge Contents", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
     page_title.place(relx=0.385, rely=0.05, anchor=tk.CENTER)
     underline(page_title)
 
     profile_button = tk.Button(root, text="Profile", font=("arial", 10, "bold"),
-                               bg=button_col, command=lambda: clear_root() or profile_screen(user))
+                               bg=button_col, command=lambda: clear_root() or change_staff_role(user))
     profile_button.place(relx=0.175, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+
+    if user.role == "HeadChef":
+        item_alert_button = tk.Button(root, text="Item alert", font=("arial", 10, "bold"),
+                                      bg=button_col, command=lambda: clear_root() or profile_screen(user))
+        item_alert_button.place(relx=0.175, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
 
     home_button = tk.Button(root, text="Home", font=("arial", 10, "bold"),
                             bg=button_col, command=lambda: clear_root() or main_screen())

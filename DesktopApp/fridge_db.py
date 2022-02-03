@@ -90,7 +90,7 @@ def generate_health_report() -> list[tuple]:
 def display_users() -> list[tuple]:
     display_users_query = """
     SELECT
-    name, role, restaurant
+    username, name, role, restaurant
     FROM users
     ORDER BY name ASC
     """
