@@ -1,4 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
     <p> Login page </p>
+    <form action="" method="post">
+        <label for="username"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" value="{{request.form.username}}" required>
+
+        <label for="password"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" value="{{request.form.username}}" required>
+        <button type="submit">Login</button>
+    </form>
+    {% if error %}
+        <p><strong>ERROR: </strong> {{ error }} </p>
+    {% endif %}
+
+
 {% endblock %}
