@@ -5,7 +5,8 @@ from tkinter import messagebox
 from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
-from fridge_db import display_fridge_contents, login, signup, display_item_alerts, generate_health_report, display_users
+from fridge_db import display_fridge_contents, login, signup,\
+    display_item_alerts, generate_health_report, display_users
 from admin_db import create_users
 
 bg_col: str = "grey"
@@ -76,15 +77,14 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
 def login_account(username: str, password: str):
     clear_root()
     account = account_handling.Account(username, password)
-    print(account.username, account.password)
-    user_details: tuple[str, str, str] = login(account.username, account.password)[0]
+    user_details = login(account.username, account.password)
     if user_details == "Incorrect login details provided.":
         clear_root()
         main_screen()
     else:
-        account.name = user_details[0]
-        account.role = user_details[1]
-        account.restaurant = user_details[2]
+        account.name = user_details[0][0]
+        account.role = user_details[0][1]
+        account.restaurant = user_details[0][2]
         fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
 
 
@@ -161,9 +161,9 @@ def change_staff_role(user: account_handling.Account):
     user_entry.place(relx=0.10, rely=0.09, relwidth=0.605, relheight=0.05)
 
 
-def set_fridge_table(table):
+def set_fridge_table(table) -> tuple:
     table['columns'] = [f'Col{x}' for x in range(1, 7)]
-    headings = ("Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling")
+    headings: tuple = ("Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling")
     return headings
 
 
@@ -173,9 +173,9 @@ def insert_fridge_table(function, table):
                      text=x, values=[''.join(str(tuple_item)) for tuple_item in user_details[0:]])
 
 
-def set_user_table(table):
+def set_user_table(table) -> tuple:
     table['columns'] = [f'Col{x}' for x in range(1, 4)]
-    headings = ("Name", "Role", "Restaurant")
+    headings: tuple = ("Name", "Role", "Restaurant")
     return headings
 
 
@@ -185,7 +185,7 @@ def insert_user_table(function, table):
                      text=x, values=[''.join(str(tuple_item)) for tuple_item in user_details[1:]])
 
 
-def create_table(function, fridge_table):
+def create_table(function, fridge_table) -> ttk.Treeview:
     table = ttk.Treeview(root, height="5")
     style = ttk.Style(table)
     style.configure('TreeView', rowheight=30)
