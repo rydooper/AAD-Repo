@@ -79,36 +79,14 @@
       <workItem from="1643668621291" duration="772000" />
       <workItem from="1643669555505" duration="121000" />
       <workItem from="1643724433874" duration="3679000" />
+      <workItem from="1643984595711" duration="3737000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1643888095186">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1643888095186" />
-    <state x="548" y="167" key="FileChooserDialogImpl" timestamp="1643888076703">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="548" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1643888076703" />
-    <state width="1515" height="210" key="GridCell.Tab.0.bottom" timestamp="1643891596229">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1643891596229" />
-    <state width="1515" height="210" key="GridCell.Tab.0.center" timestamp="1643891596227">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1643891596227" />
-    <state width="1515" height="210" key="GridCell.Tab.0.left" timestamp="1643891596224">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1643891596224" />
-    <state width="1515" height="210" key="GridCell.Tab.0.right" timestamp="1643891596228">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1643891596228" />
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/example_test_py$main.coverage" NAME="main Coverage Results" MODIFIED="1643988335921" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

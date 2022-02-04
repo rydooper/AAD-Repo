@@ -5,7 +5,7 @@ from tkinter import messagebox
 from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
-from fridge_db import display_fridge_contents, login, signup, display_item_alerts, generate_health_report
+from fridge_db import display_fridge_contents, login, signup, display_item_alerts, generate_health_report, display_users
 from admin_db import create_users
 
 bg_col: str = "grey"
@@ -69,7 +69,6 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
         return
     clear_root()
     account = account_handling.Account(username, password, name, role, restaurant)
-    print(f"{account.username} {account.password}, {account.name}, {account.role}, {account.restaurant}")
     signup(account.username, account.password, account.name, account.role, account.restaurant)
     fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
 
@@ -151,47 +150,48 @@ def change_staff_role(user: account_handling.Account):
 
     back_button = create_back_button()
     back_button.place(relx=0.90, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
-    back_button.config(command=lambda: clear_root() or fridge_contents(user_account))
+    back_button.config(command=lambda: clear_root() or fridge_contents(user))
 
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
                             bg=button_col, command=lambda: clear_root() or help_func(user))
     help_button.place(relx=0.75, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
-    username_label = tk.Label(root, text="Enter the username of the person you want to change:",
-                              font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
-    username_label.place(relx=0.05, rely=0.35)
-    username_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13), show="*")
-    username_entry.place(relx=0.20, rely=0.35, relwidth=0.2, relheight=0.05)
-
-    table = ttk.Treeview(root, height="5")
-    style = ttk.Style(table)
-    style.configure('TreeView', rowheight=30)
-    style.theme_use('clam')
-    table['columns'] = [f'Col{x}' for x in range(1, 7)]
-    headings = ("Name", "Role", "Restaurant")
-    table['show'] = 'headings'
-
-    for column, heading in zip(table['columns'], headings):
-        table.heading(column, text=heading)
-        table.column(column, minwidth=0, width=100)
-    table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
-
-    all_items: list[tuple] = display_users()
-    for x, user_details in enumerate(all_items):
-        table.insert(parent='', index='end', iid=x,
-                     text=x, values=[''.join(str(tuple_item)) for tuple_item in user_details[1:]])
+    create_table(display_users, False)
+    user_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
+    user_entry.place(relx=0.10, rely=0.09, relwidth=0.605, relheight=0.05)
 
 
-def item_alert():
-    back_button = create_back_button()
-    back_button.config(command=lambda: clear_root() or main_screen())
-
-    table = ttk.Treeview(root, height="5")
-    style = ttk.Style(table)
-    style.configure('TreeView', rowheight=30)
-    style.theme_use('clam')
+def set_fridge_table(table):
     table['columns'] = [f'Col{x}' for x in range(1, 7)]
     headings = ("Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling")
+    return headings
+
+
+def insert_fridge_table(function, table):
+    for x, user_details in enumerate(function()):
+        table.insert(parent='', index='end', iid=x,
+                     text=x, values=[''.join(str(tuple_item)) for tuple_item in user_details[0:]])
+
+
+def set_user_table(table):
+    table['columns'] = [f'Col{x}' for x in range(1, 4)]
+    headings = ("Name", "Role", "Restaurant")
+    return headings
+
+
+def insert_user_table(function, table):
+    for x, user_details in enumerate(function()):
+        table.insert(parent='', index='end', iid=x,
+                     text=x, values=[''.join(str(tuple_item)) for tuple_item in user_details[1:]])
+
+
+def create_table(function, fridge_table):
+    table = ttk.Treeview(root, height="5")
+    style = ttk.Style(table)
+    style.configure('TreeView', rowheight=30)
+    style.theme_use('clam')
+
+    headings = set_fridge_table(table) if fridge_table else set_user_table(table)
     table['show'] = 'headings'
 
     for column, heading in zip(table['columns'], headings):
@@ -199,10 +199,19 @@ def item_alert():
         table.column(column, minwidth=0, width=100)
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
 
-    nearly_out_of_date: list[tuple] = display_item_alerts()
-    for x, user_details in enumerate(nearly_out_of_date):
-        table.insert(parent='', index='end', iid=x,
-                     text=x, values=[''.join(str(tuple_item)) for tuple_item in user_details[1:]])
+    insert_fridge_table(function, table) if fridge_table else insert_user_table(function, table)
+    return table
+
+
+def item_alert(user: account_handling.Account):
+    page_title = tk.Label(root, text="MontyFridges: Almost expired items",
+                          font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
+    page_title.place(relx=0.385, rely=0.05, anchor=tk.CENTER)
+    underline(page_title)
+
+    back_button = create_back_button()
+    back_button.config(command=lambda: clear_root() or fridge_contents(user))
+    create_table(display_item_alerts, True)
 
 
 def fridge_contents(user: account_handling.Account):
@@ -212,12 +221,16 @@ def fridge_contents(user: account_handling.Account):
 
     profile_button = tk.Button(root, text="Profile", font=("arial", 10, "bold"),
                                bg=button_col, command=lambda: clear_root() or change_staff_role(user))
-    profile_button.place(relx=0.175, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+    profile_button.place(relx=0.136, rely=0.05, relwidth=0.0725, relheight=0.05, anchor=tk.CENTER)
 
-    if user.role == "HeadChef":
+    if user.role == "Head Chef":
         item_alert_button = tk.Button(root, text="Item alert", font=("arial", 10, "bold"),
                                       bg=button_col, command=lambda: clear_root() or item_alert(user))
-        item_alert_button.place(relx=0.175, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+        item_alert_button.place(relx=0.23, rely=0.05, relwidth=0.0725, relheight=0.05, anchor=tk.CENTER)
+
+        staff_management_button = tk.Button(root, text="Staff management", font=("arial", 10, "bold"),
+                                            bg=button_col, command=lambda: clear_root() or change_staff_role(user))
+        staff_management_button.place(relx=0.855, rely=0.115, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
     home_button = tk.Button(root, text="Home", font=("arial", 10, "bold"),
                             bg=button_col, command=lambda: clear_root() or main_screen())
@@ -232,24 +245,9 @@ def fridge_contents(user: account_handling.Account):
     safety_report.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
     fridge_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
-    fridge_entry.place(relx=0.10, rely=0.09, relwidth=0.805, relheight=0.05)
+    fridge_entry.place(relx=0.10, rely=0.09, relwidth=0.605, relheight=0.05)
 
-    table = ttk.Treeview(root, height="5")
-    style = ttk.Style(table)
-    style.configure('TreeView', rowheight=30)
-    style.theme_use('clam')
-    table['columns'] = [f'Col{x}' for x in range(1, 7)]
-    headings = ("Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling")
-    table['show'] = 'headings'
-
-    for column, heading in zip(table['columns'], headings):
-        table.heading(column, text=heading)
-        table.column(column, minwidth=0, width=100)
-    table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
-
-    all_items: list[tuple] = display_fridge_contents()
-    for x, tuple in enumerate(all_items):
-        table.insert(parent='', index='end', iid=x, text=x, values=[''.join(str(tuple_item)) for tuple_item in tuple])
+    table = create_table(display_fridge_contents, True)
 
     scroll_bar_y = tk.Scrollbar(root, command=table.yview)
     scroll_bar_y.place(relx=0.9, rely=0.15, relheight=0.8)
