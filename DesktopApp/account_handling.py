@@ -52,8 +52,7 @@ class HeadChef(Chef):
         self.staff_control: bool = True
 
     @staticmethod
-    def manage_permissions(staff_account: Account):
-        new_role = input("Enter role")  # Make GUI for this
+    def manage_permissions(staff_account: Account, new_role):
         staff_account.role = new_role
         new_account = type_account(staff_account)
         # Update role on the database

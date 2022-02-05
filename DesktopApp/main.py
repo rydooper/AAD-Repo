@@ -6,7 +6,7 @@ from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
 from fridge_db import display_fridge_contents, login, signup,\
-    display_item_alerts, generate_health_report, display_users
+    display_item_alerts, generate_health_report, display_users, remove_items
 from admin_db import create_users
 
 bg_col: str = "grey"
@@ -156,7 +156,7 @@ def change_staff_role(user: account_handling.Account):
                             bg=button_col, command=lambda: clear_root() or help_func(user))
     help_button.place(relx=0.75, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
-    create_table(display_users, False)
+    table = create_table(display_users, False)
     user_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
     user_entry.place(relx=0.10, rely=0.09, relwidth=0.605, relheight=0.05)
 
@@ -168,9 +168,9 @@ def set_fridge_table(table) -> tuple:
 
 
 def insert_fridge_table(function, table):
-    for x, user_details in enumerate(function()):
+    for x, food_details in enumerate(function()):
         table.insert(parent='', index='end', iid=x,
-                     text=x, values=[''.join(str(tuple_item)) for tuple_item in user_details[0:]])
+                     text=x, values=[''.join(str(tuple_item)) for tuple_item in food_details[0:]])
 
 
 def set_user_table(table) -> tuple:
@@ -201,6 +201,20 @@ def create_table(function, fridge_table) -> ttk.Treeview:
 
     insert_fridge_table(function, table) if fridge_table else insert_user_table(function, table)
     return table
+
+
+def select_item(tree, event=None):
+    cur_item = tree.focus()
+    row_data: dict = tree.item(cur_item)
+    print(row_data)
+    item_values: list = row_data['values']
+    item_name = item_values[0]
+    quantity = item_values[1]
+    expiry = item_values[2]
+
+    print(f"{item_name!r}, {quantity!r}, {expiry!r}")
+
+    remove_items(item_name, expiry, quantity)
 
 
 def item_alert(user: account_handling.Account):
@@ -248,6 +262,7 @@ def fridge_contents(user: account_handling.Account):
     fridge_entry.place(relx=0.10, rely=0.09, relwidth=0.605, relheight=0.05)
 
     table = create_table(display_fridge_contents, True)
+    table.bind('<ButtonRelease-1>', lambda event: select_item(table, event))
 
     scroll_bar_y = tk.Scrollbar(root, command=table.yview)
     scroll_bar_y.place(relx=0.9, rely=0.15, relheight=0.8)
