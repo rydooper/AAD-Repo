@@ -28,7 +28,7 @@ def update_user(username):
     SET role = %(role)
     WHERE username = %(username)s
     """
-    update_user_values = {'username' : username}
+    update_user_values = {'username': username}
     return execute_sql(update_user_query, update_user_values)
 
 

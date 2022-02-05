@@ -139,13 +139,62 @@ def get_safety_info(user: account_handling.Account):
     fridge_contents(user)
 
 
+def update_role(username, roles: list[str, str, str]):
+    new_role: str = get_role(roles)
+
+
+    # update_user(username, new_role)
+
+    # if successful:
+    #     clear pop up
+    #     clear root
+    #     re-call fridge_contents()
+
+
+def update_role_ui(table, event=None):
+    cur_item = table.focus()
+    row_data: dict = table.item(cur_item)
+    item_values: list = row_data['values']
+    username: str = item_values[0]
+    old_role: str = item_values[1]
+
+    pop_up = tk.Toplevel(root)
+    pop_up.config(bg=bg_col)
+    pop_up.title = "Change Role"
+    pop_up.geometry("600x400")
+
+    page_title = tk.Label(pop_up, text="MontyFridges: Change Role", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
+    page_title.place(relx=0.5, rely=0.05, anchor=tk.CENTER)
+    underline(page_title)
+
+    old_role_label = tk.Label(pop_up, text=f"Old Role: {old_role}", font=("arial", 12, "bold"), fg=fg_col, bg=bg_col)
+    old_role_label.place(relx=0.1, rely=0.2)
+
+    new_role_label = tk.Label(pop_up, text="New Role:", font=("arial", 12, "bold"), fg=fg_col, bg=bg_col)
+    new_role_label.place(relx=0.1, rely=0.3)
+
+    head_chef: bool = tk.BooleanVar()
+    chef: bool = tk.BooleanVar()
+    delivery_driver: bool = tk.BooleanVar()
+
+    tk.Checkbutton(pop_up, text="Head Chef", variable=head_chef).place(relx=0.10, rely=0.45)
+    tk.Checkbutton(pop_up, text="Chef", variable=chef).place(relx=0.10, rely=0.55)
+    tk.Checkbutton(pop_up, text="Delivery Driver", variable=delivery_driver).place(relx=0.10, rely=0.65)
+
+    change_role_button = tk.Button(pop_up, text="Profile", font=("arial", 10, "bold"),
+                                   bg=button_col, command=lambda:
+                                   update_role(username, [head_chef.get(), chef.get(), delivery_driver.get()])
+                                   )
+    change_role_button.place(relx=0.1, rely=0.75, relwidth=0.2, relheight=0.05)
+
+
 def change_staff_role(user: account_handling.Account):
     page_title = tk.Label(root, text="MontyFridges: Staff Management", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
     page_title.place(relx=0.385, rely=0.05, anchor=tk.CENTER)
     underline(page_title)
 
     profile_button = tk.Button(root, text="Profile", font=("arial", 10, "bold"),
-                               bg=button_col, command=lambda: clear_root() or change_staff_role(user))
+                               bg=button_col, command=lambda: clear_root() or profile_screen(user))
     profile_button.place(relx=0.175, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
 
     back_button = create_back_button()
@@ -159,6 +208,8 @@ def change_staff_role(user: account_handling.Account):
     table = create_table(display_users, False)
     user_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
     user_entry.place(relx=0.10, rely=0.09, relwidth=0.605, relheight=0.05)
+
+    table.bind('<ButtonRelease-1>', lambda event: update_role_ui(table, event))
 
 
 def set_fridge_table(table) -> tuple:
@@ -203,9 +254,9 @@ def create_table(function, fridge_table) -> ttk.Treeview:
     return table
 
 
-def select_item(tree, event=None):
-    cur_item = tree.focus()
-    row_data: dict = tree.item(cur_item)
+def select_item(table, event=None):
+    cur_item = table.focus()
+    row_data: dict = table.item(cur_item)
     print(row_data)
     item_values: list = row_data['values']
     item_name = item_values[0]
@@ -234,7 +285,7 @@ def fridge_contents(user: account_handling.Account):
     underline(page_title)
 
     profile_button = tk.Button(root, text="Profile", font=("arial", 10, "bold"),
-                               bg=button_col, command=lambda: clear_root() or change_staff_role(user))
+                               bg=button_col, command=lambda: clear_root() or profile_screen(user))
     profile_button.place(relx=0.136, rely=0.05, relwidth=0.0725, relheight=0.05, anchor=tk.CENTER)
 
     if user.role == "Head Chef":
