@@ -8,6 +8,7 @@ from fridge import Fridge
 from fridge_db import display_fridge_contents, login, signup,\
     display_item_alerts, generate_health_report, display_users, remove_items
 from admin_db import create_users
+from datetime import datetime
 
 bg_col: str = "grey"
 fg_col: str = "white"
@@ -139,7 +140,7 @@ def get_safety_info(user: account_handling.Account):
     fridge_contents(user)
 
 
-def update_role(username, roles: list[str, str, str]):
+def update_role(user: account_handling.Account, username: str, roles: list[str, str, str]):
     new_role: str = get_role(roles)
 
 
@@ -148,10 +149,10 @@ def update_role(username, roles: list[str, str, str]):
     # if successful:
     #     clear pop up
     #     clear root
-    #     re-call fridge_contents()
+    #     re-call change_staff_role()
 
 
-def update_role_ui(table, event=None):
+def update_role_ui(user: account_handling.Account, table, event=None):
     cur_item = table.focus()
     row_data: dict = table.item(cur_item)
     item_values: list = row_data['values']
@@ -181,9 +182,9 @@ def update_role_ui(table, event=None):
     tk.Checkbutton(pop_up, text="Chef", variable=chef).place(relx=0.10, rely=0.55)
     tk.Checkbutton(pop_up, text="Delivery Driver", variable=delivery_driver).place(relx=0.10, rely=0.65)
 
-    change_role_button = tk.Button(pop_up, text="Profile", font=("arial", 10, "bold"),
+    change_role_button = tk.Button(pop_up, text="Commit Change", font=("arial", 10, "bold"),
                                    bg=button_col, command=lambda:
-                                   update_role(username, [head_chef.get(), chef.get(), delivery_driver.get()])
+                                   update_role(user, username, [head_chef.get(), chef.get(), delivery_driver.get()])
                                    )
     change_role_button.place(relx=0.1, rely=0.75, relwidth=0.2, relheight=0.05)
 
@@ -209,7 +210,7 @@ def change_staff_role(user: account_handling.Account):
     user_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
     user_entry.place(relx=0.10, rely=0.09, relwidth=0.605, relheight=0.05)
 
-    table.bind('<ButtonRelease-1>', lambda event: update_role_ui(table, event))
+    table.bind('<ButtonRelease-1>', lambda event: update_role_ui(user, table, event))
 
 
 def set_fridge_table(table) -> tuple:
@@ -257,15 +258,22 @@ def create_table(function, fridge_table) -> ttk.Treeview:
 def select_item(table, event=None):
     cur_item = table.focus()
     row_data: dict = table.item(cur_item)
-    print(row_data)
     item_values: list = row_data['values']
     item_name = item_values[0]
     quantity = item_values[1]
     expiry = item_values[2]
 
-    print(f"{item_name!r}, {quantity!r}, {expiry!r}")
+    date = datetime.strptime(expiry, '%d %B %Y').date()
+    formatted_expiry = date.strftime("%Y-%m-%d")
 
-    remove_items(item_name, expiry, quantity)
+    remove_items(item_name, formatted_expiry, quantity)
+    refresh_fridge_table(table)
+
+
+def refresh_fridge_table(table):
+    for item in table.get_children():
+        table.delete(item)
+    insert_fridge_table(display_fridge_contents, table)
 
 
 def item_alert(user: account_handling.Account):
@@ -313,7 +321,7 @@ def fridge_contents(user: account_handling.Account):
     fridge_entry.place(relx=0.10, rely=0.09, relwidth=0.605, relheight=0.05)
 
     table = create_table(display_fridge_contents, True)
-    table.bind('<ButtonRelease-1>', lambda event: select_item(table, event))
+    table.bind('<Delete>', lambda event: select_item(table, event))
 
     scroll_bar_y = tk.Scrollbar(root, command=table.yview)
     scroll_bar_y.place(relx=0.9, rely=0.15, relheight=0.8)
