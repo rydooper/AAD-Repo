@@ -9,6 +9,7 @@ from fridge_db import display_fridge_contents, login, signup,\
     display_item_alerts, generate_health_report, display_users, remove_items
 from admin_db import create_users
 from datetime import datetime
+from threading import Thread
 
 bg_col: str = "grey"
 fg_col: str = "white"
@@ -266,14 +267,13 @@ def select_item(table, event=None):
     date = datetime.strptime(expiry, '%d %B %Y').date()
     formatted_expiry = date.strftime("%Y-%m-%d")
 
-    remove_items(item_name, formatted_expiry, quantity)
+    Thread(target=remove_items, args=(item_name, formatted_expiry, quantity,), daemon=True).start()
     refresh_fridge_table(table)
 
 
 def refresh_fridge_table(table):
-    for item in table.get_children():
-        table.delete(item)
-    insert_fridge_table(display_fridge_contents, table)
+    cur_item = table.focus()
+    table.delete(cur_item)
 
 
 def item_alert(user: account_handling.Account):
