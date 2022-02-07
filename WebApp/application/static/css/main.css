@@ -1,7 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Open Sans:ital,wght@0,400;0,900;1,700&display=swap");
+:root{
+    --bg-colour: #e4e5ec;
+    --primary-colour: #2677e0;
+    --secondary-colour: #9b1010;
+    --transition: 0.5s;
+}
+
+.login{
+    display: table;
+    width: 100%;
+}
+
+#login{
+    display: table-cell;
+    text-align: center;
+    vertical-align:auto;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--bg-colour);
+}
+
 footer {
     position:absolute;
     bottom:0;
     width:100%;
-    height:60px;   
-    background:rgb(255, 196, 240);
+    background: var(--primary-colour);
+    align-content: center;
+    padding: 1rem 2rem;
+}
+
+footer p{
+    background-color: var(--primary-colour);
+}
+
+nav {
+    position: sticky;
+    top: 0;
+    left: 0;
+    display: flex;
+    background-color: var(--bg-colour);
+    padding: 2rem 3rem;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+    display: flex;
+    gap: 1rem;
+    list-style-type: none;
+}
+
+nav a {
+    color: var(--primary-colour);
+    transition: 0.5s;
+    text-decoration: none;
+}
+
+nav a:hover{
+    color: var(--secondary-colour);
+}
+
+h1 {
+    color: var(--primary-colour);
+}
+
+body {
+    font-family: 'Open Sans';
+}
+
+button {
+    font-weight: bold;
 }

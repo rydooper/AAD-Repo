@@ -3,9 +3,7 @@ import secrets
 from flask import Flask, render_template, redirect, url_for, request, session
 import sys
 
-#obviously this isn't a viable solution, but i couldnt get the imports working, gonna need some help here
-sys.path.insert(1, 'C:/Users/Alex Burke/Documents/1Work/Y3/Adv Analysis and Design/AAD-Repo/DesktopApp/')
-# and yeah i get the 'fridge_db' could not be resolved error...but then it compiles fine. thanks python!
+sys.path.insert(1, '../DesktopApp/')
 from fridge_db import login as dbLogin
 
 app.secret_key = secrets.token_hex()

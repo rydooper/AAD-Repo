@@ -1,11 +1,12 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <p> Landing page </p>
+    <title> Landing page </title>
+    <p>The web app for submitting completed deliveries.</p>
 
     {% if login %}
     <a href="{{url_for('manage')}}"> Manage deliveries </a>
     {% else %}
-    <a href="{{url_for('login')}}"> Login </a>
+    <button onclick=location.href="{{url_for('login')}}" type="button">Login</button>
     {% endif %}
 {% endblock %}
