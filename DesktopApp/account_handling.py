@@ -2,7 +2,7 @@ from datetime import datetime
 from hashlib import sha512
 from random import randint
 from custom_exceptions import RoleError
-import fridge_db
+from fridge_db import update_user
 
 
 class Deliveries:
@@ -52,10 +52,12 @@ class HeadChef(Chef):
         self.staff_control: bool = True
 
     @staticmethod
-    def manage_permissions(staff_account: Account, new_role):
-        staff_account.role = new_role
-        new_account = type_account(staff_account)
+    def manage_permissions(username, new_role):
+        # staff_account.role = new_role
+        # new_account: Account = type_account(staff_account)
+
         # Update role on the database
+        update_user(username, new_role)
 
 
 class DeliveryDriver(Account):

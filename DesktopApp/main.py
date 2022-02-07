@@ -143,9 +143,7 @@ def get_safety_info(user: account_handling.Account):
 
 def update_role(user: account_handling.Account, username: str, roles: list[str, str, str]):
     new_role: str = get_role(roles)
-
-
-    # update_user(username, new_role)
+    # user.manage_permissions(username, new_role)
 
     # if successful:
     #     clear pop up
@@ -284,6 +282,7 @@ def item_alert(user: account_handling.Account):
 
     back_button = create_back_button()
     back_button.config(command=lambda: clear_root() or fridge_contents(user))
+    back_button.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
     create_table(display_item_alerts, True)
 
 
@@ -311,7 +310,11 @@ def fridge_contents(user: account_handling.Account):
 
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
                             bg=button_col, command=lambda: clear_root() or help_func(user))
-    help_button.place(relx=0.75, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
+    help_button.place(relx=0.75, rely=0.05, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
+
+    search_button = tk.Button(root, text="Search", font=("arial", 10, "bold"),
+                              bg=button_col, command=lambda: clear_root() or help_func(user))
+    search_button.place(relx=0.75, rely=0.115, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     safety_report = tk.Button(root, text="safety", font=("arial", 10, "bold"),
                               bg=button_col, command=lambda: clear_root() or get_safety_info(user))
