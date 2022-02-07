@@ -1,5 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
     <title> Management page </title>
+    <div class="manage">
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <br>
+            <input type=submit value=Upload>
+        </form>
+    </div>
+    <br>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
     <!-- ADD DELIVERY MANAGEMENT HTML HERE -->    
 {% endblock %}

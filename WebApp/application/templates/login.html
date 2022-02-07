@@ -4,13 +4,16 @@
     <div class="login">
         <form action="" method="post" id="login">
             <label for="username"><b>Username: </b></label>
+            <br>
             <input type="text" placeholder="Enter Username" name="username" value="{{request.form.username}}" required>
             <br>
             <label for="password"><b>Password: </b></label>
+            <br>
             <input type="password" placeholder="Enter Password" name="password" value="{{request.form.username}}" required>
             <br>
             <button type="submit">Login</button>
         </form>
+        <br>
         {% if error %}
             <p><strong>ERROR: </strong> {{ error }} </p>
         {% endif %}
