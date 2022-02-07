@@ -61,4 +61,5 @@ def manage():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             flash("File successfully uploaded")
+            # TO-DO: add function call here to upload file in ./uploads/ to the DB
     return render_template("manage.html")
