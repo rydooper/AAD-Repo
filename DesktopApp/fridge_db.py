@@ -112,7 +112,7 @@ def add_items(item_name, expiry, quantity, weight_per_item, allergy_info, recycl
 def remove_items(item_name, expiry, quantity):
     remove_items_query = """
     UPDATE items 
-    SET stock = stock - %(quantity)
+    SET stock = stock - %(quantity)s
     WHERE itemName = %(item_name)s
     AND expiry = %(expiry)s
     """
