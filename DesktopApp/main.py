@@ -71,26 +71,28 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
         return
 
     general_account = account_handling.Account(username, password, name, role, restaurant)
-    account = account_handling.type_account(general_account)
+    account = account_handling.type_account(username, password, general_account)
     clear_root()
+    print(f"{account.username=}")
     signup(account.username, account.password, account.name, account.role, account.restaurant)
-    print(f"{general_account.role=}")
-    print(f"{account.role=}")
     item_alert(account) if account.role == "Head Chef" else profile_screen(account)
 
 
 def login_account(username: str, password: str):
     clear_root()
-    account = account_handling.Account(username, password)
-    user_details = login(account.username, account.password)
+    general_account = account_handling.Account(username, password)
+    print(f"{general_account.username=}, {general_account.password=}")
+    user_details = login(general_account.username, general_account.password)
     if user_details == "Incorrect login details provided.":
         clear_root()
         main_screen()
     else:
-        account.name = user_details[0][0]
-        account.role = user_details[0][1]
-        account.restaurant = user_details[0][2]
-        item_alert(user) if account.role == "Head Chef" else profile_screen(account)
+        general_account.name = user_details[0][0]
+        general_account.role = user_details[0][1]
+        general_account.restaurant = user_details[0][2]
+        account = account_handling.type_account(username, password, general_account)
+        print(f"{account.username=}, {account.password=}")
+        item_alert(account) if account.role == "Head Chef" else profile_screen(account)
 
 
 def read_file(pageType: str) -> str:

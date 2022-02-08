@@ -66,13 +66,14 @@ class DeliveryDriver(Account):
         self.deliveries: list[Deliveries] = []
 
 
-def type_account(account: Account) -> Account:
+def type_account(username: str, password: str, account: Account) -> Account:
+    print(account.role)
     if account.role == "Head Chef":
-        user: Account = HeadChef(account.username, account.password, account.name, account.role, account.restaurant)
+        user: Account = HeadChef(username, password, account.name, account.role, account.restaurant)
     elif account.role == "Chef":
-        user: Account = Chef(account.username, account.password, account.name, account.role, account.restaurant)
+        user: Account = Chef(username, password, account.name, account.role, account.restaurant)
     elif account.role == "Delivery Driver":
-        user: Account = DeliveryDriver(account.username, account.password, account.name,
+        user: Account = DeliveryDriver(username, password, account.name,
                                        account.role, account.restaurant)
     else:
         raise RoleError
