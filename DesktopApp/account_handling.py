@@ -73,8 +73,7 @@ def type_account(username: str, password: str, account: Account) -> Account:
     elif account.role == "Chef":
         user: Account = Chef(username, password, account.name, account.role, account.restaurant)
     elif account.role == "Delivery Driver":
-        user: Account = DeliveryDriver(username, password, account.name,
-                                       account.role, account.restaurant)
+        user: Account = DeliveryDriver(username, password, account.name, account.role, account.restaurant)
     else:
         raise RoleError
 

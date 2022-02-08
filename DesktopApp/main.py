@@ -97,16 +97,16 @@ def login_account(username: str, password: str):
 
 
 def read_file(pageType: str) -> str:
-    currentPath = os.path.dirname(__file__)
-    print(currentPath)
+    current_path = os.path.dirname(__file__)
+    print(current_path)
     if pageType == "fridgePage":
-        filePath = os.path.relpath('textFilesForSupport\\fridgeContentsSupport.txt', currentPath)
+        file_path = os.path.relpath('textFilesForSupport\\fridgeContentsSupport.txt', current_path)
     elif pageType == "profilePage":
-        filePath = os.path.relpath('textFilesForSupport\\profileSupport.txt', currentPath)
+        file_path = os.path.relpath('textFilesForSupport\\profileSupport.txt', current_path)
     elif pageType == "staffPage":
-        filePath = os.path.relpath('textFilesForSupport\\staffManagementSupport.txt', currentPath)
+        file_path = os.path.relpath('textFilesForSupport\\staffManagementSupport.txt', current_path)
 
-    with open(filePath, "r") as f:
+    with open(file_path, "r") as f:
         help_text: str = f.read()
     return help_text
 
@@ -149,7 +149,7 @@ def profile_screen(user_account: account_handling.Account):
                             bg=button_col, command=lambda: clear_root() or help_func(user_account, "profilePage"))
     help_button.place(relx=0.75, rely=0.05, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
-    username = tk.Label(root, text="Username: " + user_account.username,
+    username = tk.Label(root, text="Name: " + user_account.name,
                         font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
     username.place(relx=0.01, rely=0.2)
 
@@ -169,6 +169,7 @@ def get_safety_info(user: account_handling.Account):
 
 def update_role(user: account_handling.Account, username: str, roles: list[str, str, str]):
     new_role: str = get_role(roles)
+    print(f"{new_role=}")
     user.manage_permissions(username, new_role)
     clear_root()
     change_staff_role(user)
@@ -212,7 +213,8 @@ def update_role_ui(user: account_handling.Account, table, event=None):
 
     delete_user_button = tk.Button(pop_up, text="Delete", font=("arial", 10, "bold"),
                                    bg=button_col,
-                                   command=lambda: Thread(target=remove_user, args=(username,), daemon=True).start())
+                                   command=lambda: Thread(target=remove_user, args=(username,), daemon=True).start()
+                                   or table.delete(cur_item))
     delete_user_button.place(relx=0.1, rely=0.85, relwidth=0.2, relheight=0.05)
 
 
@@ -385,11 +387,6 @@ def login_screen():
                                  bg=button_col, command=lambda:
                                  login_account(username_entry.get(), password_entry.get()))
     login_submission.place(relx=0.20, rely=0.65, relwidth=0.28, relheight=0.1)
-
-    # Removed this while we decide how we're implementing help screens. 1 for the whole system, or one per page
-    # help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
-    #                         bg=button_col, command=lambda: clear_root() or help_func())
-    # help_button.place(relx=0.52, rely=0.65, relwidth=0.28, relheight=0.1)
 
 
 def signup_screen():
