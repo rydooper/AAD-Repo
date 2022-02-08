@@ -61,7 +61,6 @@ def get_role(roles: list[bool]) -> str:
     if not valid:
         messagebox.showinfo(message="ERROR: One and only one role may be selected at once")
         return "Role Invalid"
-
     role_vals = ("Head Chef", "Chef")
     return role_vals[roles.index(True)]
 
@@ -70,9 +69,13 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
     role: str = get_role(roles)
     if role == "Role Invalid":
         return
+
+    general_account = account_handling.Account(username, password, name, role, restaurant)
+    account = account_handling.type_account(general_account)
     clear_root()
-    account = account_handling.Account(username, password, name, role, restaurant)
     signup(account.username, account.password, account.name, account.role, account.restaurant)
+    print(f"{general_account.role=}")
+    print(f"{account.role=}")
     item_alert(account) if account.role == "Head Chef" else profile_screen(account)
 
 
@@ -156,12 +159,9 @@ def get_safety_info(user: account_handling.Account):
 
 def update_role(user: account_handling.Account, username: str, roles: list[str, str, str]):
     new_role: str = get_role(roles)
-    # user.manage_permissions(username, new_role)
-
-    # if successful:
-    #     clear pop up
-    #     clear root
-    #     re-call change_staff_role()
+    user.manage_permissions(username, new_role)
+    clear_root()
+    change_staff_role(user)
 
 
 def update_role_ui(user: account_handling.Account, table, event=None):
