@@ -11,6 +11,11 @@
     width: 100%;
 }
 
+.signup {
+    display: table;
+    width: 100%;
+}
+
 .manage {
     display: table;
     text-align: center;
@@ -18,6 +23,12 @@
 }
 
 #login{
+    display: table-cell;
+    text-align: center;
+    vertical-align:auto;
+}
+
+#signup{
     display: table-cell;
     text-align: center;
     vertical-align:auto;

@@ -3,18 +3,28 @@ import secrets
 from flask import Flask, get_flashed_messages, render_template, redirect, send_from_directory, url_for, request, session, flash
 from werkzeug.utils import secure_filename
 import sys, os
+from csv import reader
 
 ALLOWED_EXTENSIONS = {'txt', 'csv'}
 
 sys.path.insert(1, '../DesktopApp/')
-from fridge_db import login as dbLogin
+from fridge_db import login as dbLogin, signup as dbSignup ,add_items
 
 app.secret_key = secrets.token_hex()
 
-#from flask docs
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def upload_to_db(filename):
+    with open (f'./uploads/{filename}') as f:
+        csv_reader = reader(f)
+        for row in csv_reader:
+            test = add_items(row[0], row[1], row[2], row[3], row[4], row[5])
+    
+    print(test)
+
+
 
 @app.route('/')
 @app.route('/home')
@@ -33,14 +43,24 @@ def login():
     error = None
     if request.method == 'POST':
         loginResponse = dbLogin(request.form['username'], request.form['password'])
-        if type(loginResponse) == type(str):
+        type(loginResponse)
+        if type(loginResponse) == str:
             # unsuccessful login
             error = loginResponse
-            return render_template(url_for('login'), error=error)
+            return render_template('login.html', error=error)
         else:
             session["username"] = request.form['username']
             return redirect(url_for('manage'))
     return render_template('login.html', error=error)
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    error = None
+    if request.method == 'POST':
+        signupResponse = dbSignup(request.form['username'], request.form['password'], request.form['name'], 'Delivery Driver', 'NULL')
+        return redirect(url_for('login'))
+
+    return render_template('signup.html', error=error)
 
 @app.route('/manage', methods=['GET', 'POST'])
 def manage():
@@ -62,4 +82,5 @@ def manage():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             flash("File successfully uploaded")
             # TO-DO: add function call here to upload file in ./uploads/ to the DB
+            upload_to_db(filename)
     return render_template("manage.html")
