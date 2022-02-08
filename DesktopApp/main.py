@@ -94,15 +94,13 @@ def read_file(pageType: str) -> str:
     if pageType == "fridgePage":
         fileName = '//textFilesForSupport//fridgeContentsSupport.txt'
     elif pageType == "staffPage":
-        fileName = '//textFilesForSupport//staffPageSupport.txt'
+        fileName = '//textFilesForSupport//profileSupport.txt'
 
     with open(fileName, "r") as f:
         # help_text: list[str] = f.readlines()
         for x in f:
             helpText += x
     return helpText
-
-
 
 def help_func(user_account: account_handling.Account, pageType: str):
     helpText: str = read_file(pageType)
@@ -416,6 +414,10 @@ def signup_screen():
     restaurant_label.place(relx=0.05, rely=0.65)
     restaurant_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
     restaurant_entry.place(relx=0.20, rely=0.65, relwidth=0.2, relheight=0.05)
+
+    help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
+                            bg=button_col, command=lambda: clear_root() or help_func("steve", "fridgePage"))
+    help_button.place(relx=0.75, rely=0.05, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     submit_details = tk.Button(root, text="signup", font=("arial", 10, "bold"),
                                bg=button_col, command=lambda:
