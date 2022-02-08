@@ -74,7 +74,6 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
     general_account = account_handling.Account(username, password, name, role, restaurant)
     account = account_handling.type_account(username, password, general_account)
     clear_root()
-    print(f"{account.username=}")
     signup(account.username, account.password, account.name, account.role, account.restaurant)
     item_alert(account) if account.role == "Head Chef" else profile_screen(account)
 
@@ -82,7 +81,6 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
 def login_account(username: str, password: str):
     clear_root()
     general_account = account_handling.Account(username, password)
-    print(f"{general_account.username=}, {general_account.password=}")
     user_details = login(general_account.username, general_account.password)
     if user_details == "Incorrect login details provided.":
         clear_root()
@@ -92,13 +90,11 @@ def login_account(username: str, password: str):
         general_account.role = user_details[0][1]
         general_account.restaurant = user_details[0][2]
         account = account_handling.type_account(username, password, general_account)
-        print(f"{account.username=}, {account.password=}")
         item_alert(account) if account.role == "Head Chef" else profile_screen(account)
 
 
 def read_file(pageType: str) -> str:
     current_path = os.path.dirname(__file__)
-    print(current_path)
     if pageType == "fridgePage":
         file_path = os.path.relpath('textFilesForSupport\\fridgeContentsSupport.txt', current_path)
     elif pageType == "profilePage":
@@ -163,8 +159,16 @@ def profile_screen(user_account: account_handling.Account):
 
 
 def get_safety_info(user: account_handling.Account):
-    messagebox.showinfo(message="Feature not yet implemented")
-    fridge_contents(user)
+    clear_root()
+    page_title = tk.Label(root, text="MontyFridges: Safety report",
+                          font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
+    page_title.place(relx=0.385, rely=0.05, anchor=tk.CENTER)
+    underline(page_title)
+
+    back_button = create_back_button()
+    back_button.config(command=lambda: clear_root() or fridge_contents(user))
+    back_button.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
+    create_table(generate_health_report, True)
 
 
 def update_role(user: account_handling.Account, username: str, roles: list[str, str, str]):
