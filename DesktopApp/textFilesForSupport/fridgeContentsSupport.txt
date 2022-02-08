@@ -7,18 +7,18 @@ This page can also be used to search for specific items within the food database
 
 Adding and removing food items page:
 This page allows chefs and head chefs to add or remove a food item from the database.
-Chefs adding items will not directy update the database untill a headchef has seen and approved the request.
+Chefs adding items will not directly update the database until a head chef has seen and approved the request.
 Chefs can remove items from the database freely.
 HeadChefs have access to all functionality freely.
 
 How to add food items:
 Enter the name, stock number, expiration date,weight, allergy advice and recycling information of the item being added into the fields provided.
-Press add item. If there is a problem with the data entered the user will be informed to make the nessesary changes.
+Press add item. If there is a problem with the data entered the user will be informed to make the necessary changes.
 
 How to remove food items:
 Enter the exact name of the food item and press remove. This will automatically update the database.
 
 Head Chef Item approval:
 As a head chef a list of requested food items will be presented.
-You must read each items information and if it is acceptable click the item and press the approve button to
+You must read each item's information and if it is acceptable click the item and press the approve button to
 update the database.

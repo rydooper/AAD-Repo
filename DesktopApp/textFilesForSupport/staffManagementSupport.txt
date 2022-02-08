@@ -1,0 +1,8 @@
+HeadChefs Permissions Page:
+This page can be used to add new users to the fridge system as well as remove them.
+Existing users can also have their role changed to either increase or decrease the permissions
+they have access to within the system.
+
+- To alter role of user: Enter the users name and select the now role of that user. Then press the change role button to update the database.
+- To delete a user: enter the users exact name within the system and press the remove user button.
+- To add a user: Enter the users name and select the now role of that user. Then press the add user button.

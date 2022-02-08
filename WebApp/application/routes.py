@@ -22,6 +22,10 @@ def upload_to_db(filename):
         for row in csv_reader:
             test = add_items(row[0], row[1], row[2], row[3], row[4], row[5])
     
+    if test == "Successful query.":
+        flash("...and added to database!")
+    elif test == "Unsuccessful query.":
+        flash("...but failed to add to database. Please try again.")
     print(test)
 
 
@@ -80,7 +84,7 @@ def manage():
             #secure filename prevents filename uploads that could compromise server
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            flash("File successfully uploaded")
+            flash("File successfully uploaded...")
             # TO-DO: add function call here to upload file in ./uploads/ to the DB
             upload_to_db(filename)
     return render_template("manage.html")

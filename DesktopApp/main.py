@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import font
 from tkinter import ttk
@@ -96,12 +97,16 @@ def login_account(username: str, password: str):
 
 
 def read_file(pageType: str) -> str:
+    currentPath = os.path.dirname(__file__)
+    print(currentPath)
     if pageType == "fridgePage":
-        file_name = '//textFilesForSupport//fridgeContentsSupport.txt'
+        filePath = os.path.relpath('textFilesForSupport\\fridgeContentsSupport.txt', currentPath)
+    elif pageType == "profilePage":
+        filePath = os.path.relpath('textFilesForSupport\\profileSupport.txt', currentPath)
     elif pageType == "staffPage":
-        file_name = '//textFilesForSupport//profileSupport.txt'
+        filePath = os.path.relpath('textFilesForSupport\\staffManagementSupport.txt', currentPath)
 
-    with open(file_name, "r") as f:
+    with open(filePath, "r") as f:
         help_text: str = f.read()
     return help_text
 
@@ -140,6 +145,9 @@ def profile_screen(user_account: account_handling.Account):
     back_button = create_back_button()
     back_button.place(relx=0.70, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
     back_button.config(command=lambda: clear_root() or fridge_contents(user_account))
+    help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
+                            bg=button_col, command=lambda: clear_root() or help_func(user_account, "profilePage"))
+    help_button.place(relx=0.75, rely=0.05, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     username = tk.Label(root, text="Username: " + user_account.username,
                         font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
