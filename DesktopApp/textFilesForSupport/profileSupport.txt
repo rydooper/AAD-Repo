@@ -1,0 +1,23 @@
+
+Profile Page: Here you will see your username in it's encrypted format,
+the current role of your account and the restaurent you account is assigned with.
+This page can be used to check your user role. Hoaving different user roles within this
+frdige application will enable you to have different functionalilities.
+
+As a delivery person you can:
+- Login.
+- View the food items within the system.
+
+As a chef you can:
+- Login
+- Request to add food to the database.
+- Remove food from the database.
+- View all existing food items and thier inforamtions.
+- Search for food items.
+
+As a head Chef you can:
+- Do all the same things as the chef.
+- Generate food ehalth reports.
+- Add new users.
+- Remove users.
+- Change the role of a user.

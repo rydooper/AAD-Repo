@@ -6,7 +6,7 @@ from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
 from fridge_db import display_fridge_contents, login, signup,\
-    display_item_alerts, generate_health_report, display_users, remove_items
+    display_item_alerts, generate_health_report, display_users, remove_items, remove_user
 from admin_db import create_users
 from datetime import datetime
 from threading import Thread
@@ -62,18 +62,18 @@ def get_role(roles: list[bool]) -> str:
         messagebox.showinfo(message="ERROR: One and only one role may be selected at once")
         return "Role Invalid"
 
-    role_vals = ("Head Chef", "Chef", "Delivery Driver")
+    role_vals = ("Head Chef", "Chef")
     return role_vals[roles.index(True)]
 
 
-def create_account(username: str, password: str, name: str, restaurant: str, roles: list):
+def create_account(username: str, password: str, name: str, restaurant: str, roles: list[bool]):
     role: str = get_role(roles)
     if role == "Role Invalid":
         return
     clear_root()
     account = account_handling.Account(username, password, name, role, restaurant)
     signup(account.username, account.password, account.name, account.role, account.restaurant)
-    fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
+    item_alert(account) if account.role == "Head Chef" else profile_screen(account)
 
 
 def login_account(username: str, password: str):
@@ -87,25 +87,22 @@ def login_account(username: str, password: str):
         account.name = user_details[0][0]
         account.role = user_details[0][1]
         account.restaurant = user_details[0][2]
-        fridge_contents(account) if account.role == "Head Chef" else profile_screen(account)
+        item_alert(user) if account.role == "Head Chef" else profile_screen(account)
+
 
 def read_file(pageType: str) -> str:
-    helpText: str = ""
     if pageType == "fridgePage":
-        fileName = '//textFilesForSupport//fridgeContentsSupport.txt'
+        file_name = '//textFilesForSupport//fridgeContentsSupport.txt'
     elif pageType == "staffPage":
-        fileName = '//textFilesForSupport//staffPageSupport.txt'
+        file_name = '//textFilesForSupport//profileSupport.txt'
 
-    with open(fileName, "r") as f:
-        # help_text: list[str] = f.readlines()
-        for x in f:
-            helpText += x
-    return helpText
-
+    with open(file_name, "r") as f:
+        help_text: str = f.read()
+    return help_text
 
 
 def help_func(user_account: account_handling.Account, pageType: str):
-    helpText: str = read_file(pageType)
+    help_text: str = read_file(pageType)
 
     page_title = tk.Label(root, text="MontyFridges: Information Help Page",
                           font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
@@ -116,7 +113,7 @@ def help_func(user_account: account_handling.Account, pageType: str):
     back_button.place(relx=0.90, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
     back_button.config(command=lambda: clear_root() or fridge_contents(user_account))
 
-    page_information = tk.Label(root, text=helpText,
+    page_information = tk.Label(root, text=help_text,
                                 font=("arial", 12, "bold"), fg="black", bg="white")
     page_information.place(relx=0.5, rely=0.5, relwidth=0.90, relheight=0.80, anchor=tk.CENTER)
 
@@ -199,9 +196,14 @@ def update_role_ui(user: account_handling.Account, table, event=None):
 
     change_role_button = tk.Button(pop_up, text="Commit Change", font=("arial", 10, "bold"),
                                    bg=button_col, command=lambda:
-                                   update_role(user, username, [head_chef.get(), chef.get(), delivery_driver.get()])
-                                   )
+                                   update_role(user, username, [head_chef.get(), chef.get(), delivery_driver.get()]))
+
     change_role_button.place(relx=0.1, rely=0.75, relwidth=0.2, relheight=0.05)
+
+    delete_user_button = tk.Button(pop_up, text="Delete", font=("arial", 10, "bold"),
+                                   bg=button_col,
+                                   command=lambda: Thread(target=remove_user, args=(username,), daemon=True).start())
+    delete_user_button.place(relx=0.1, rely=0.85, relwidth=0.2, relheight=0.05)
 
 
 def change_staff_role(user: account_handling.Account):
@@ -291,6 +293,7 @@ def refresh_fridge_table(table):
 
 
 def item_alert(user: account_handling.Account):
+    clear_root()
     page_title = tk.Label(root, text="MontyFridges: Almost expired items",
                           font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
     page_title.place(relx=0.385, rely=0.05, anchor=tk.CENTER)
@@ -310,15 +313,6 @@ def fridge_contents(user: account_handling.Account):
     profile_button = tk.Button(root, text="Profile", font=("arial", 10, "bold"),
                                bg=button_col, command=lambda: clear_root() or profile_screen(user))
     profile_button.place(relx=0.136, rely=0.05, relwidth=0.0725, relheight=0.05, anchor=tk.CENTER)
-
-    if user.role == "Head Chef":
-        item_alert_button = tk.Button(root, text="Item alert", font=("arial", 10, "bold"),
-                                      bg=button_col, command=lambda: clear_root() or item_alert(user))
-        item_alert_button.place(relx=0.23, rely=0.05, relwidth=0.0725, relheight=0.05, anchor=tk.CENTER)
-
-        staff_management_button = tk.Button(root, text="Staff management", font=("arial", 10, "bold"),
-                                            bg=button_col, command=lambda: clear_root() or change_staff_role(user))
-        staff_management_button.place(relx=0.855, rely=0.115, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
     home_button = tk.Button(root, text="Home", font=("arial", 10, "bold"),
                             bg=button_col, command=lambda: clear_root() or main_screen())
@@ -347,6 +341,16 @@ def fridge_contents(user: account_handling.Account):
 
     scroll_bar_x = tk.Scrollbar(root, command=table.xview, orient='horizontal')
     scroll_bar_x.place(relx=0.1, rely=0.95, relwidth=0.8)
+
+    if user.role == "Head Chef":
+
+        item_alert_button = tk.Button(root, text="Item alert", font=("arial", 10, "bold"),
+                                      bg=button_col, command=lambda: item_alert(user))
+        item_alert_button.place(relx=0.23, rely=0.05, relwidth=0.0725, relheight=0.05, anchor=tk.CENTER)
+
+        staff_management_button = tk.Button(root, text="Staff management", font=("arial", 10, "bold"),
+                                            bg=button_col, command=lambda: clear_root() or change_staff_role(user))
+        staff_management_button.place(relx=0.855, rely=0.115, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
 
 def login_screen():
@@ -406,22 +410,24 @@ def signup_screen():
 
     head_chef: bool = tk.BooleanVar()
     chef: bool = tk.BooleanVar()
-    delivery_driver: bool = tk.BooleanVar()
 
-    tk.Checkbutton(root, text="Head Chef", variable=head_chef).place(relx=0.20, rely=0.55)
-    tk.Checkbutton(root, text="Chef", variable=chef).place(relx=0.28, rely=0.55)
-    tk.Checkbutton(root, text="Delivery Driver", variable=delivery_driver).place(relx=0.33, rely=0.55, relwidth=0.07)
+    tk.Checkbutton(root, text="Head Chef", font=("arial", 13), variable=head_chef).place(relx=0.20, rely=0.55, relwidth=0.08)
+    tk.Checkbutton(root, text="Chef", font=("arial", 13), variable=chef).place(relx=0.32, rely=0.55, relwidth=0.08)
 
     restaurant_label = tk.Label(root, text="Restaurant:", font=("arial", 15, "bold"), fg=fg_col, bg=bg_col)
     restaurant_label.place(relx=0.05, rely=0.65)
     restaurant_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
     restaurant_entry.place(relx=0.20, rely=0.65, relwidth=0.2, relheight=0.05)
 
+    help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
+                            bg=button_col, command=lambda: clear_root() or help_func("steve", "fridgePage"))
+    help_button.place(relx=0.75, rely=0.05, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
+
     submit_details = tk.Button(root, text="signup", font=("arial", 10, "bold"),
                                bg=button_col, command=lambda:
                                create_account(signup_username_entry.get(), signup_password_entry.get(),
                                               name_entry.get(), restaurant_entry.get(),
-                                              [head_chef.get(), chef.get(), delivery_driver.get()]))
+                                              [head_chef.get(), chef.get()]))
     submit_details.place(relx=0.20, rely=0.75, relwidth=0.2, relheight=0.05)
 
 

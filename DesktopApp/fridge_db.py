@@ -22,13 +22,13 @@ def signup(username, password, name, role, restaurant):
     return execute_sql(insert_user_query, insert_user_values)
 
 
-def update_user(username):
+def update_user(username, role):
     update_user_query = """
     UPDATE users
-    SET role = %(role)
+    SET role = %(role)s
     WHERE username = %(username)s
     """
-    update_user_values = {'username': username}
+    update_user_values = {'username': username, 'role': role}
     return execute_sql(update_user_query, update_user_values)
 
 
