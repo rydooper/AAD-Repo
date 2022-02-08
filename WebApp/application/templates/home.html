@@ -2,11 +2,13 @@
 
 {% block content %}
     <title> Landing page </title>
-    <p>The web app for submitting completed deliveries.</p>
+    <div class="home">
+        <p>The web app for submitting completed deliveries.</p>
 
-    {% if login %}
-    <a href="{{url_for('manage')}}"> Manage deliveries </a>
-    {% else %}
-    <button onclick=location.href="{{url_for('login')}}" type="button">Login</button>
-    {% endif %}
+        {% if login %}
+        <button onclick=location.href="{{url_for('manage')}}" type="button">Manage deliveries</button>
+        {% else %}
+        <button onclick=location.href="{{url_for('login')}}" type="button">Login</button>
+        {% endif %}
+    </div>
 {% endblock %}
