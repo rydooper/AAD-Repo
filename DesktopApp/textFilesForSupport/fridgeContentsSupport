@@ -1,0 +1,6 @@
+Database Of Fridge Contents Page:
+The page contains all the different food items that exist within this system.
+You can collect information on each items, name, stock number, expiration date,
+ weight, allergy advice and recycling info.
+This page can also be used to search for specific items within the food database
+ by entering the exact name of a fooditem in the search bar at the top.
