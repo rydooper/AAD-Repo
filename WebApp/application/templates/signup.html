@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+    <title>Sign-up</title>
+    <div class="signup">
+        <form action="" method="post" id="signup">
+            <label for="name"><b>Name: </b></label>
+            <br>
+            <input type="text" placeholder="Enter name" name="name" value="{{request.form.name}}" required>
+            <br>
+            <label for="username"><b>Username: </b></label>
+            <br>
+            <input type="text" placeholder="Enter Username" name="username" value="{{request.form.username}}" required>
+            <br>
+            <label for="password"><b>Password: </b></label>
+            <br>
+            <input type="password" placeholder="Enter Password" name="password" value="{{request.form.username}}" required>
+            <br>
+            <button type="submit">Sign-up</button>
+        </form>
+        <br>
+        {% if error %}
+            <p><strong>ERROR: </strong> {{ error }} </p>
+        {% endif %}
+    </div>
+    
+
+
+{% endblock %}
