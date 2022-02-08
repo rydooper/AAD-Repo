@@ -9,7 +9,6 @@ ALLOWED_EXTENSIONS = {'txt', 'csv'}
 sys.path.insert(1, '../DesktopApp/')
 from fridge_db import login as dbLogin
 
-
 app.secret_key = secrets.token_hex()
 
 #from flask docs
@@ -33,10 +32,11 @@ def logout():
 def login():
     error = None
     if request.method == 'POST':
-        print(dbLogin(request.form['username'], request.form['password']))
-        #replace this
-        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-            error = 'Invalid Credentials. Please try again.'
+        loginResponse = dbLogin(request.form['username'], request.form['password'])
+        if type(loginResponse) == type(str):
+            # unsuccessful login
+            error = loginResponse
+            return render_template(url_for('login'), error=error)
         else:
             session["username"] = request.form['username']
             return redirect(url_for('manage'))
