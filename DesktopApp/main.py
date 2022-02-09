@@ -94,14 +94,9 @@ def login_account(username: str, password: str):
         item_alert(account) if account.role == "Head Chef" else profile_screen(account)
 
 
-def read_file(pageType: str) -> str:
+def read_file(relative_path: str) -> str:
     current_path = os.path.dirname(__file__)
-    if pageType == "fridgePage":
-        file_path = os.path.relpath('textFilesForSupport\\fridgeContentsSupport.txt', current_path)
-    elif pageType == "profilePage":
-        file_path = os.path.relpath('textFilesForSupport\\profileSupport.txt', current_path)
-    elif pageType == "staffPage":
-        file_path = os.path.relpath('textFilesForSupport\\staffManagementSupport.txt', current_path)
+    file_path = os.path.relpath(relative_path, current_path)
 
     with open(file_path, "r") as f:
         help_text: str = f.read()
@@ -143,7 +138,8 @@ def profile_screen(user_account: account_handling.Account):
     back_button.place(relx=0.70, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
     back_button.config(command=lambda: clear_root() or fridge_contents(user_account))
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
-                            bg=button_col, command=lambda: clear_root() or help_func(user_account, "profilePage"))
+                            bg=button_col, command=lambda: clear_root()
+                            or help_func(user_account, "textFilesForSupport\\profileSupport.txt"))
     help_button.place(relx=0.75, rely=0.05, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     username = tk.Label(root, text="Name: " + user_account.name,
@@ -253,7 +249,8 @@ def change_staff_role(user: account_handling.Account):
     back_button.config(command=lambda: clear_root() or fridge_contents(user))
 
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
-                            bg=button_col, command=lambda: clear_root() or help_func(user, "staffPage"))
+                            bg=button_col, command=lambda: clear_root()
+                            or help_func(user, "textFilesForSupport\\staffManagementSupport.txt"))
     help_button.place(relx=0.75, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
     table = create_table(display_users, False)
@@ -354,11 +351,11 @@ def fridge_contents(user: account_handling.Account):
     home_button.place(relx=0.60, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
 
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
-                            bg=button_col, command=lambda: clear_root() or help_func(user, "fridgePage"))
+                            bg=button_col, command=lambda: clear_root() or help_func(user, "textFilesForSupport\\fridgeContentsSupport.txt"))
     help_button.place(relx=0.75, rely=0.05, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     search_button = tk.Button(root, text="Search", font=("arial", 10, "bold"),
-                              bg=button_col, command=lambda: clear_root() or help_func(user, "fridgePage"))
+                              bg=button_col, command=lambda: clear_root() or help_func(user, "textFilesForSupport\\fridgeContentsSupport.txt"))
     search_button.place(relx=0.75, rely=0.115, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     safety_report = tk.Button(root, text="safety", font=("arial", 10, "bold"),
@@ -450,7 +447,8 @@ def signup_screen():
     restaurant_entry.place(relx=0.20, rely=0.65, relwidth=0.2, relheight=0.05)
 
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
-                            bg=button_col, command=lambda: clear_root() or help_func("steve", "fridgePage"))
+                            bg=button_col, command=lambda: clear_root()
+                            or help_func("steve", "textFilesForSupport\\fridgeContentsSupport.txt"))
     help_button.place(relx=0.75, rely=0.05, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     submit_details = tk.Button(root, text="signup", font=("arial", 10, "bold"),
