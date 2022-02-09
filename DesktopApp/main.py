@@ -72,14 +72,17 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
 
     general_account = account_handling.Account(username, password, name, role, restaurant)
     account = account_handling.type_account(username, password, general_account)
-    clear_root()
-    signup(account.username, account.password, account.name, account.role, account.restaurant)
-    item_alert(account) if account.role == "Head Chef" else profile_screen(account)
+    submission = signup(account.username, account.password, account.name, account.role, account.restaurant)
+    print(submission)
+    if submission != "Unsuccessful query.":
+        clear_root()
+        item_alert(account) if account.role == "Head Chef" else profile_screen(account)
 
 
 def login_account(username: str, password: str):
     clear_root()
     general_account = account_handling.Account(username, password)
+    print(general_account.username)
     user_details = login(general_account.username, general_account.password)
     if user_details == "Incorrect login details provided.":
         clear_root()
