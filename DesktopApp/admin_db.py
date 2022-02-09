@@ -72,6 +72,17 @@ def create_items():
     return create_table(create_items_query)
 
 
+def create_fridge_codes():
+    create_fridge_codes_query = """
+    CREATE TABLE  IF NOT EXISTS fridgeCodes (
+    fridgeID VARCHAR(30),
+    fridgeCode VARCHAR(128),
+    PRIMARY KEY (fridgeID)
+    )
+    """
+    return create_table(create_fridge_codes_query)
+
+
 ########################################################################################################################
 # Connection to fridge_db, create_table SQL table builder and execute_sql query builder.
 ########################################################################################################################
