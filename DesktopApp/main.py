@@ -10,6 +10,7 @@ from fridge_db import display_fridge_contents, login, signup,\
     display_item_alerts, generate_health_report, display_users, remove_items, remove_user
 from datetime import datetime
 from threading import Thread
+import csv
 
 bg_col: str = "grey"
 fg_col: str = "white"
@@ -73,7 +74,6 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
     general_account = account_handling.Account(username, password, name, role, restaurant)
     account = account_handling.type_account(username, password, general_account)
     submission = signup(account.username, account.password, account.name, account.role, account.restaurant)
-    print(submission)
     if submission != "Unsuccessful query.":
         clear_root()
         item_alert(account) if account.role == "Head Chef" else profile_screen(account)
@@ -82,7 +82,6 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
 def login_account(username: str, password: str):
     clear_root()
     general_account = account_handling.Account(username, password)
-    print(general_account.username)
     user_details = login(general_account.username, general_account.password)
     if user_details == "Incorrect login details provided.":
         clear_root()
@@ -160,6 +159,17 @@ def profile_screen(user_account: account_handling.Account):
     restaurant.place(relx=0.01, rely=0.4)
 
 
+def generate_report(table):
+    header = ["Item Name", "Stock", "Expiry Date", "Weight", "Allergy", "Recycling"]
+    with open("report.csv", "w") as f:
+        writer = csv.writer(f)
+        writer.writerow(header)
+        for row in table.get_children():
+            data_in_row = table.item(row)['values']
+            writer.writerow(data_in_row)
+            print(table.item(row)['values'])  # e.g. prints data in clicked cell
+
+
 def get_safety_info(user: account_handling.Account):
     clear_root()
     page_title = tk.Label(root, text="MontyFridges: Safety report",
@@ -170,12 +180,17 @@ def get_safety_info(user: account_handling.Account):
     back_button = create_back_button()
     back_button.config(command=lambda: clear_root() or fridge_contents(user))
     back_button.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
-    create_table(generate_health_report, True)
+
+    table = create_table(generate_health_report, True)
+
+    generate_report_button = tk.Button(root, text="Generate report", font=("arial", 10, "bold"),
+                                       bg=button_col, command=lambda: generate_report(table))
+
+    generate_report_button.place(relx=0.855, rely=0.115, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
 
 def update_role(user: account_handling.Account, username: str, roles: list[str, str, str]):
     new_role: str = get_role(roles)
-    print(f"{new_role=}")
     user.manage_permissions(username, new_role)
     clear_root()
     change_staff_role(user)
@@ -250,7 +265,7 @@ def change_staff_role(user: account_handling.Account):
 
 def set_fridge_table(table) -> tuple:
     table['columns'] = [f'Col{x}' for x in range(1, 7)]
-    headings: tuple = ("Item Name", "Stock", "Expiry Data", "Weight", "Allergy", "Recycling")
+    headings: tuple = ("Item Name", "Stock", "Expiry Date", "Weight", "Allergy", "Recycling")
     return headings
 
 
