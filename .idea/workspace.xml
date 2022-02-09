@@ -24,7 +24,9 @@
   <component name="ChangeListManager">
     <list default="true" id="4a2ddf83-6db9-4e27-a7a0-fd6d96b2419b" name="Default Changelist" comment="Added functions for update_user, remove_user, display_item_alerts, generate_health_report and display_users.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DesktopApp/admin_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/DesktopApp/admin_db.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DesktopApp/fridge_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/DesktopApp/fridge_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DesktopApp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/DesktopApp/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,8 +100,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.test_data" />
       <item itemvalue="Python.main" />
+      <item itemvalue="Python.test_data" />
     </list>
     <recent_temporary>
       <list>

@@ -11,6 +11,16 @@ import mysql.connector
 ########################################################################################################################
 # Database function to be called from main program.
 ########################################################################################################################
+def authenticate_code(code):
+    authenticate_code_query = """
+    SELECT fridgeID FROM fridgeCodes
+    WHERE fridgeID = %(fridgeID)s
+    AND fridgeCode = %(code)s
+    """
+    authenticate_code_values = {'fridgeID': "MontyFridge1", 'code': code}
+    valid_code = execute_sql(authenticate_code_query, authenticate_code_values, True)
+    return "Access granted." if valid_code else "Access denied. Incorrect code entered."
+
 
 def signup(username, password, name, role, restaurant):
     insert_user_query = """

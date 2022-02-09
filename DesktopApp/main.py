@@ -8,7 +8,6 @@ import account_handling
 from fridge import Fridge
 from fridge_db import display_fridge_contents, login, signup,\
     display_item_alerts, generate_health_report, display_users, remove_items, remove_user
-from admin_db import create_users
 from datetime import datetime
 from threading import Thread
 
