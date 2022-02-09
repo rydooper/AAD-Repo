@@ -259,15 +259,15 @@ def insert_fridge_table(function, table):
 
 
 def set_user_table(table) -> tuple:
-    table['columns'] = [f'Col{x}' for x in range(1, 4)]
-    headings: tuple = ("Name", "Role", "Restaurant")
+    table['columns'] = [f'Col{x}' for x in range(1, 5)]
+    headings: tuple = ("Username", "Name", "Role", "Restaurant")
     return headings
 
 
 def insert_user_table(function, table):
     for x, user_details in enumerate(function()):
         table.insert(parent='', index='end', iid=x,
-                     text=x, values=[''.join(str(tuple_item)) for tuple_item in user_details[1:]])
+                     text=x, values=[''.join(str(tuple_item)) for tuple_item in user_details])
 
 
 def create_table(function, fridge_table) -> ttk.Treeview:
@@ -285,6 +285,8 @@ def create_table(function, fridge_table) -> ttk.Treeview:
     table.place(relx=0.1, rely=0.15, relwidth=0.80, relheight=0.8)
 
     insert_fridge_table(function, table) if fridge_table else insert_user_table(function, table)
+    if not fridge_table:
+        table["displaycolumns"] = ("Col2", "Col3", "Col4")
     return table
 
 
