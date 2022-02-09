@@ -85,6 +85,10 @@ def manage():
             flash ('No selected file')
             return redirect(request.url)
         
+        if file and not allowed_file(file.filename):
+            flash("Invalid file type")
+            return redirect(request.url)
+
         if file and allowed_file(file.filename):
             #secure filename prevents filename uploads that could compromise server
             filename = secure_filename(file.filename)
