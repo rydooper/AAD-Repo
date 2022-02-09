@@ -1,7 +1,8 @@
 Sign Up Rules Page:
 This page enables you to create an account.
-- Password can have certain characters which are.....
+- Password can have certain characters which are: letters (a, b, c) in lowercase or uppercase and numbers (1, 2, 3).
 - No silly usernames.
+- Add your full name.
 - A role must be selected, selection of the incorrect role will be identified and changed by the head chef.
 - The exact name of the restaurant the user is working at must be provided.
 Once all fields are entered press sign up. Any problems will be identified and the user will be informed to make corrections.
