@@ -37,6 +37,10 @@
     border-radius: 4px;
 }
 
+.manage ::placeholder{
+    color: var(--secondary-colour);
+}
+
 #submit:hover{
     transition: var(--transition);
     background-color: var(--secondary-colour);

@@ -71,6 +71,9 @@ def manage():
     if "username" not in session:
         return redirect(url_for('login'))
     if request.method == 'POST':
+        doorcode = request.form['doorcode']
+        print(doorcode)
+        # to-do: add doorcode check before proceeding
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
@@ -85,6 +88,5 @@ def manage():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             flash("File successfully uploaded...")
-            # TO-DO: add function call here to upload file in ./uploads/ to the DB
             upload_to_db(filename)
     return render_template("manage.html")
