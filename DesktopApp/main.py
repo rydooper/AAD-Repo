@@ -7,7 +7,6 @@ from fridge_db import display_fridge_contents, login, signup, \
     display_item_alerts, generate_health_report, display_users,\
     remove_items, remove_user, search_fridge_contents
 from threading import Thread
-import csv
 import utility
 import table_management
 
