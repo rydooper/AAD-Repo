@@ -1,11 +1,7 @@
-Profile Page: Here you will see your username in it's encrypted format,
-the current role of your account and the restaurant you account is assigned with.
+Profile Page: Here you will see your username, the current role of your account
+and the restaurant your account is assigned with.
 This page can be used to check your user role. Having different user roles within this
 fridge application will enable you to have different functionalities.
-
-As a delivery person you can:
-- Login.
-- View the food items within the system.
 
 As a chef you can:
 - Login

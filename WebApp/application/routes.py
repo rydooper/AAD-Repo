@@ -8,7 +8,7 @@ from csv import reader
 ALLOWED_EXTENSIONS = {'txt', 'csv'}
 
 sys.path.insert(1, '../DesktopApp/')
-from fridge_db import login as dbLogin, signup as dbSignup ,add_items
+from fridge_db import login as dbLogin, signup as dbSignup, add_items, authenticate_code
 
 app.secret_key = secrets.token_hex()
 
@@ -72,8 +72,10 @@ def manage():
         return redirect(url_for('login'))
     if request.method == 'POST':
         doorcode = request.form['doorcode']
-        print(doorcode)
-        # to-do: add doorcode check before proceeding
+        if not authenticate_code(doorcode):
+            flash('Incorrect door code.')
+            return redirect(request.url)
+
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
@@ -83,6 +85,10 @@ def manage():
             flash ('No selected file')
             return redirect(request.url)
         
+        if file and not allowed_file(file.filename):
+            flash("Invalid file type")
+            return redirect(request.url)
+
         if file and allowed_file(file.filename):
             #secure filename prevents filename uploads that could compromise server
             filename = secure_filename(file.filename)

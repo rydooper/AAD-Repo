@@ -19,7 +19,7 @@ def authenticate_code(code):
     """
     authenticate_code_values = {'fridgeID': "MontyFridge1", 'code': code}
     valid_code = execute_sql(authenticate_code_query, authenticate_code_values, True)
-    return "Access granted." if valid_code else "Access denied. Incorrect code entered."
+    return True if valid_code else False
 
 
 def signup(username, password, name, role, restaurant):
