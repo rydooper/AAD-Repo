@@ -9,6 +9,7 @@ from fridge_db import display_fridge_contents, login, signup, \
 from threading import Thread
 import csv
 import utility
+import table_management
 
 bg_col: str = "grey"
 fg_col: str = "white"
@@ -148,7 +149,7 @@ def get_safety_info(user: account_handling.Account):
     back_button.config(command=lambda: clear_root() or fridge_contents(user))
     back_button.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
-    table = utility.create_table(generate_health_report, True, root)
+    table = table_management.create_table(generate_health_report, True, root)
 
     utility.generate_report_button = tk.Button(root, text="Generate report", font=("arial", 10, "bold"),
                                                bg=button_col, command=lambda: utility.generate_report(table))
@@ -195,14 +196,14 @@ def update_role_ui(user: account_handling.Account, table, event=None):
 
     change_role_button = tk.Button(pop_up, text="Commit Change", font=("arial", 10, "bold"),
                                    bg=button_col, command=lambda:
-        update_role(user, username, [head_chef.get(), chef.get(), delivery_driver.get()]))
+                                   update_role(user, username, [head_chef.get(), chef.get(), delivery_driver.get()]))
 
     change_role_button.place(relx=0.1, rely=0.75, relwidth=0.2, relheight=0.05)
 
     delete_user_button = tk.Button(pop_up, text="Delete", font=("arial", 10, "bold"),
                                    bg=button_col,
                                    command=lambda: Thread(target=remove_user, args=(username,), daemon=True).start()
-                                                   or table.delete(cur_item))
+                                   or table.delete(cur_item))
     delete_user_button.place(relx=0.1, rely=0.85, relwidth=0.2, relheight=0.05)
 
 
@@ -224,10 +225,7 @@ def change_staff_role(user: account_handling.Account):
                             or help_func(user, "textFilesForSupport\\staffManagementSupport.txt"))
     help_button.place(relx=0.75, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
-    table = utility.create_table(display_users, False, root)
-    user_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
-    user_entry.place(relx=0.10, rely=0.09, relwidth=0.605, relheight=0.05)
-
+    table = table_management.create_table(display_users, False, root)
     table.bind('<ButtonRelease-1>', lambda event: update_role_ui(user, table, event))
 
 
@@ -241,7 +239,7 @@ def item_alert(user: account_handling.Account):
     back_button = create_back_button()
     back_button.config(command=lambda: clear_root() or fridge_contents(user))
     back_button.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
-    utility.create_table(display_item_alerts, True, root)
+    table_management.create_table(display_item_alerts, True, root)
 
 
 def fridge_contents(user: account_handling.Account):
@@ -267,20 +265,20 @@ def fridge_contents(user: account_handling.Account):
 
     search_button = tk.Button(root, text="Search", font=("arial", 10, "bold"),
                               bg=button_col, command=lambda: table.destroy()
-                              or utility.create_table(lambda: search_fridge_contents(search_entry.get()), True, root))
+                              or table_management.create_table(lambda: search_fridge_contents(search_entry.get()), True, root))
     search_button.place(relx=0.65, rely=0.115, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     show_all_contents = tk.Button(root, text="Show all", font=("arial", 10, "bold"),
                                   bg=button_col, command=lambda: table.destroy()
-                                  or utility.create_table(display_fridge_contents, True, root))
+                                  or table_management.create_table(display_fridge_contents, True, root))
     show_all_contents.place(relx=0.75, rely=0.115, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     safety_report = tk.Button(root, text="safety", font=("arial", 10, "bold"),
                               bg=button_col, command=lambda: clear_root() or get_safety_info(user))
     safety_report.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
-    table = utility.create_table(display_fridge_contents, True, root)
-    table.bind('<Delete>', lambda event: utility.select_item(table, event))
+    table = table_management.create_table(display_fridge_contents, True, root)
+    table.bind('<Delete>', lambda event: table_management.select_item(table, event))
 
     scroll_bar_y = tk.Scrollbar(root, command=table.yview)
     scroll_bar_y.place(relx=0.9, rely=0.15, relheight=0.8)
