@@ -5,7 +5,7 @@ from custom_exceptions import RoleError
 from fridge_db import update_user
 
 
-class Deliveries:
+class Deliveries:  # Could be used in the future to track deliveries through the desktop app (as a head chef feature)
 
     __slots__ = ["address", "date_time", "driver", "door_code"]
 
@@ -56,24 +56,11 @@ class HeadChef(Chef):
         update_user(username, new_role)
 
 
-class DeliveryDriver(Account):
-
-    __slots__ = ["back_door_access", "deliveries"]
-
-    def __init__(self, username: str, password: str, name: str = "", role: str = "", restaurant: str = ""):
-        Account.__init__(self, username, password, name, role, restaurant)
-        self.back_door_access: bool = True
-        self.deliveries: list[Deliveries] = []
-
-
 def type_account(username: str, password: str, account: Account) -> Account:
-    print(account.role)
     if account.role == "Head Chef":
         user: Account = HeadChef(username, password, account.name, account.role, account.restaurant)
     elif account.role == "Chef":
         user: Account = Chef(username, password, account.name, account.role, account.restaurant)
-    elif account.role == "Delivery Driver":
-        user: Account = DeliveryDriver(username, password, account.name, account.role, account.restaurant)
     else:
         raise RoleError
 
