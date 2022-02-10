@@ -1,6 +1,7 @@
 from tkinter import ttk
 from datetime import datetime
 from threading import Thread
+from fridge_db import remove_items
 
 
 def create_table(function, fridge_table, root) -> ttk.Treeview:

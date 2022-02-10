@@ -3,9 +3,7 @@ from tkinter import messagebox
 from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
-from fridge_db import display_fridge_contents, login, signup, \
-    display_item_alerts, generate_health_report, display_users,\
-    remove_items, remove_user, search_fridge_contents
+import fridge_db as db
 from threading import Thread
 import utility
 import table_management
@@ -29,6 +27,8 @@ def change_background():
 def change_foreground():
     global fg_col
     fg_col = colorchooser.askcolor()[1]
+    clear_root()
+    main_screen()
 
 
 def close_app(event=None):
@@ -56,16 +56,16 @@ def create_account(username: str, password: str, name: str, restaurant: str, rol
 
     general_account = account_handling.Account(username, password, name, role, restaurant)
     account = account_handling.type_account(username, password, general_account)
-    submission = signup(account.username, account.password, account.name, account.role, account.restaurant)
+    submission = db.signup(account.username, account.password, account.name, account.role, account.restaurant)
     if submission != "Unsuccessful query.":
         clear_root()
-        item_alert(account) if account.role == "Head Chef" else profile_screen(account)
+        specific_fridge_info(account, db.display_item_alerts) if account.role == "Head Chef" else profile_screen(account)
 
 
 def login_account(username: str, password: str):
     clear_root()
     general_account = account_handling.Account(username, password)
-    user_details = login(general_account.username, general_account.password)
+    user_details = db.login(general_account.username, general_account.password)
     if user_details == "Incorrect login details provided.":
         clear_root()
         main_screen()
@@ -74,7 +74,7 @@ def login_account(username: str, password: str):
         general_account.role = user_details[0][1]
         general_account.restaurant = user_details[0][2]
         account = account_handling.type_account(username, password, general_account)
-        item_alert(account) if account.role == "Head Chef" else profile_screen(account)
+        specific_fridge_info(account, db.display_item_alerts) if account.role == "Head Chef" else profile_screen(account)
 
 
 def help_func(user_account: account_handling.Account, pageType: str):
@@ -137,7 +137,7 @@ def profile_screen(user_account: account_handling.Account):
     restaurant.place(relx=0.01, rely=0.4)
 
 
-def get_safety_info(user: account_handling.Account):
+def specific_fridge_info(user: account_handling.Account, function_to_display):
     clear_root()
     page_title = tk.Label(root, text="MontyFridges: Safety report",
                           font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
@@ -148,11 +148,13 @@ def get_safety_info(user: account_handling.Account):
     back_button.config(command=lambda: clear_root() or fridge_contents(user))
     back_button.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
-    table = table_management.create_table(generate_health_report, True, root)
+    return table_management.create_table(function_to_display, True, root)
 
+
+def get_safety_info(user: account_handling.Account):
+    table = specific_fridge_info(user, db.generate_health_report)
     utility.generate_report_button = tk.Button(root, text="Generate report", font=("arial", 10, "bold"),
                                                bg=button_col, command=lambda: utility.generate_report(table))
-
     utility.generate_report_button.place(relx=0.855, rely=0.115, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
 
@@ -170,7 +172,7 @@ def update_role_ui(user: account_handling.Account, table, event=None):
     username: str = item_values[0]
     old_role: str = item_values[1]
 
-    pop_up = tk.Toplevel(root)
+    pop_up = tk.Toplevel(root, bg=bg_col)
     pop_up.config(bg=bg_col)
     pop_up.title = "Change Role"
     pop_up.geometry("600x400")
@@ -201,7 +203,7 @@ def update_role_ui(user: account_handling.Account, table, event=None):
 
     delete_user_button = tk.Button(pop_up, text="Delete", font=("arial", 10, "bold"),
                                    bg=button_col,
-                                   command=lambda: Thread(target=remove_user, args=(username,), daemon=True).start()
+                                   command=lambda: Thread(target=db.remove_user, args=(username,), daemon=True).start()
                                    or table.delete(cur_item))
     delete_user_button.place(relx=0.1, rely=0.85, relwidth=0.2, relheight=0.05)
 
@@ -224,21 +226,8 @@ def change_staff_role(user: account_handling.Account):
                             or help_func(user, "textFilesForSupport\\staffManagementSupport.txt"))
     help_button.place(relx=0.75, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
-    table = table_management.create_table(display_users, False, root)
+    table = table_management.create_table(db.display_users, False, root)
     table.bind('<ButtonRelease-1>', lambda event: update_role_ui(user, table, event))
-
-
-def item_alert(user: account_handling.Account):
-    clear_root()
-    page_title = tk.Label(root, text="MontyFridges: Almost expired items",
-                          font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
-    page_title.place(relx=0.385, rely=0.05, anchor=tk.CENTER)
-    utility.underline(page_title)
-
-    back_button = create_back_button()
-    back_button.config(command=lambda: clear_root() or fridge_contents(user))
-    back_button.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
-    table_management.create_table(display_item_alerts, True, root)
 
 
 def fridge_contents(user: account_handling.Account):
@@ -264,19 +253,20 @@ def fridge_contents(user: account_handling.Account):
 
     search_button = tk.Button(root, text="Search", font=("arial", 10, "bold"),
                               bg=button_col, command=lambda: table.destroy()
-                              or table_management.create_table(lambda: search_fridge_contents(search_entry.get()), True, root))
+                              or table_management.create_table(lambda: db.search_fridge_contents(search_entry.get())
+                                                               , True, root))
     search_button.place(relx=0.65, rely=0.115, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     show_all_contents = tk.Button(root, text="Show all", font=("arial", 10, "bold"),
                                   bg=button_col, command=lambda: table.destroy()
-                                  or table_management.create_table(display_fridge_contents, True, root))
+                                  or table_management.create_table(db.display_fridge_contents, True, root))
     show_all_contents.place(relx=0.75, rely=0.115, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     safety_report = tk.Button(root, text="safety", font=("arial", 10, "bold"),
                               bg=button_col, command=lambda: clear_root() or get_safety_info(user))
     safety_report.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
-    table = table_management.create_table(display_fridge_contents, True, root)
+    table = table_management.create_table(db.display_fridge_contents, True, root)
     table.bind('<Delete>', lambda event: table_management.select_item(table, event))
 
     scroll_bar_y = tk.Scrollbar(root, command=table.yview)
@@ -287,7 +277,8 @@ def fridge_contents(user: account_handling.Account):
 
     if user.role == "Head Chef":
         item_alert_button = tk.Button(root, text="Item alert", font=("arial", 10, "bold"),
-                                      bg=button_col, command=lambda: item_alert(user))
+                                      bg=button_col, command=lambda:
+                                      specific_fridge_info(user, db.display_item_alerts))
         item_alert_button.place(relx=0.23, rely=0.05, relwidth=0.0725, relheight=0.05, anchor=tk.CENTER)
 
         staff_management_button = tk.Button(root, text="Staff management", font=("arial", 10, "bold"),

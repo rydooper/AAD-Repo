@@ -12,12 +12,6 @@ def read_file(relative_path: str) -> str:
     return help_text
 
 
-def underline(label):
-    f = font.Font(label, label.cget("font"))  # Create custom font
-    f.configure(underline=True)  # Underline font
-    label.configure(font=f)  # Apply font to the given label
-
-
 def generate_report(table):
     header = ["Item Name", "Stock", "Expiry Date", "Weight", "Allergy", "Recycling"]
     with open("report.csv", "w") as f:
@@ -26,6 +20,12 @@ def generate_report(table):
         for row in table.get_children():
             data_in_row = table.item(row)['values']
             writer.writerow(data_in_row)
+
+
+def underline(label):
+    f = font.Font(label, label.cget("font"))  # Create custom font
+    f.configure(underline=True)  # Underline font
+    label.configure(font=f)  # Apply font to the given label
 
 
 def get_role(roles: list[bool]) -> str:
