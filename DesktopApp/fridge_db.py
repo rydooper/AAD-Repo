@@ -13,9 +13,9 @@ import mysql.connector
 ########################################################################################################################
 def authenticate_code(code):
     authenticate_code_query = """
-    SELECT fridgeID FROM fridgeCodes
-    WHERE fridgeID = %(fridgeID)s
-    AND fridgeCode = %(code)s
+        SELECT fridgeID FROM fridgeCodes
+        WHERE fridgeID = %(fridgeID)s
+        AND fridgeCode = %(code)s
     """
     authenticate_code_values = {'fridgeID': "MontyFridge1", 'code': code}
     valid_code = execute_sql(authenticate_code_query, authenticate_code_values, True)
@@ -34,9 +34,9 @@ def signup(username, password, name, role, restaurant):
 
 def update_user(username, role):
     update_user_query = """
-    UPDATE users
-    SET role = %(role)s
-    WHERE username = %(username)s
+        UPDATE users
+        SET role = %(role)s
+        WHERE username = %(username)s
     """
     update_user_values = {'username': username, 'role': role}
     return execute_sql(update_user_query, update_user_values)
@@ -44,8 +44,8 @@ def update_user(username, role):
 
 def remove_user(username):
     remove_user_query = """
-    DELETE FROM users
-    WHERE username = %(username)s
+        DELETE FROM users
+        WHERE username = %(username)s
     """
     remove_user_values = {'username': username}
     return execute_sql(remove_user_query, remove_user_values)
@@ -73,6 +73,19 @@ def display_fridge_contents() -> list[tuple]:
     return execute_sql(select_items_query, (), True)
 
 
+def search_fridge_contents(item_name) -> list[tuple]:
+    select_search_items_query = """
+        SELECT
+        itemName, stock, DATE_FORMAT(expiry, "%d %M %Y"),
+        weightPerItem, allergyInfo, recyclingInfo 
+        FROM items
+        WHERE itemName = %(item_name)s
+        ORDER BY expiry ASC
+    """
+    select_search_items_values = {'item_name': item_name}
+    return execute_sql(select_search_items_query,select_search_items_values, True)
+
+
 def display_item_alerts() -> list[tuple]:
     select_item_alerts_query = """
         SELECT 
@@ -87,22 +100,22 @@ def display_item_alerts() -> list[tuple]:
 
 def generate_health_report() -> list[tuple]:
     generate_health_report_query = """
-            SELECT 
-            itemName, stock, DATE_FORMAT(expiry, "%d %M %Y"),
-            weightPerItem, allergyInfo, recyclingInfo 
-            FROM items
-            WHERE (SELECT DATEDIFF(expiry, current_date()) AS DateDiff) <= 0
-            ORDER BY itemName ASC, expiry ASC
-        """
+        SELECT 
+        itemName, stock, DATE_FORMAT(expiry, "%d %M %Y"),
+        weightPerItem, allergyInfo, recyclingInfo 
+        FROM items
+        WHERE (SELECT DATEDIFF(expiry, current_date()) AS DateDiff) <= 0
+        ORDER BY itemName ASC, expiry ASC
+    """
     return execute_sql(generate_health_report_query, (), True)
 
 
 def display_users() -> list[tuple]:
     display_users_query = """
-    SELECT
-    username, name, role, restaurant
-    FROM users
-    ORDER BY name ASC
+        SELECT
+        username, name, role, restaurant
+        FROM users
+        ORDER BY name ASC
     """
     return execute_sql(display_users_query, (), True)
 
@@ -121,10 +134,10 @@ def add_items(item_name, expiry, quantity, weight_per_item, allergy_info, recycl
 
 def remove_items(item_name, expiry, quantity):
     remove_items_query = """
-    UPDATE items 
-    SET stock = stock - %(quantity)s
-    WHERE itemName = %(item_name)s
-    AND expiry = %(expiry)s
+        UPDATE items 
+        SET stock = stock - %(quantity)s
+        WHERE itemName = %(item_name)s
+        AND expiry = %(expiry)s
     """
     remove_items_values = {'item_name': item_name, 'expiry': expiry, 'quantity': quantity}
     message = execute_sql(remove_items_query, remove_items_values)
@@ -139,9 +152,9 @@ def remove_items(item_name, expiry, quantity):
 
 def check_stock(item_name, expiry) -> int:
     check_stock_query = """
-    SELECT stock FROM items
-    WHERE itemName = %(item_name)s
-    AND expiry = %(expiry)s
+        SELECT stock FROM items
+        WHERE itemName = %(item_name)s
+        AND expiry = %(expiry)s
     """
     check_stock_values = {'item_name': item_name, 'expiry': expiry}
     stock = execute_sql(check_stock_query, check_stock_values, True)
@@ -153,9 +166,9 @@ def check_stock(item_name, expiry) -> int:
 
 def delete_record(item_name, expiry):
     delete_record_query = """
-    DELETE FROM items
-    WHERE itemName = %(item_name)s
-    AND expiry = %(expiry)s
+        DELETE FROM items
+        WHERE itemName = %(item_name)s
+        AND expiry = %(expiry)s
     """
     delete_record_values = {'item_name': item_name, 'expiry': expiry}
     return execute_sql(delete_record_query, delete_record_values)
