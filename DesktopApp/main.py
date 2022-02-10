@@ -138,27 +138,17 @@ def help_func_signup(pageType: str):
     page_information.place(relx=0.5, rely=0.5, relwidth=0.90, relheight=0.80, anchor=tk.CENTER)
 
 
-def change_name_func(user_account: account_handling.Account):
-    messagebox.showinfo(message="Feature not yet implemented")
-    profile_screen(user_account)
-
-
 def profile_screen(user_account: account_handling.Account):
     page_title = tk.Label(root, text="MontyFridges: Profile", font=("arial", 28, "bold"), fg=fg_col, bg=bg_col)
     page_title.place(relx=0.4, rely=0.05, anchor=tk.CENTER)
     underline(page_title)
 
-    change_name = tk.Button(root, text="Change username", font=("arial", 10, "bold"),
-                            bg=button_col, command=lambda: clear_root() or change_name_func(user_account))
-    change_name.place(relx=0.10, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
-
     back_button = create_back_button()
-    back_button.place(relx=0.70, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+    back_button.place(relx=0.65, rely=0.05, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
     back_button.config(command=lambda: clear_root() or fridge_contents(user_account))
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
                             bg=button_col, command=lambda: clear_root()
-                                                           or help_func(user_account,
-                                                                        "textFilesForSupport\\profileSupport.txt"))
+                            or help_func(user_account, "textFilesForSupport\\profileSupport.txt"))
     help_button.place(relx=0.75, rely=0.05, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     username = tk.Label(root, text="Name: " + user_account.name,
