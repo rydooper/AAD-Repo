@@ -7,7 +7,8 @@ from tkinter import colorchooser
 import account_handling
 from fridge import Fridge
 from fridge_db import display_fridge_contents, login, signup, \
-    display_item_alerts, generate_health_report, display_users, remove_items, remove_user
+    display_item_alerts, generate_health_report, display_users,\
+    remove_items, remove_user, search_fridge_contents
 from datetime import datetime
 from threading import Thread
 import csv
@@ -181,7 +182,6 @@ def generate_report(table):
         for row in table.get_children():
             data_in_row = table.item(row)['values']
             writer.writerow(data_in_row)
-            print(table.item(row)['values'])  # e.g. prints data in clicked cell
 
 
 def get_safety_info(user: account_handling.Account):
@@ -366,24 +366,29 @@ def fridge_contents(user: account_handling.Account):
 
     sign_out_button = tk.Button(root, text="Sign out", font=("arial", 10, "bold"),
                                 bg=button_col, command=lambda: clear_root() or main_screen())
-    sign_out_button.place(relx=0.60, rely=0.05, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
+    sign_out_button.place(relx=0.65, rely=0.05, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
                             bg=button_col, command=lambda: clear_root()
                             or help_func(user, "textFilesForSupport\\fridgeContentsSupport.txt"))
     help_button.place(relx=0.75, rely=0.05, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
+    search_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
+    search_entry.place(relx=0.10, rely=0.09, relwidth=0.505, relheight=0.05)
+
     search_button = tk.Button(root, text="Search", font=("arial", 10, "bold"),
-                              bg=button_col, command=lambda: clear_root()
-                              or help_func(user, "textFilesForSupport\\fridgeContentsSupport.txt"))
-    search_button.place(relx=0.75, rely=0.115, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
+                              bg=button_col, command=lambda: table.destroy()
+                              or create_table(lambda: search_fridge_contents(search_entry.get()), True))
+    search_button.place(relx=0.65, rely=0.115, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
+
+    show_all_contents = tk.Button(root, text="Show all", font=("arial", 10, "bold"),
+                                  bg=button_col, command=lambda: table.destroy()
+                                  or create_table(display_fridge_contents, True))
+    show_all_contents.place(relx=0.75, rely=0.115, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     safety_report = tk.Button(root, text="safety", font=("arial", 10, "bold"),
                               bg=button_col, command=lambda: clear_root() or get_safety_info(user))
     safety_report.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
-
-    fridge_entry = tk.Entry(root, relief=tk.GROOVE, bd=2, font=("arial", 13))
-    fridge_entry.place(relx=0.10, rely=0.09, relwidth=0.605, relheight=0.05)
 
     table = create_table(display_fridge_contents, True)
     table.bind('<Delete>', lambda event: select_item(table, event))
@@ -473,9 +478,9 @@ def signup_screen():
 
     submit_details = tk.Button(root, text="signup", font=("arial", 10, "bold"),
                                bg=button_col, command=lambda:
-        create_account(signup_username_entry.get(), signup_password_entry.get(),
-                       name_entry.get(), restaurant_entry.get(),
-                       [head_chef.get(), chef.get()]))
+                               create_account(signup_username_entry.get(), signup_password_entry.get(),
+                               name_entry.get(), restaurant_entry.get(),
+                               [head_chef.get(), chef.get()]))
     submit_details.place(relx=0.20, rely=0.75, relwidth=0.2, relheight=0.05)
 
 
