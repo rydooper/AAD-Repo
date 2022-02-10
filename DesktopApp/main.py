@@ -364,9 +364,9 @@ def fridge_contents(user: account_handling.Account):
                                bg=button_col, command=lambda: clear_root() or profile_screen(user))
     profile_button.place(relx=0.136, rely=0.05, relwidth=0.0725, relheight=0.05, anchor=tk.CENTER)
 
-    home_button = tk.Button(root, text="Home", font=("arial", 10, "bold"),
-                            bg=button_col, command=lambda: clear_root() or main_screen())
-    home_button.place(relx=0.60, rely=0.05, relwidth=0.15, relheight=0.05, anchor=tk.CENTER)
+    sign_out_button = tk.Button(root, text="Sign out", font=("arial", 10, "bold"),
+                                bg=button_col, command=lambda: clear_root() or main_screen())
+    sign_out_button.place(relx=0.60, rely=0.05, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
     help_button = tk.Button(root, text="help", font=("arial", 10, "bold"),
                             bg=button_col, command=lambda: clear_root()
