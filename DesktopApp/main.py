@@ -146,7 +146,7 @@ def specific_fridge_info(user: account_handling.Account, function_to_display):
 
     back_button = create_back_button()
     back_button.config(command=lambda: clear_root() or fridge_contents(user))
-    back_button.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
+    back_button.place(relx=0.85, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
     return table_management.create_table(function_to_display, True, root)
 
@@ -155,7 +155,7 @@ def get_safety_info(user: account_handling.Account):
     table = specific_fridge_info(user, db.generate_health_report)
     utility.generate_report_button = tk.Button(root, text="Generate report", font=("arial", 10, "bold"),
                                                bg=button_col, command=lambda: utility.generate_report(table))
-    utility.generate_report_button.place(relx=0.855, rely=0.115, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
+    utility.generate_report_button.place(relx=0.85, rely=0.115, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
 
 def update_role(user: account_handling.Account, username: str, roles: list[str, str, str]):
@@ -173,7 +173,6 @@ def update_role_ui(user: account_handling.Account, table, event=None):
     old_role: str = item_values[1]
 
     pop_up = tk.Toplevel(root, bg=bg_col)
-    pop_up.config(bg=bg_col)
     pop_up.title = "Change Role"
     pop_up.geometry("600x400")
 
@@ -189,23 +188,21 @@ def update_role_ui(user: account_handling.Account, table, event=None):
 
     head_chef: bool = tk.BooleanVar()
     chef: bool = tk.BooleanVar()
-    delivery_driver: bool = tk.BooleanVar()
 
     tk.Checkbutton(pop_up, text="Head Chef", variable=head_chef).place(relx=0.10, rely=0.45)
     tk.Checkbutton(pop_up, text="Chef", variable=chef).place(relx=0.10, rely=0.55)
-    tk.Checkbutton(pop_up, text="Delivery Driver", variable=delivery_driver).place(relx=0.10, rely=0.65)
 
     change_role_button = tk.Button(pop_up, text="Commit Change", font=("arial", 10, "bold"),
                                    bg=button_col, command=lambda:
-                                   update_role(user, username, [head_chef.get(), chef.get(), delivery_driver.get()]))
+                                   update_role(user, username, [head_chef.get(), chef.get()]))
 
-    change_role_button.place(relx=0.1, rely=0.75, relwidth=0.2, relheight=0.05)
+    change_role_button.place(relx=0.1, rely=0.65, relwidth=0.2, relheight=0.05)
 
     delete_user_button = tk.Button(pop_up, text="Delete", font=("arial", 10, "bold"),
                                    bg=button_col,
                                    command=lambda: Thread(target=db.remove_user, args=(username,), daemon=True).start()
                                    or table.delete(cur_item))
-    delete_user_button.place(relx=0.1, rely=0.85, relwidth=0.2, relheight=0.05)
+    delete_user_button.place(relx=0.1, rely=0.75, relwidth=0.2, relheight=0.05)
 
 
 def change_staff_role(user: account_handling.Account):
