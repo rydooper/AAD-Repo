@@ -258,10 +258,6 @@ def fridge_contents(user: account_handling.Account):
                                   or table_management.create_table(db.display_fridge_contents, True, root))
     show_all_contents.place(relx=0.75, rely=0.115, relwidth=0.08, relheight=0.05, anchor=tk.CENTER)
 
-    safety_report = tk.Button(root, text="safety", font=("arial", 10, "bold"),
-                              bg=button_col, command=lambda: clear_root() or get_safety_info(user))
-    safety_report.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
-
     table = table_management.create_table(db.display_fridge_contents, True, root)
     table.bind('<Delete>', lambda event: table_management.select_item(table, event))
 
@@ -280,6 +276,10 @@ def fridge_contents(user: account_handling.Account):
         staff_management_button = tk.Button(root, text="Staff management", font=("arial", 10, "bold"),
                                             bg=button_col, command=lambda: clear_root() or change_staff_role(user))
         staff_management_button.place(relx=0.855, rely=0.115, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
+
+        safety_report = tk.Button(root, text="safety", font=("arial", 10, "bold"),
+                                  bg=button_col, command=lambda: clear_root() or get_safety_info(user))
+        safety_report.place(relx=0.855, rely=0.05, relwidth=0.10, relheight=0.05, anchor=tk.CENTER)
 
 
 def login_screen():

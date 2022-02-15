@@ -1,6 +1,8 @@
 Item Name,Stock,Expiry Date,Weight,Allergy,Recycling
-cake,54,11 January 2022,123,allergy_info,recycling_info
-cake,146,21 January 2022,18,allergy_info,recycling_info
-cake,104,22 January 2022,63,allergy_info,recycling_info
-cake,63,25 January 2022,110,allergy_info,recycling_info
-carrots,58,30 January 2022,145,allergy_info,recycling_info
+bread,5,01 February 2022,120,allergy_info,recycling_info
+bread,144,03 February 2022,21,allergy_info,recycling_info
+bread,74,06 February 2022,41,allergy_info,recycling_info
+bread,88,07 February 2022,135,allergy_info,recycling_info
+carrots,115,10 February 2022,76,allergy_info,recycling_info
+carrots,59,12 February 2022,91,allergy_info,recycling_info
+carrots,118,14 February 2022,96,allergy_info,recycling_info
